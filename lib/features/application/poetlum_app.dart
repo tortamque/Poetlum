@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 
 class PoetlumApp extends StatelessWidget {
   const PoetlumApp({super.key});
@@ -26,9 +27,9 @@ class PoetlumHomePage extends StatefulWidget {
 class _PoetlumHomePageState extends State<PoetlumHomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(widget.title),
+    appBar: CustomAppBar(
+      title: 'Poetlum',
+      backgroundColor: Colors.grey[350]!,
     ),
     body: const Placeholder(),
   );
