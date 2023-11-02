@@ -5,7 +5,7 @@ import 'package:poetlum/features/firebase/presentation/widgets/init_firebase_wid
 import 'package:poetlum/features/internet_connection_monitoring/presentation/widgets/init_network_controller.dart';
 import 'package:poetlum/firebase_options.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
