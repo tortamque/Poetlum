@@ -20,4 +20,10 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin, 
       icon: const Icon(Icons.menu),
     ),
   );
+
+  @override
+  void dispose() {
+    rotationController.dispose();
+    super.dispose();
+  }
 }
