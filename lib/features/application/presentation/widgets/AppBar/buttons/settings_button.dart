@@ -20,4 +20,10 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
       icon: const Icon(Icons.settings),
     ),
   );
+
+  @override
+  void dispose() {
+    rotationController.dispose();
+    super.dispose();
+  }
 }

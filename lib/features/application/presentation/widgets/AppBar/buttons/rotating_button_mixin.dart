@@ -17,9 +17,4 @@ mixin RotatingButtonMixin on TickerProvider {
       curve: Curves.easeOutCubic,
     );
   }
-
-  @mustCallSuper
-  void dispose() {
-    rotationController.dispose();
-  }
 }
