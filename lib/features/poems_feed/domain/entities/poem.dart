@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class PoemEntity extends Equatable{
-  const PoemEntity({this.author, this.title, this.lines, this.linecount});
+  const PoemEntity({this.author, this.title, this.text, this.linecount});
 
   final String? author;
   final String? title;
-  final List<String>? lines;
+  final String? text;
   final int? linecount;
   
   @override
   List<Object?> get props => [
     author,
     title,
-    lines,
+    text,
     linecount,
   ];
 }
