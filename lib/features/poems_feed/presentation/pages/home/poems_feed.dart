@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/poem_card.dart';
 
 class PoemsFeed extends StatelessWidget {
   const PoemsFeed({super.key});
@@ -29,11 +30,9 @@ class PoemsFeed extends StatelessWidget {
       if(state is RemotePoemDone){
         return ListView.builder(
           itemCount: state.poems!.length,
-          itemBuilder: (__, index) {
-            return ListTile(
-              title: Text("${state.poems![index].author}"),
-            );
-          },
+          itemBuilder: (__, index) => PoemCard(
+            poemEntity: state.poems![index],
+          ),
         );
       }
 

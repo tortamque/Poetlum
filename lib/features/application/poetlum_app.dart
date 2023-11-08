@@ -17,10 +17,10 @@ class PoetlumApp extends StatelessWidget {
       BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetPoemsEvent())),
     ],
     child: GetMaterialApp(
-        title: 'Poetlum',
-        theme: theme(),
-        home: const PoemsFeed(),
-      ),
+      title: 'Poetlum',
+      theme: theme(),
+      home: const PoemsFeed(),
+    ),
   );
 }
 
