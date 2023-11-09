@@ -11,6 +11,7 @@ class PoemCard extends StatelessWidget {
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
+    elevation: 3,
     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     child: Padding(
       padding: const EdgeInsets.all(16),
