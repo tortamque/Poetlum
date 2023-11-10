@@ -1,9 +1,31 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:poetlum/features/poems_feed/data/data_sources/remote/poem_api_service.dart';
+import 'package:poetlum/features/poems_feed/data/repository/poem_repository_impl.dart';
+import 'package:poetlum/features/poems_feed/domain/repository/poem_repository.dart';
+import 'package:poetlum/features/poems_feed/domain/usecases/get_poems_usecase.dart';
+import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/realtime_database/domain/entities/database_manager.dart';
 
 GetIt getIt = GetIt.instance;
 
-Future<void> initializeDependencies() async {
-  // Database
-  getIt.registerSingleton<DatabaseManager>(DatabaseManager());
+void initializeDependencies() {
+  getIt
+    // Database
+    ..registerSingleton<DatabaseManager>(DatabaseManager())
+
+    // Dio
+    ..registerSingleton<Dio>(Dio())
+
+    // API Service
+    ..registerSingleton<PoemApiService>(PoemApiService(getIt()))
+
+    // Repository
+    ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
+
+    // Usecase
+    ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
+
+    // Bloc
+    ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt()));
 }
