@@ -13,6 +13,8 @@ class RegistrationTextField extends StatelessWidget {
     child: TextField(
       controller: controller,
       obscureText: isPassword,
+      enableSuggestions: false,
+      autocorrect: false,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         hintText: hintText,
