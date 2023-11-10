@@ -38,7 +38,6 @@ class _PoetlumHomePageState extends State<PoetlumHomePage> {
   Widget build(BuildContext context) => Scaffold(
     appBar: CustomAppBar(
       title: 'Poetlum',
-      backgroundColor: Colors.grey[350]!,
     ),
     body: const Placeholder(),
   );

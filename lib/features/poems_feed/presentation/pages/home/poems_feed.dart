@@ -12,7 +12,6 @@ class PoemsFeed extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: CustomAppBar(
       title: 'Poetlum',
-      backgroundColor: Colors.grey[350]!,
     ),
     body: _buildBody(),
   );

@@ -3,15 +3,13 @@ import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons
 import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons/settings_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.title, required this.backgroundColor});
+  const CustomAppBar({super.key, required this.title});
 
   final String title;
-  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) => AppBar(
     leading: const MenuButton(),
-    backgroundColor: backgroundColor,
     actions: const [
       SettingsButton(),
     ],
