@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poetlum/features/registration/presentation/widgets/email_field.dart';
-import 'package:poetlum/features/registration/presentation/widgets/text_field.dart';
+import 'package:poetlum/features/registration/presentation/widgets/password_field.dart';
+import 'package:poetlum/features/registration/presentation/widgets/username_field.dart';
 
 class RegistrationPage extends StatelessWidget {
   RegistrationPage({super.key});
@@ -26,13 +27,13 @@ class RegistrationPage extends StatelessWidget {
                 ),
                 const Spacer(flex: 2,),
     
-                RegistrationTextField(controller: _usernameControlled, hintText: 'Username', isPassword: false,),
+                UsernameTextField(controller: _usernameControlled),
                 const Spacer(),
     
-                EmailField(controller: _emailControlled),
+                EmailTextField(controller: _emailControlled),
                 const Spacer(),
     
-                RegistrationTextField(controller: _passwordControlled, hintText: 'Password', isPassword: true,),
+                PasswordTextField(controller: _passwordControlled),
                 const Spacer(flex: 2,),
     
                 FilledButton.tonal(
@@ -62,6 +63,6 @@ class RegistrationPage extends StatelessWidget {
           ),
         ],
       ),
-    )
+    ),
   );
 }
