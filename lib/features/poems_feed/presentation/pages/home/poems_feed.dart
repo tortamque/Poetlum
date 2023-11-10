@@ -10,7 +10,7 @@ class PoemsFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: CustomAppBar(
+    appBar: const CustomAppBar(
       title: 'Poetlum',
     ),
     body: _buildBody(),

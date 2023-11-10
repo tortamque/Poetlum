@@ -6,7 +6,7 @@ import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
-import 'package:poetlum/features/poems_feed/presentation/pages/home/poems_feed.dart';
+import 'package:poetlum/features/registration/presentation/pages/registration/registration_page.dart';
 
 class PoetlumApp extends StatelessWidget {
   const PoetlumApp({super.key});
@@ -19,7 +19,7 @@ class PoetlumApp extends StatelessWidget {
     child: GetMaterialApp(
       title: 'Poetlum',
       theme: theme(),
-      home: const PoemsFeed(),
+      home: RegistrationPage(),
     ),
   );
 }
@@ -36,7 +36,7 @@ class PoetlumHomePage extends StatefulWidget {
 class _PoetlumHomePageState extends State<PoetlumHomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: CustomAppBar(
+    appBar: const CustomAppBar(
       title: 'Poetlum',
     ),
     body: const Placeholder(),
