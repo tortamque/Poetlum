@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/features/registration/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/registration/presentation/widgets/text_field.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -28,7 +29,7 @@ class RegistrationPage extends StatelessWidget {
                 RegistrationTextField(controller: _usernameControlled, hintText: 'Username', isPassword: false,),
                 const Spacer(),
     
-                RegistrationTextField(controller: _emailControlled, hintText: 'Email', isPassword: false,),
+                EmailField(controller: _emailControlled),
                 const Spacer(),
     
                 RegistrationTextField(controller: _passwordControlled, hintText: 'Password', isPassword: true,),
