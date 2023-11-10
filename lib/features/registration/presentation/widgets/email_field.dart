@@ -1,8 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
-class EmailField extends StatelessWidget {
-  const EmailField({super.key, required this.controller});
+class EmailTextField extends StatelessWidget {
+  const EmailTextField({super.key, required this.controller});
 
   final TextEditingController controller;
 
