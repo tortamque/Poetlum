@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:poetlum/features/registration/presentation/bloc/register_cubit.dart';
 import 'package:poetlum/features/registration/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/registration/presentation/widgets/password_field.dart';
 import 'package:poetlum/features/registration/presentation/widgets/username_field.dart';
@@ -6,9 +9,9 @@ import 'package:poetlum/features/registration/presentation/widgets/username_fiel
 class RegistrationPage extends StatelessWidget {
   RegistrationPage({super.key});
 
-  final TextEditingController _usernameControlled = TextEditingController();
-  final TextEditingController _emailControlled = TextEditingController();
-  final TextEditingController _passwordControlled = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -26,30 +29,40 @@ class RegistrationPage extends StatelessWidget {
                   ),
                 ),
                 const Spacer(flex: 2,),
-    
-                UsernameTextField(controller: _usernameControlled),
+              
+                UsernameTextField(controller: _usernameController),
                 const Spacer(),
-    
-                EmailTextField(controller: _emailControlled),
+              
+                EmailTextField(controller: _emailController),
                 const Spacer(),
-    
-                PasswordTextField(controller: _passwordControlled),
+              
+                PasswordTextField(controller: _passwordController),
                 const Spacer(flex: 2,),
-    
-                FilledButton.tonal(
-                  onPressed: (){}, 
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
-                    child: Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 16,
+              
+                BlocBuilder<RegisterCubit, void>(
+                  builder:(context, state) => FilledButton.tonal(
+                      onPressed: () async{
+                        await context.read<RegisterCubit>().register(
+                        _usernameController.text, 
+                        _emailController.text, 
+                        _passwordController.text,
+                        _showPositiveToast,
+                        _showNegativeToast,
+                      );
+                    }, 
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const Spacer(),
-    
+              
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -65,4 +78,26 @@ class RegistrationPage extends StatelessWidget {
       ),
     ),
   );
+
+  Future<void> _showPositiveToast() async{
+    await Fluttertoast.showToast(
+      msg: 'Your registration was successful',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16,
+    );
+  }
+
+  Future<void> _showNegativeToast(String error) async{
+    await Fluttertoast.showToast(
+      msg: error,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16,
+    );
+  }
 }

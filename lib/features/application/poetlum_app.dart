@@ -6,6 +6,7 @@ import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
+import 'package:poetlum/features/registration/presentation/bloc/register_cubit.dart';
 import 'package:poetlum/features/registration/presentation/pages/registration/registration_page.dart';
 
 class PoetlumApp extends StatelessWidget {
@@ -15,6 +16,7 @@ class PoetlumApp extends StatelessWidget {
   Widget build(BuildContext context) => MultiBlocProvider(
     providers: [
       BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetPoemsEvent())),
+      BlocProvider<RegisterCubit>(create:(context) => getIt(),),
     ],
     child: GetMaterialApp(
       title: 'Poetlum',
