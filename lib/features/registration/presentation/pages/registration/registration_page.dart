@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/features/registration/presentation/bloc/register_cubit.dart';
+import 'package:poetlum/features/registration/presentation/bloc/register_state.dart';
 import 'package:poetlum/features/registration/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/registration/presentation/widgets/password_field.dart';
 import 'package:poetlum/features/registration/presentation/widgets/username_field.dart';
@@ -39,27 +40,34 @@ class RegistrationPage extends StatelessWidget {
                 PasswordTextField(controller: _passwordController),
                 const Spacer(flex: 2,),
               
-                BlocBuilder<RegisterCubit, void>(
-                  builder:(context, state) => FilledButton.tonal(
-                      onPressed: () async{
-                        await context.read<RegisterCubit>().register(
-                        _usernameController.text, 
-                        _emailController.text, 
-                        _passwordController.text,
-                        _showPositiveToast,
-                        _showNegativeToast,
-                      );
-                    }, 
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
-                      child: Text(
-                        'Register',
-                        style: TextStyle(
-                          fontSize: 16,
+                BlocConsumer<RegisterCubit, RegisterState>(
+                  listener: (context, state) {
+                    if (state.status == RegisterStatus.success) {
+                      _showPositiveToast();
+                    } else if (state.status == RegisterStatus.error) {
+                      _showNegativeToast(state.errorMessage ?? 'Unknown error');
+                    }
+                  },
+                  builder: (context, state) => state.status == RegisterStatus.submitting 
+                    ? const CircularProgressIndicator()
+                    : FilledButton.tonal(
+                      onPressed: (){
+                        context.read<RegisterCubit>().register(
+                          _usernameController.text,
+                          _emailController.text,
+                          _passwordController.text,
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ),
                 const Spacer(),
               
