@@ -1,5 +1,7 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/features/registration/presentation/bloc/validation/validation_cubit.dart';
+import 'package:poetlum/features/registration/presentation/bloc/validation/validation_state.dart';
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({super.key, required this.controller});
@@ -7,17 +9,19 @@ class EmailTextField extends StatelessWidget {
   final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: MediaQuery.of(context).size.width/1.5,
-    child: Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: TextFormField(
+  Widget build(BuildContext context) => BlocBuilder<FormValidationCubit, FormValidationState>(
+    builder: (context, state)=> SizedBox(
+      width: MediaQuery.of(context).size.width/1.5,
+      child: TextField(
         controller: controller,
-        validator: (value) => EmailValidator.validate(value!) ? null : 'Please enter a valid email',
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          errorMaxLines: 3,
+          errorText: state.emailValidationState.isValid 
+            ? null
+            : state.emailValidationState.errorMessage,
+          border: const OutlineInputBorder(),
           hintText: 'Email',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.grey,
           ),
         ),
