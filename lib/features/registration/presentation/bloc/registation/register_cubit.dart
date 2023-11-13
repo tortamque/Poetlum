@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/features/registration/domain/usecases/register_user_params.dart';
 import 'package:poetlum/features/registration/domain/usecases/register_user_usecase.dart';
-import 'package:poetlum/features/registration/presentation/bloc/register_state.dart';
+import 'package:poetlum/features/registration/presentation/bloc/registation/register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit(this._registerUserUseCase) : super(const RegisterState());

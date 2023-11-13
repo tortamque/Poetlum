@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation_state.dart';
+import 'package:poetlum/features/registration/presentation/bloc/validation/validation_state.dart';
 
 class FormValidationCubit extends Cubit<FormValidationState> {
   FormValidationCubit() : super(const FormValidationState());

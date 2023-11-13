@@ -10,8 +10,8 @@ import 'package:poetlum/features/registration/data/data_sources/remote/firebase_
 import 'package:poetlum/features/registration/data/repository/firebase_repository_impl.dart';
 import 'package:poetlum/features/registration/domain/repository/firebase_repository.dart';
 import 'package:poetlum/features/registration/domain/usecases/register_user_usecase.dart';
-import 'package:poetlum/features/registration/presentation/bloc/register_cubit.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation_cubit.dart';
+import 'package:poetlum/features/registration/presentation/bloc/registation/register_cubit.dart';
+import 'package:poetlum/features/registration/presentation/bloc/validation/validation_cubit.dart';
 
 GetIt getIt = GetIt.instance;
 
