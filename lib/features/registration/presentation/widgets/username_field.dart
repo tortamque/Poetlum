@@ -10,36 +10,24 @@ class UsernameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<FormValidationCubit, FormValidationState>(
-    builder: (context, state){
-      String? errorText;
-
-      if(state.usernameValidationState.state == UsernameValidationStates.correct || state.usernameValidationState.username.isEmpty){
-        errorText = null;
-      } else if(state.usernameValidationState.state == UsernameValidationStates.tooShort){
-        errorText = 'The username lenght is too short';
-      } else if(state.usernameValidationState.state == UsernameValidationStates.tooLong){
-        errorText = 'The username lenght is too long';
-      }else{
-        errorText = 'Username must contain only letters and numbers';
-      }
-
-      return SizedBox(
-        width: MediaQuery.of(context).size.width/1.5,
-        child: TextField(
-          controller: controller,
-          enableSuggestions: false,
-          autocorrect: false,
-          decoration: InputDecoration(
-            errorText: errorText,
-            errorMaxLines: 3,
-            border: const OutlineInputBorder(),
-            hintText: 'Username',
-            hintStyle: const TextStyle(
-              color: Colors.grey,
-            ),
+    builder: (context, state)=> SizedBox(
+      width: MediaQuery.of(context).size.width/1.5,
+      child: TextField(
+        controller: controller,
+        enableSuggestions: false,
+        autocorrect: false,
+        decoration: InputDecoration(
+          errorText: state.usernameValidationState.isValid
+            ? null
+            : state.usernameValidationState.errorMessage,
+          errorMaxLines: 3,
+          border: const OutlineInputBorder(),
+          hintText: 'Username',
+          hintStyle: const TextStyle(
+            color: Colors.grey,
           ),
         ),
-      );
-    }
+      ),
+    ),
   );
 }
