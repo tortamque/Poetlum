@@ -11,6 +11,7 @@ import 'package:poetlum/features/registration/data/repository/firebase_repositor
 import 'package:poetlum/features/registration/domain/repository/firebase_repository.dart';
 import 'package:poetlum/features/registration/domain/usecases/register_user_usecase.dart';
 import 'package:poetlum/features/registration/presentation/bloc/register_cubit.dart';
+import 'package:poetlum/features/registration/presentation/bloc/validation_cubit.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -36,5 +37,6 @@ void initializeDependencies() {
 
     // Bloc
     ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt()))
-    ..registerFactory<RegisterCubit>(() => RegisterCubit(getIt()));
+    ..registerFactory<RegisterCubit>(() => RegisterCubit(getIt()))
+    ..registerFactory<FormValidationCubit>(() => FormValidationCubit());
 }
