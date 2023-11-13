@@ -1,12 +1,17 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 
 class FormValidationState extends Equatable {
-  const FormValidationState({
+  FormValidationState({
     this.emailValidationState = const ValidationState(),
     this.usernameValidationState = const ValidationState(),
     this.passwordValidationState = const ValidationState(),
-    this.isFormValid = false,
-  });
+    bool? isFormValid,
+  }) : isFormValid = isFormValid ?? 
+                      emailValidationState.isValid &&
+                      usernameValidationState.isValid &&
+                      passwordValidationState.isValid;
 
   final ValidationState emailValidationState;
   final ValidationState usernameValidationState;
@@ -19,11 +24,14 @@ class FormValidationState extends Equatable {
     ValidationState? passwordValidationState,
     bool? isFormValid,
   }) => FormValidationState(
-    emailValidationState: emailValidationState ?? this.emailValidationState,
-    usernameValidationState: usernameValidationState ?? this.usernameValidationState,
-    passwordValidationState: passwordValidationState ?? this.passwordValidationState,
-    isFormValid: isFormValid ?? this.isFormValid,
-  );
+      emailValidationState: emailValidationState ?? this.emailValidationState,
+      usernameValidationState: usernameValidationState ?? this.usernameValidationState,
+      passwordValidationState: passwordValidationState ?? this.passwordValidationState,
+      isFormValid: isFormValid ?? 
+                  (emailValidationState ?? this.emailValidationState).isValid &&
+                  (usernameValidationState ?? this.usernameValidationState).isValid &&
+                  (passwordValidationState ?? this.passwordValidationState).isValid,
+    );
 
   @override
   List<Object?> get props => [
@@ -52,9 +60,9 @@ class ValidationState extends Equatable {
     String? value,
     bool? isValid,
     String? errorMessage,
-  }) => ValidationState(
-    value: value ?? this.value,
-    isValid: isValid ?? this.isValid,
-    errorMessage: errorMessage ?? this.errorMessage,
-  );
+  })=> ValidationState(
+      value: value ?? this.value,
+      isValid: isValid ?? this.isValid,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
 }

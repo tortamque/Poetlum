@@ -8,7 +8,7 @@ class FormValidationCubit extends Cubit<FormValidationState> {
     required this.emailValidator, 
     required this.passwordValidator,
   })
-    : super(const FormValidationState());
+    : super(FormValidationState());
 
   final Validator<String> usernameValidator;
   final Validator<String> emailValidator;

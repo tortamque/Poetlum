@@ -35,7 +35,9 @@ class RegistrationPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<FormValidationCubit, FormValidationState>(
-          builder: (context, validationState) => Row(
+          builder: (context, validationState){
+            print(validationState.isFormValid);
+            return Row(
               children: [
                 Expanded(
                   child: Column(
@@ -103,7 +105,8 @@ class RegistrationPage extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            );
+          },
         ),
       ),
     );
