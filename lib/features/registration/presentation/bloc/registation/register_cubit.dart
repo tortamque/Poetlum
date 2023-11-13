@@ -8,7 +8,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   final RegisterUserUseCase _registerUserUseCase;
 
-  Future<void> register(String username, String email, String password) async {
+  Future<void> register({required String username, required String email, required String password}) async {
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
       emit(state.copyWith(status: RegisterStatus.error, errorMessage: 'Please fill in all required fields'));
       return;
