@@ -57,7 +57,12 @@ class RegistrationPage extends StatelessWidget {
                   PasswordTextField(controller: _passwordController),
                   const Spacer(flex: 2,),
                 
-                  const AuthButton<RegisterCubit, AuthState, RegisterFormValidationCubit, FormValidationState>(text: 'Register'),
+                  const AuthButton<
+                    AuthCubit, 
+                    AuthState, 
+                    RegisterFormValidationCubit, 
+                    FormValidationState
+                  >(text: 'Register'),
                   const Spacer(),
                 
                   Row(

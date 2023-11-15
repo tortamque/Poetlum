@@ -3,8 +3,8 @@ import 'package:poetlum/features/authorization/domain/usecases/register_user_par
 import 'package:poetlum/features/authorization/domain/usecases/register_user_usecase.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_state.dart';
 
-class RegisterCubit extends Cubit<AuthState> {
-  RegisterCubit(this._registerUserUseCase) : super(const AuthState());
+class AuthCubit extends Cubit<AuthState> {
+  AuthCubit(this._registerUserUseCase) : super(const AuthState());
 
   final RegisterUserUseCase _registerUserUseCase;
 

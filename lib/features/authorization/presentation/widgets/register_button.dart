@@ -32,7 +32,7 @@ class AuthButton<
         : FilledButton.tonal(
           onPressed: validationState.isFormValid
             ? () {
-                context.read<RegisterCubit>().register(
+                context.read<AuthCubit>().register(
                   username: validationState.usernameValidationState.value,
                   email: validationState.emailValidationState.value,
                   password: validationState.passwordValidationState.value,

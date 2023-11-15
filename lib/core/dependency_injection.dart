@@ -43,7 +43,7 @@ void initializeDependencies() {
 
     // Bloc
     ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt()))
-    ..registerFactory<RegisterCubit>(() => RegisterCubit(getIt()))
+    ..registerFactory<AuthCubit>(() => AuthCubit(getIt()))
     ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
       usernameValidator: getIt<UsernameValidator>(),
       emailValidator: getIt<LocalEmailValidator>(),
