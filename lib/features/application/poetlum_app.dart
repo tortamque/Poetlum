@@ -4,11 +4,11 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:poetlum/config/theme/app_theme.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/pages/registration/registration_page.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
-import 'package:poetlum/features/registration/presentation/bloc/registation/register_cubit.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_cubit.dart';
-import 'package:poetlum/features/registration/presentation/pages/registration/registration_page.dart';
 
 class PoetlumApp extends StatelessWidget {
   const PoetlumApp({super.key});

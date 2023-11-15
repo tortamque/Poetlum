@@ -1,5 +1,5 @@
-import 'package:poetlum/features/registration/data/data_sources/remote/firebase_service.dart';
-import 'package:poetlum/features/registration/domain/repository/firebase_repository.dart';
+import 'package:poetlum/features/authorization/data/data_sources/remote/firebase_service.dart';
+import 'package:poetlum/features/authorization/domain/repository/firebase_repository.dart';
 
 class FirebaseRepositoryImpl implements FirebaseRepository{
   FirebaseRepositoryImpl(this._firebaseService);

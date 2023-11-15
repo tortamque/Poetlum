@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_cubit.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_state.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 
 class UsernameTextField extends StatelessWidget {
   const UsernameTextField({super.key, required this.controller});

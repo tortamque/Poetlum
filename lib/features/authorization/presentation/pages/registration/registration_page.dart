@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_cubit.dart';
-import 'package:poetlum/features/registration/presentation/widgets/email_field.dart';
-import 'package:poetlum/features/registration/presentation/widgets/password_field.dart';
-import 'package:poetlum/features/registration/presentation/widgets/register_button.dart';
-import 'package:poetlum/features/registration/presentation/widgets/username_field.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
+import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
+import 'package:poetlum/features/authorization/presentation/widgets/register_button.dart';
+import 'package:poetlum/features/authorization/presentation/widgets/username_field.dart';
 
 class RegistrationPage extends StatelessWidget {
   RegistrationPage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_state.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validators.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validators.dart';
 
 class FormValidationCubit extends Cubit<FormValidationState> {
   FormValidationCubit({

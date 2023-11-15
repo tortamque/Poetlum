@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:poetlum/features/registration/presentation/bloc/registation/register_cubit.dart';
-import 'package:poetlum/features/registration/presentation/bloc/registation/register_state.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_cubit.dart';
-import 'package:poetlum/features/registration/presentation/bloc/validation/validation_state.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/registation/register_state.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 
 class RegisterButton extends StatelessWidget {
   const RegisterButton({
