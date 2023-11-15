@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
-import 'package:poetlum/features/authorization/presentation/widgets/register_button.dart';
+//import 'package:poetlum/features/authorization/presentation/widgets/register_button.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -30,9 +30,9 @@ class LoginPage extends StatelessWidget {
                   const Spacer(),
                 
                   PasswordTextField(controller: _passwordController),
-                  const Spacer(flex: 2,),
+                  const Spacer(),
                 
-                  const RegisterButton(),
+                  //const AuthButton(text: 'Login',),
                   const Spacer(),
                 
                   Row(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/registation/register_state.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/register_button.dart';
@@ -15,7 +18,7 @@ class RegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formCubit = context.read<FormValidationCubit>();
+    final formCubit = context.read<RegisterFormValidationCubit>();
 
     _usernameController.addListener(() {
       formCubit.usernameChanged(_usernameController.text);
@@ -54,7 +57,7 @@ class RegistrationPage extends StatelessWidget {
                   PasswordTextField(controller: _passwordController),
                   const Spacer(flex: 2,),
                 
-                  const RegisterButton(),
+                  const AuthButton<RegisterCubit, AuthState, RegisterFormValidationCubit, FormValidationState>(text: 'Register'),
                   const Spacer(),
                 
                   Row(

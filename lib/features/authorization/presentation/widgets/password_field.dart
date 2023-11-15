@@ -16,7 +16,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   bool _isPasswordVisible = false;
   
   @override
-  Widget build(BuildContext context) => BlocBuilder<FormValidationCubit, FormValidationState>(
+  Widget build(BuildContext context) => BlocBuilder<RegisterFormValidationCubit, FormValidationState>(
     builder: (context, state) => SizedBox(
       width: MediaQuery.of(context).size.width/1.5,
       child: TextField(

@@ -6,7 +6,7 @@ import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
-import 'package:poetlum/features/authorization/presentation/pages/login/login_page.dart';
+import 'package:poetlum/features/authorization/presentation/pages/registration/registration_page.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 
@@ -18,12 +18,12 @@ class PoetlumApp extends StatelessWidget {
     providers: [
       BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetPoemsEvent())),
       BlocProvider<RegisterCubit>(create:(context) => getIt(),),
-      BlocProvider<FormValidationCubit>(create:(context) => getIt()),
+      BlocProvider<RegisterFormValidationCubit>(create:(context) => getIt()),
     ],
     child: GetMaterialApp(
       title: 'Poetlum',
       theme: theme(),
-      home: LoginPage(),
+      home: RegistrationPage(),
     ),
   );
 }

@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 enum RegisterStatus { initial, submitting, success, error }
 
-class RegisterState extends Equatable {
-  const RegisterState({
+class AuthState extends Equatable {
+  const AuthState({
     this.status = RegisterStatus.initial,
     this.errorMessage,
   });
@@ -11,10 +11,10 @@ class RegisterState extends Equatable {
   final RegisterStatus status;
   final String? errorMessage;
 
-  RegisterState copyWith({
+  AuthState copyWith({
     RegisterStatus? status,
     String? errorMessage,
-  }) => RegisterState(
+  }) => AuthState(
       status: status ?? this.status,
       errorMessage: errorMessage,
     );

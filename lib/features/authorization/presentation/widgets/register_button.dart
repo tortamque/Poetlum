@@ -3,17 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/registation/register_state.dart';
-import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 
-class RegisterButton extends StatelessWidget {
-  const RegisterButton({
-    super.key,
+class AuthButton<
+    InputCubit extends Cubit<InputState>, 
+    InputState extends AuthState,
+    FormCubit extends Cubit<FormState>,
+    FormState extends FormValidationState
+  > extends StatelessWidget {
+  const AuthButton({
+    super.key, required this.text,
   });
 
+  final String text;
+
   @override
-  Widget build(BuildContext context)=> BlocBuilder<FormValidationCubit, FormValidationState>(
-    builder: (_, validationState)=> BlocConsumer<RegisterCubit, RegisterState>(
+  Widget build(BuildContext context)=> BlocBuilder<FormCubit, FormValidationState>(
+    builder: (_, validationState)=> BlocConsumer<InputCubit, InputState>(
       listener: (__, registerState) {
         if (registerState.status == RegisterStatus.success) {
           _showPositiveToast();
@@ -33,11 +39,11 @@ class RegisterButton extends StatelessWidget {
                 );
               }
             : null,
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
             child: Text(
-              'Register',
-              style: TextStyle(
+              text,
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),

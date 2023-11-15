@@ -9,7 +9,7 @@ class UsernameTextField extends StatelessWidget {
   final TextEditingController controller;
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<FormValidationCubit, FormValidationState>(
+  Widget build(BuildContext context) => BlocBuilder<RegisterFormValidationCubit, FormValidationState>(
     builder: (context, state)=> SizedBox(
       width: MediaQuery.of(context).size.width/1.5,
       child: TextField(
