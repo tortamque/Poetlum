@@ -6,7 +6,7 @@ import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
-import 'package:poetlum/features/authorization/presentation/pages/registration/registration_page.dart';
+import 'package:poetlum/features/authorization/presentation/pages/login/login_page.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 
@@ -23,7 +23,7 @@ class PoetlumApp extends StatelessWidget {
     child: GetMaterialApp(
       title: 'Poetlum',
       theme: theme(),
-      home: RegistrationPage(),
+      home: LoginPage(),
     ),
   );
 }
