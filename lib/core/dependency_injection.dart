@@ -4,7 +4,7 @@ import 'package:poetlum/features/authorization/data/data_sources/remote/firebase
 import 'package:poetlum/features/authorization/data/repository/firebase_repository_impl.dart';
 import 'package:poetlum/features/authorization/domain/repository/firebase_repository.dart';
 import 'package:poetlum/features/authorization/domain/usecases/register_user_usecase.dart';
-import 'package:poetlum/features/authorization/presentation/bloc/registation/register_cubit.dart';
+import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validators.dart';
 import 'package:poetlum/features/poems_feed/data/data_sources/remote/poem_api_service.dart';
