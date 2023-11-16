@@ -1,26 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:poetlum/config/theme/app_theme.dart';
-import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
-import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_cubit.dart';
-import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/pages/login/login_page.dart';
-import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
-import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
+import 'package:poetlum/features/multi_bloc_provider/presentation/init_blocs.dart';
 
 class PoetlumApp extends StatelessWidget {
   const PoetlumApp({super.key});
 
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
-    providers: [
-      BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetPoemsEvent())),
-      BlocProvider<AuthCubit>(create:(context) => getIt(),),
-      BlocProvider<RegisterFormValidationCubit>(create:(context) => getIt()),
-      BlocProvider<LoginFormValidationCubit>(create:(context) => getIt()),
-    ],
+  Widget build(BuildContext context) => InitBlocs(
     child: GetMaterialApp(
       title: 'Poetlum',
       theme: theme(),
