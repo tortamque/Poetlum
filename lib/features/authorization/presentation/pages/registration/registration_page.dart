@@ -44,29 +44,29 @@ class _Form extends StatelessWidget {
       child: Column(
         children: [
           UsernameTextField(controller: usernameController),
-            const Spacer(),
-          
-            EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: emailController),
-            const Spacer(),
-          
-            PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: passwordController),
-            const Spacer(),
-          
-            AuthButton<
-              AuthCubit, 
-              AuthState, 
-              RegisterFormValidationCubit, 
-              RegisterFormValidationState
-            >(
-              isEnabled: state.isFormValid,
-              text: 'Register',
-              successfulToastText: 'Your registration was successful',
-              onPressed: () => context.read<AuthCubit>().register(
-                username: state.usernameValidationState.value,
-                email: state.emailValidationState.value,
-                password: state.passwordValidationState.value,
-              ),
+          const Spacer(),
+        
+          EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: emailController),
+          const Spacer(),
+        
+          PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: passwordController),
+          const Spacer(),
+        
+          AuthButton<
+            AuthCubit, 
+            AuthState, 
+            RegisterFormValidationCubit, 
+            RegisterFormValidationState
+          >(
+            isEnabled: state.isFormValid,
+            text: 'Register',
+            successfulToastText: 'Your registration was successful',
+            onPressed: () => context.read<AuthCubit>().register(
+              username: state.usernameValidationState.value,
+              email: state.emailValidationState.value,
+              password: state.passwordValidationState.value,
             ),
+          ),
         ],
       ),
     ),
@@ -122,22 +122,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<RegisterFormValidationCubit, RegisterFormValidationState>(
-          builder: (context, state) => Column(
-            children: [
-              const _Header(),
-            
-              _Form(
-                _usernameController,
-                _emailController,
-                _passwordController,
-              ),
-            
-              const _Footer(),
-            ],
-          ),
+    body: SafeArea(
+      child: BlocBuilder<RegisterFormValidationCubit, RegisterFormValidationState>(
+        builder: (context, state) => Column(
+          children: [
+            const _Header(),
+          
+            _Form(
+              _usernameController,
+              _emailController,
+              _passwordController,
+            ),
+          
+            const _Footer(),
+          ],
         ),
       ),
-    );
+    ),
+  );
 }
