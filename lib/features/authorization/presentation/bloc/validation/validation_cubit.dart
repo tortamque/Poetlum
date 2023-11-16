@@ -4,13 +4,13 @@ import 'package:poetlum/features/authorization/presentation/bloc/validation/vali
 
 abstract class FormValidationCubit{}
 
-class RegisterFormValidationCubit extends Cubit<FormValidationState> implements FormValidationCubit{
+class RegisterFormValidationCubit extends Cubit<RegisterFormValidationState> implements FormValidationCubit{
   RegisterFormValidationCubit({
     required this.usernameValidator, 
     required this.emailValidator, 
     required this.passwordValidator,
   })
-    : super(FormValidationState());
+    : super(RegisterFormValidationState());
 
   final Validator<String> usernameValidator;
   final Validator<String> emailValidator;
@@ -50,12 +50,12 @@ class RegisterFormValidationCubit extends Cubit<FormValidationState> implements 
   }
 }
 
-class LoginValidationCubit extends Cubit<FormValidationState> implements FormValidationCubit{
-  LoginValidationCubit({
+class LoginFormValidationCubit extends Cubit<LoginFormValidationState> implements FormValidationCubit{
+  LoginFormValidationCubit({
     required this.emailValidator, 
     required this.passwordValidator,
   })
-    : super(FormValidationState());
+    : super(LoginFormValidationState());
 
   final Validator<String> emailValidator;
   final Validator<String> passwordValidator;

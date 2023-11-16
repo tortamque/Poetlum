@@ -2,8 +2,49 @@
 
 import 'package:equatable/equatable.dart';
 
-class FormValidationState extends Equatable {
-  FormValidationState({
+abstract class AuthFormValidationState{
+  final ValidationState emailValidationState = const ValidationState();
+  final ValidationState passwordValidationState = const ValidationState();
+  final bool isFormValid = false;
+}
+
+class LoginFormValidationState extends Equatable implements AuthFormValidationState{
+  LoginFormValidationState({
+    this.emailValidationState = const ValidationState(),
+    this.passwordValidationState = const ValidationState(),
+    bool? isFormValid,
+  }) : isFormValid = isFormValid ?? 
+                      emailValidationState.isValid &&
+                      passwordValidationState.isValid;
+  @override
+  final ValidationState emailValidationState;
+  @override
+  final ValidationState passwordValidationState;
+  @override
+  final bool isFormValid;
+
+  LoginFormValidationState copyWith({
+    ValidationState? emailValidationState,
+    ValidationState? passwordValidationState,
+    bool? isFormValid,
+  }) => LoginFormValidationState(
+      emailValidationState: emailValidationState ?? this.emailValidationState,
+      passwordValidationState: passwordValidationState ?? this.passwordValidationState,
+      isFormValid: isFormValid ?? 
+                  (emailValidationState ?? this.emailValidationState).isValid &&
+                  (passwordValidationState ?? this.passwordValidationState).isValid,
+    );
+
+  @override
+  List<Object?> get props => [
+    emailValidationState,
+    passwordValidationState,
+    isFormValid,
+  ];
+}
+
+class RegisterFormValidationState extends Equatable implements AuthFormValidationState{
+  RegisterFormValidationState({
     this.emailValidationState = const ValidationState(),
     this.usernameValidationState = const ValidationState(),
     this.passwordValidationState = const ValidationState(),
@@ -12,18 +53,20 @@ class FormValidationState extends Equatable {
                       emailValidationState.isValid &&
                       usernameValidationState.isValid &&
                       passwordValidationState.isValid;
-
-  final ValidationState emailValidationState;
   final ValidationState usernameValidationState;
+  @override
+  final ValidationState emailValidationState;
+  @override
   final ValidationState passwordValidationState;
+  @override
   final bool isFormValid;
 
-  FormValidationState copyWith({
+  RegisterFormValidationState copyWith({
     ValidationState? emailValidationState,
     ValidationState? usernameValidationState,
     ValidationState? passwordValidationState,
     bool? isFormValid,
-  }) => FormValidationState(
+  }) => RegisterFormValidationState(
       emailValidationState: emailValidationState ?? this.emailValidationState,
       usernameValidationState: usernameValidationState ?? this.usernameValidationState,
       passwordValidationState: passwordValidationState ?? this.passwordValidationState,

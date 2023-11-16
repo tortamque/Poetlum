@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_state.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 
@@ -9,35 +8,31 @@ class AuthButton<
     InputCubit extends Cubit<InputState>, 
     InputState extends AuthState,
     FormCubit extends Cubit<FormState>,
-    FormState extends FormValidationState
+    FormState extends AuthFormValidationState
   > extends StatelessWidget {
   const AuthButton({
-    super.key, required this.text,
+    super.key, required this.text, required this.onPressed, required this.isEnabled, required this.successfulToastText,
   });
 
   final String text;
+  final void Function() onPressed;
+  final bool isEnabled;
+  final String successfulToastText;
 
   @override
-  Widget build(BuildContext context)=> BlocBuilder<FormCubit, FormValidationState>(
-    builder: (_, validationState)=> BlocConsumer<InputCubit, InputState>(
+  Widget build(BuildContext context)=> BlocConsumer<InputCubit, InputState>(
       listener: (__, registerState) {
-        if (registerState.status == RegisterStatus.success) {
-          _showPositiveToast();
-        } else if (registerState.status == RegisterStatus.error) {
+        if (registerState.status == AuthStatus.success) {
+          _showPositiveToast(successfulToastText);
+        } else if (registerState.status == AuthStatus.error) {
           _showNegativeToast(registerState.errorMessage ?? 'Unknown error');
         }
       },
-      builder: (context, state) => state.status == RegisterStatus.submitting 
+      builder: (context, state) => state.status == AuthStatus.submitting 
         ? const CircularProgressIndicator()
         : FilledButton.tonal(
-          onPressed: validationState.isFormValid
-            ? () {
-                context.read<AuthCubit>().register(
-                  username: validationState.usernameValidationState.value,
-                  email: validationState.emailValidationState.value,
-                  password: validationState.passwordValidationState.value,
-                );
-              }
+          onPressed: isEnabled
+            ? onPressed
             : null,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
@@ -49,12 +44,11 @@ class AuthButton<
             ),
           ),
         ),
-    ),
   );
 
-  Future<void> _showPositiveToast() async{
+  Future<void> _showPositiveToast(String text) async{
     await Fluttertoast.showToast(
-      msg: 'Your registration was successful',
+      msg: text,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.green,

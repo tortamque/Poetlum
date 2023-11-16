@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 
-class PasswordTextField extends StatefulWidget {
+class PasswordTextField<ValidationCubit extends Cubit<ValidationState>, ValidationState extends AuthFormValidationState> extends StatefulWidget {
   const PasswordTextField({super.key, required this.controller});
 
   final TextEditingController controller;
 
   @override
-  State<PasswordTextField> createState() => _PasswordTextFieldState();
+  State<PasswordTextField> createState() => _PasswordTextFieldState<ValidationCubit, ValidationState>();
 }
 
-class _PasswordTextFieldState extends State<PasswordTextField> {
+class _PasswordTextFieldState<ValidationCubit extends Cubit<ValidationState>, ValidationState extends AuthFormValidationState> extends State<PasswordTextField> {
   bool _isPasswordVisible = false;
   
   @override
-  Widget build(BuildContext context) => BlocBuilder<RegisterFormValidationCubit, FormValidationState>(
+  Widget build(BuildContext context) => BlocBuilder<ValidationCubit, ValidationState>(
     builder: (context, state) => SizedBox(
       width: MediaQuery.of(context).size.width/1.5,
       child: TextField(

@@ -1,6 +1,6 @@
 import 'package:poetlum/core/usecases/usecase.dart';
 import 'package:poetlum/features/authorization/domain/repository/firebase_repository.dart';
-import 'package:poetlum/features/authorization/domain/usecases/register_user_params.dart';
+import 'package:poetlum/features/authorization/domain/usecases/register/register_user_params.dart';
 
 class RegisterUserUseCase implements UseCase<void, RegisterUserParams>{
   RegisterUserUseCase(this._firebaseRepository);

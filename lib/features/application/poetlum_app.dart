@@ -19,6 +19,7 @@ class PoetlumApp extends StatelessWidget {
       BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetPoemsEvent())),
       BlocProvider<AuthCubit>(create:(context) => getIt(),),
       BlocProvider<RegisterFormValidationCubit>(create:(context) => getIt()),
+      BlocProvider<LoginFormValidationCubit>(create:(context) => getIt()),
     ],
     child: GetMaterialApp(
       title: 'Poetlum',

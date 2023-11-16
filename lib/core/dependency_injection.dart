@@ -3,7 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:poetlum/features/authorization/data/data_sources/remote/firebase_service.dart';
 import 'package:poetlum/features/authorization/data/repository/firebase_repository_impl.dart';
 import 'package:poetlum/features/authorization/domain/repository/firebase_repository.dart';
-import 'package:poetlum/features/authorization/domain/usecases/register_user_usecase.dart';
+import 'package:poetlum/features/authorization/domain/usecases/login/login_user_usecase.dart';
+import 'package:poetlum/features/authorization/domain/usecases/register/register_user_usecase.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validators.dart';
@@ -35,6 +36,7 @@ void initializeDependencies() {
     // Usecase
     ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
     ..registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(getIt()))
+    ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
 
     // Validators
     ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -43,10 +45,14 @@ void initializeDependencies() {
 
     // Bloc
     ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt()))
-    ..registerFactory<AuthCubit>(() => AuthCubit(getIt()))
+    ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
     ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
       usernameValidator: getIt<UsernameValidator>(),
       emailValidator: getIt<LocalEmailValidator>(),
       passwordValidator: getIt<PasswordValidator>(),
+    ),)
+    ..registerFactory<LoginFormValidationCubit>(() => LoginFormValidationCubit(
+      emailValidator: getIt<LocalEmailValidator>(), 
+      passwordValidator: getIt<PasswordValidator>()
     ),);
 }
