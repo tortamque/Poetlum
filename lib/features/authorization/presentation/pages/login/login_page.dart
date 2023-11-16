@@ -8,6 +8,81 @@ import 'package:poetlum/features/authorization/presentation/widgets/email_field.
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/register_button.dart';
 
+class _Header extends StatelessWidget {
+  const _Header();
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: MediaQuery.of(context).size.height/10,
+    child: const Column(
+      children: [
+        Spacer(),
+        Text(
+          'Login',
+          style: TextStyle(
+            fontSize: 22,
+          ),
+        ),
+        Spacer(),
+      ],
+    ),
+  );
+}
+
+class _Form extends StatelessWidget {
+  const _Form(this.emailController, this.passwordController);
+
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+
+  @override
+  Widget build(BuildContext context) => BlocBuilder<LoginFormValidationCubit, LoginFormValidationState>(
+    builder: (context, state) => SizedBox(
+      height: MediaQuery.of(context).size.height/3.5,
+      child: Column(
+        children: [
+          EmailTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: emailController),
+          const Spacer(),
+        
+          PasswordTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: passwordController),
+          const Spacer(),
+        
+          AuthButton<
+            AuthCubit, 
+            AuthState, 
+            LoginFormValidationCubit, 
+            LoginFormValidationState
+          >(
+            isEnabled: state.isFormValid,
+            text: 'Login',
+            successfulToastText: 'Your login was successful',
+            onPressed: () => context.read<AuthCubit>().login(
+              email: state.emailValidationState.value,
+              password: state.passwordValidationState.value,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+class _Footer extends StatelessWidget {
+  const _Footer();
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: MediaQuery.of(context).size.height/10,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Don't have an account?"),
+        TextButton(onPressed: (){}, child: const Text('Register', style: TextStyle(decoration: TextDecoration.underline),),),
+      ],
+    ),
+  );
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -37,56 +112,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) => Scaffold(
     body: SafeArea(
       child: BlocBuilder<LoginFormValidationCubit, LoginFormValidationState>(
-        builder: (context, state) => Row(
+        builder: (context, state) => Column(
             children: [
-              Expanded(
-                child: Column(
-                    children: [
-                      const Spacer(),
-                        const Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                        const Spacer(flex: 2,),
-                      
-                        EmailTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: _emailController),
-                        const Spacer(),
-                      
-                        PasswordTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: _passwordController),
-                        const Spacer(),
-                      
-                        
-                        AuthButton<
-                          AuthCubit, 
-                          AuthState, 
-                          LoginFormValidationCubit, 
-                          LoginFormValidationState
-                        >(
-                          isEnabled: state.isFormValid,
-                          text: 'Login',
-                          successfulToastText: 'Your login was successful',
-                          onPressed: () => context.read<AuthCubit>().login(
-                            email: state.emailValidationState.value,
-                            password: state.passwordValidationState.value,
-                          ),
-                        ),
-                        const Spacer(),
-                      
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Don't have an account?"),
-                            TextButton(onPressed: (){}, child: const Text('Register', style: TextStyle(decoration: TextDecoration.underline),),),
-                          ],
-                        ),
-                        const Spacer(flex: 12,),
-                    ],
-                ),
-              )
+              const _Header(),
+              
+              _Form(
+                _emailController, 
+                _passwordController,
+              ),
+              
+              const _Footer(),
             ],
-          ),
+        ),
       ),
     ),
   );
