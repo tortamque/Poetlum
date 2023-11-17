@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:poetlum/features/authorization/data/data_sources/remote/firebase_service.dart';
+import 'package:poetlum/features/authorization/data/repository/auth_repository_impl.dart';
 import 'package:poetlum/features/authorization/data/repository/firebase_repository_impl.dart';
+import 'package:poetlum/features/authorization/domain/repository/auth_repository.dart';
 import 'package:poetlum/features/authorization/domain/repository/firebase_repository.dart';
 import 'package:poetlum/features/authorization/domain/usecases/login/login_user_usecase.dart';
 import 'package:poetlum/features/authorization/domain/usecases/register/register_user_usecase.dart';
@@ -30,6 +32,7 @@ void initializeDependencies() {
     ..registerSingleton<FirebaseService>(FirebaseServiceImpl())
 
     // Repository
+    ..registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImpl())
     ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
     ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
 
