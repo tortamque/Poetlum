@@ -7,7 +7,7 @@ import 'package:poetlum/features/authorization/presentation/bloc/validation/vali
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
-import 'package:poetlum/features/authorization/presentation/widgets/register_button.dart';
+import 'package:poetlum/features/authorization/presentation/widgets/auth_button.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/username_field.dart';
 
 class _Header extends StatelessWidget {
