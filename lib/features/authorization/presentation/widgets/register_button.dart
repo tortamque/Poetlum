@@ -11,11 +11,12 @@ class AuthButton<
     FormState extends AuthFormValidationState
   > extends StatelessWidget {
   const AuthButton({
-    super.key, required this.text, required this.onPressed, required this.isEnabled, required this.successfulToastText,
+    super.key, required this.text, required this.onPressed, required this.isEnabled, required this.successfulToastText, required this.navigateOnSuccess,
   });
 
   final String text;
   final void Function() onPressed;
+  final void Function() navigateOnSuccess;
   final bool isEnabled;
   final String successfulToastText;
 
@@ -24,6 +25,7 @@ class AuthButton<
       listener: (__, registerState) {
         if (registerState.status == AuthStatus.success) {
           _showPositiveToast(successfulToastText);
+          navigateOnSuccess();
         } else if (registerState.status == AuthStatus.error) {
           _showNegativeToast(registerState.errorMessage ?? 'Unknown error');
         }
