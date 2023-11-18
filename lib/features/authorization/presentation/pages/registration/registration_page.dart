@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_state.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
@@ -66,6 +67,7 @@ class _Form extends StatelessWidget {
               email: state.emailValidationState.value,
               password: state.passwordValidationState.value,
             ),
+            navigateOnSuccess: () => Navigator.pushNamedAndRemoveUntil(context, poemsFeedPageConstant, (route) => false),
           ),
         ],
       ),
@@ -83,7 +85,15 @@ class _Footer extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text('Already have an account?'),
-        TextButton(onPressed: (){}, child: const Text('Login', style: TextStyle(decoration: TextDecoration.underline),),),
+        TextButton(
+          onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(context, loginPageConstant, (r) => false);
+          }, 
+          child: const Text(
+            'Login', 
+            style: TextStyle(decoration: TextDecoration.underline),
+          ),
+        ),
       ],
     ),
   );

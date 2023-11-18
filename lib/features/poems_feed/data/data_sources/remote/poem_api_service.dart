@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:poetlum/core/constants/constants.dart';
+import 'package:poetlum/core/constants/poems_constants.dart';
 import 'package:poetlum/features/poems_feed/data/models/poem.dart';
 import 'package:retrofit/retrofit.dart';
 
