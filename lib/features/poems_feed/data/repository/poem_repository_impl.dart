@@ -35,8 +35,6 @@ class PoemRepositoryImpl implements PoemRepository{
 
   @override
   Future<DataState<List<PoemModel>>> getPoems({String? author, String? title, String? lineCount, String? poemCount}) async {
-    print('repo $author, $title, $lineCount, $poemCount');
-
     final outputFields = <String>[];
     final searchTerms = <String>[];
 
@@ -60,7 +58,6 @@ class PoemRepositoryImpl implements PoemRepository{
     final outputFieldsPart = outputFields.join(',');
     final searchTermsPart = searchTerms.join(';');
     final query = '$outputFieldsPart/$searchTermsPart';
-    print('query $query');
 
     try {
       final httpResponse = await _poemApiService.getPoems(query);

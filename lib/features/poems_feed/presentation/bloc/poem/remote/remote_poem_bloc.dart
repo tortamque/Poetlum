@@ -32,7 +32,6 @@ class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
   }
 
   Future<void> onGetPoems(GetPoemsEvent event, Emitter<RemotePoemState> emitter) async{
-    print('onGetPoems ${event.author} ${event.title} ${event.lineCount} ${event.poemCount}');
     emit(const RemotePoemLoading());
 
     final dataState = await _getPoemsUseCase(
@@ -43,8 +42,6 @@ class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
         title: event.title,
       ),
     );
-
-    print('datastate, ${dataState.data}');
 
     if(dataState is DataSuccess && dataState.data!.isNotEmpty){
       emit(
