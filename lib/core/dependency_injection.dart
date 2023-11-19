@@ -37,7 +37,7 @@ void initializeDependencies() {
     ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
 
     // Usecase
-    ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
+    ..registerSingleton<GetInitialPoemsUseCase>(GetInitialPoemsUseCase(getIt()))
     ..registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(getIt()))
     ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
 

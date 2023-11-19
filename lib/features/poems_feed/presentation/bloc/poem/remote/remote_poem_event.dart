@@ -2,6 +2,6 @@ abstract class RemotePoemEvent{
   const RemotePoemEvent();
 }
 
-class GetPoemsEvent extends RemotePoemEvent{
-  const GetPoemsEvent();
+class GetInitialPoemsEvent extends RemotePoemEvent{
+  const GetInitialPoemsEvent();
 }

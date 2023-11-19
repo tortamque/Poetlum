@@ -7,14 +7,14 @@ import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
 
 class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
-  RemotePoemBloc(this._getPoemsUseCase): super(const RemotePoemLoading()){
-    on<GetPoemsEvent>(onGetPoems);
+  RemotePoemBloc(this._getInitialPoemsUseCase): super(const RemotePoemLoading()){
+    on<GetInitialPoemsEvent>(onGetInitialPoems);
   }
 
-  final GetPoemsUseCase _getPoemsUseCase;
+  final GetInitialPoemsUseCase _getInitialPoemsUseCase;
 
-  Future<void> onGetPoems(GetPoemsEvent event, Emitter<RemotePoemState> emitter) async{
-    final dataState = await _getPoemsUseCase();
+  Future<void> onGetInitialPoems(GetInitialPoemsEvent event, Emitter<RemotePoemState> emitter) async{
+    final dataState = await _getInitialPoemsUseCase();
 
     if(dataState is DataSuccess && dataState.data!.isNotEmpty){
       emit(

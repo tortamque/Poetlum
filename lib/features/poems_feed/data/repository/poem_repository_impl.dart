@@ -12,9 +12,9 @@ class PoemRepositoryImpl implements PoemRepository{
   final PoemApiService _poemApiService;
 
   @override
-  Future<DataState<List<PoemModel>>> getPoems() async {
+  Future<DataState<List<PoemModel>>> getInitialPoems() async {
     try{
-      final httpResponse = await _poemApiService.getPoems();
+      final httpResponse = await _poemApiService.getInitialPoems();
 
       if(httpResponse.response.statusCode == HttpStatus.ok){
         return DataSuccess(httpResponse.data);
