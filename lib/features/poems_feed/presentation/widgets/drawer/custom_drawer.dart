@@ -6,7 +6,7 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_s
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 
 class CustomDrawer extends StatefulWidget {
-  CustomDrawer({super.key});
+  const CustomDrawer({super.key});
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
