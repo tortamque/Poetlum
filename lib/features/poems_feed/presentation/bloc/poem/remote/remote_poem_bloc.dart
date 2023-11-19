@@ -26,7 +26,7 @@ class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
 
     if(dataState is DataFailed){
       emit(
-        RemotePoemError(dataState.error!),
+        RemotePoemError(dataState.error!, dataState.message!),
       );
     }
   }
@@ -51,7 +51,7 @@ class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
 
     if(dataState is DataFailed){
       emit(
-        RemotePoemError(dataState.error!),
+        RemotePoemError(dataState.error!, dataState.message!),
       );
     }
   }

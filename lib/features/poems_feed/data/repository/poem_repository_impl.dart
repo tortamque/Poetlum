@@ -26,10 +26,14 @@ class PoemRepositoryImpl implements PoemRepository{
             type: DioExceptionType.badResponse,
             error: httpResponse.response.statusMessage,
           ),
+          'An error occurred during the attempt to connect to the server.'
         );
       }
     } on DioException catch(error){
-      return DataFailed(error);
+      return DataFailed(
+        error,
+        'An error occurred during the attempt to connect to the server.',
+      );
     }
   }
 
@@ -72,10 +76,14 @@ class PoemRepositoryImpl implements PoemRepository{
             type: DioExceptionType.badResponse,
             error: httpResponse.response.statusMessage,
           ),
+          'An error occurred during the attempt to connect to the server.',
         );
       }
     } on DioException catch (error) {
-      return DataFailed(error);
+      return DataFailed(
+        error,
+        'An error occurred. Please ensure that you have provided the correct search settings.',
+      );
     }
   }
 }

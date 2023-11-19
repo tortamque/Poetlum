@@ -24,5 +24,7 @@ class RemotePoemDone extends RemotePoemState{
 }
 
 class RemotePoemError extends RemotePoemState{
-  const RemotePoemError(DioException error) : super(error: error);
+  const RemotePoemError(DioException error, this.message) : super(error: error);
+
+  final String message;
 }

@@ -36,7 +36,7 @@ class PoemsFeed extends StatelessWidget {
       } 
 
       if(state is RemotePoemError){
-        return const Center(child: Icon(Icons.refresh));
+        return _buildErrorBody(state.message);
       }
 
       if(state is RemotePoemDone){
@@ -50,5 +50,18 @@ class PoemsFeed extends StatelessWidget {
 
       return const SizedBox();
     },
+  );
+
+  Widget _buildErrorBody(String error) => Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Text(error),
+        ),
+        const Icon(Icons.refresh),
+      ],
+    ),
   );
 }
