@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/pages/home/poems_feed.dart';
@@ -9,7 +10,9 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_s
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key});
+  const CustomDrawer(this._userRepository, {super.key});
+
+  final UserRepository _userRepository;
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -28,7 +31,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       height: MediaQuery.of(context).size.height,
       child: ListView(
         children: [
-          const CustomDrawerHeader(),
+          CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
 
           CustomTextField(hintText: 'Author', controller: _authorController),
           const CustomSpacer(heightFactor: 0.04),

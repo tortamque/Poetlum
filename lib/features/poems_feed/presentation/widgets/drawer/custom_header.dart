@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/features/poems_feed/data/models/firebase_user.dart';
 import 'package:poetlum/features/poems_feed/presentation/pages/home/poems_feed.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
-  const CustomDrawerHeader({super.key});
+  const CustomDrawerHeader({super.key, required this.user});
+
+  final FirebaserUserModel user;
 
   @override
-  Widget build(BuildContext context) => const Column(
+  Widget build(BuildContext context) => Column(
     children: [
-      CustomSpacer(heightFactor: 0.04),
-      Center(
-        child: Text(
-          'Search settings',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+      const CustomSpacer(heightFactor: 0.02),
+
+      Text(
+        'Hello, ${user.username}',
+        style: const TextStyle(fontSize: 20),
       ),
-      CustomSpacer(heightFactor: 0.04),
+
+      const CustomSpacer(heightFactor: 0.02),
+
+      const Text(
+        'Search settings',
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      ),
+
+      const CustomSpacer(heightFactor: 0.04),
     ],
   );
 }
