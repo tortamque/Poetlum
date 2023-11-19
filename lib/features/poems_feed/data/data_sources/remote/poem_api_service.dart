@@ -11,4 +11,7 @@ abstract class PoemApiService{
 
   @GET('random/$defaultPoemsCount')
   Future<HttpResponse<List<PoemModel>>> getInitialPoems();
+
+  @GET('/{query}')
+  Future<HttpResponse<List<PoemModel>>> getPoems(@Path('query') String query);
 }
