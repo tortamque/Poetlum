@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
+import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/pages/home/poems_feed.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_checkbox_tile.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_header.dart';
@@ -44,7 +47,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
           CustomSearchButton(
             onPressed: () {
-              print(_isRandom);
+              BlocProvider.of<RemotePoemBloc>(context).add(
+                GetPoemsEvent(
+                  author: _authorController.text,
+                  title: _titleController.text,
+                  lineCount: _numberOfLinesController.text,
+                  poemCount: _resultCountController.text,
+                ),
+              );
             },
           ),
         ],
