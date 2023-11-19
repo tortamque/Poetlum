@@ -5,13 +5,19 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_h
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_search_buttond.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   CustomDrawer({super.key});
 
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
   final TextEditingController _authorController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _numberOfLinesController = TextEditingController();
   final TextEditingController _resultCountController = TextEditingController();
+  bool? _isRandom = false;
 
   @override
   Widget build(BuildContext context) => Drawer(
@@ -33,14 +39,18 @@ class CustomDrawer extends StatelessWidget {
           CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
           const CustomSpacer(heightFactor: 0.04),
 
-          const CustomCheckboxTile(),
+          CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
           const CustomSpacer(heightFactor: 0.04),
 
           CustomSearchButton(
-            onPressed: () {},
+            onPressed: () {
+              print(_isRandom);
+            },
           ),
         ],
       ),
     ),
   );
+
+  void _toggleCheckbox(bool? value) => setState(() => _isRandom = value);
 }
