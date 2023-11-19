@@ -14,16 +14,16 @@ class GetInitialPoemsUseCase implements UseCase<DataState<List<PoemEntity>>, voi
 
 class GetPoemsUseCaseParams {
   const GetPoemsUseCaseParams({
-    this.author,
-    this.title,
-    this.lineCount,
-    this.poemCount,
+    required this.author,
+    required this.title,
+    required this.lineCount,
+    required this.poemCount,
   });
 
-  final String? author;
-  final String? title;
-  final String? lineCount;
-  final String? poemCount;
+  final String author;
+  final String title;
+  final String lineCount;
+  final String poemCount;
 }
 
 class GetPoemsUseCase implements UseCase<DataState<List<PoemEntity>>, GetPoemsUseCaseParams>{
