@@ -34,20 +34,22 @@ class GetPoemsUseCase implements UseCase<DataState<List<PoemEntity>>, GetPoemsUs
   @override
   Future<DataState<List<PoemEntity>>> call({GetPoemsUseCaseParams? params}){
     if(
-      params != null &&
-      (params.author != '' &&
-      params.title != '' &&
-      params.lineCount != '' &&
-      params.poemCount != '')
+      params == null ||
+      (
+        params.author == '' &&
+        params.title == '' &&
+        params.lineCount == '' &&
+        params.poemCount == '' 
+      )
     ){
+      return _poemRepository.getInitialPoems();
+    } else{
       return _poemRepository.getPoems(
         author: params.author,
         title: params.title,
         lineCount: params.lineCount,
         poemCount: params.poemCount,
       );
-    } else{
-      return _poemRepository.getInitialPoems();
     }
-  } 
+  }
 }
