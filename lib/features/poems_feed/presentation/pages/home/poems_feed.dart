@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/data/repository/user_repository_impl.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
+import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/poem_card.dart';
@@ -26,17 +27,17 @@ class PoemsFeed extends StatelessWidget {
       title: 'Poetlum',
     ),
     drawer: CustomDrawer(UserRepositoryImpl(FirebaseAuth.instance)),
-    body: _buildBody(),
+    body: _buildBody(context),
   );
 
-  BlocBuilder<RemotePoemBloc, RemotePoemState> _buildBody() => BlocBuilder<RemotePoemBloc, RemotePoemState>(
+  BlocBuilder<RemotePoemBloc, RemotePoemState> _buildBody(BuildContext context) => BlocBuilder<RemotePoemBloc, RemotePoemState>(
     builder: (_, state){
       if(state is RemotePoemLoading){
         return const Center(child: CircularProgressIndicator(),);
       } 
 
       if(state is RemotePoemError){
-        return _buildErrorBody(state.message);
+        return _buildErrorBody(state.message, context);
       }
 
       if(state is RemotePoemDone){
@@ -52,7 +53,7 @@ class PoemsFeed extends StatelessWidget {
     },
   );
 
-  Widget _buildErrorBody(String error) => Center(
+  Widget _buildErrorBody(String error, BuildContext context) => Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -60,7 +61,15 @@ class PoemsFeed extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Text(error),
         ),
-        const Icon(Icons.refresh),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: IconButton.filledTonal(
+            onPressed: (){
+              BlocProvider.of<RemotePoemBloc>(context).add(const GetInitialPoemsEvent());
+            }, 
+            icon: const Icon(Icons.refresh),
+          ),
+        ),
       ],
     ),
   );
