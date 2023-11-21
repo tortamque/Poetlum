@@ -59,7 +59,12 @@ class PoemsFeed extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Text(error),
+          child: Text(
+            error,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
