@@ -41,7 +41,6 @@ class PoemRepositoryImpl implements PoemRepository{
   @override
   Future<DataState<List<PoemModel>>> getPoems({required String author, required String title, required String lineCount, required String poemCount, required bool isRandom}) async {
     final query = _buildQuery(author, title, lineCount, poemCount, isRandom);
-    print(query);
 
     try {
       final httpResponse = await _poemApiService.getPoems(query);
