@@ -14,7 +14,7 @@ class InitBlocs extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
     providers: [
-      BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetPoemsEvent())),
+      BlocProvider<RemotePoemBloc>(create: (context) => getIt()..add(const GetInitialPoemsEvent())),
       BlocProvider<AuthCubit>(create:(context) => getIt(),),
       BlocProvider<RegisterFormValidationCubit>(create:(context) => getIt()),
       BlocProvider<LoginFormValidationCubit>(create:(context) => getIt()),

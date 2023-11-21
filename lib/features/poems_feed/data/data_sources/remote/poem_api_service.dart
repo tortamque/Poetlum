@@ -10,5 +10,8 @@ abstract class PoemApiService{
   factory PoemApiService(Dio dio) = _PoemApiService;
 
   @GET('random/$defaultPoemsCount')
-  Future<HttpResponse<List<PoemModel>>> getPoems();
+  Future<HttpResponse<List<PoemModel>>> getInitialPoems();
+
+  @GET('/{query}')
+  Future<HttpResponse<List<PoemModel>>> getPoems(@Path('query') String query);
 }

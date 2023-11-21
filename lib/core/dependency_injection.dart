@@ -37,6 +37,7 @@ void initializeDependencies() {
     ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
 
     // Usecase
+    ..registerSingleton<GetInitialPoemsUseCase>(GetInitialPoemsUseCase(getIt()))
     ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
     ..registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(getIt()))
     ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
@@ -47,7 +48,7 @@ void initializeDependencies() {
     ..registerLazySingleton<PasswordValidator>(() => PasswordValidator())
 
     // Bloc
-    ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt()))
+    ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
     ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
     ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
       usernameValidator: getIt<UsernameValidator>(),
