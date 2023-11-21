@@ -12,10 +12,12 @@ class GetPoemsEvent extends RemotePoemEvent{
     required this.title,
     required this.lineCount,
     required this.poemCount,
+    required this.isRandom,
   });
 
   final String author;
   final String title;
   final String lineCount;
   final String poemCount;
+  final bool isRandom;
 }

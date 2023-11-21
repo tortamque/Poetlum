@@ -18,12 +18,14 @@ class GetPoemsUseCaseParams {
     required this.title,
     required this.lineCount,
     required this.poemCount,
+    required this.isRandom,
   });
 
   final String author;
   final String title;
   final String lineCount;
   final String poemCount;
+  final bool isRandom;
 }
 
 class GetPoemsUseCase implements UseCase<DataState<List<PoemEntity>>, GetPoemsUseCaseParams>{
@@ -39,7 +41,8 @@ class GetPoemsUseCase implements UseCase<DataState<List<PoemEntity>>, GetPoemsUs
         params.author == '' &&
         params.title == '' &&
         params.lineCount == '' &&
-        params.poemCount == '' 
+        params.poemCount == '' &&
+        !params.isRandom
       )
     ){
       return _poemRepository.getInitialPoems();
@@ -49,6 +52,7 @@ class GetPoemsUseCase implements UseCase<DataState<List<PoemEntity>>, GetPoemsUs
         title: params.title,
         lineCount: params.lineCount,
         poemCount: params.poemCount,
+        isRandom: params.isRandom,
       );
     }
   }

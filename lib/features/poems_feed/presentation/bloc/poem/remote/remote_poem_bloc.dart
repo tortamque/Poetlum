@@ -42,6 +42,7 @@ class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
         lineCount: event.lineCount,
         poemCount: event.poemCount,
         title: event.title,
+        isRandom: event.isRandom,
       ),
     );
 

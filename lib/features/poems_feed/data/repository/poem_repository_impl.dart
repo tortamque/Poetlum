@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:poetlum/core/constants/poems_constants.dart';
 import 'package:poetlum/core/resources/data_state.dart';
 import 'package:poetlum/features/poems_feed/data/data_sources/remote/poem_api_service.dart';
 import 'package:poetlum/features/poems_feed/data/models/poem.dart';
@@ -38,30 +39,43 @@ class PoemRepositoryImpl implements PoemRepository{
   }
 
   @override
-  Future<DataState<List<PoemModel>>> getPoems({String? author, String? title, String? lineCount, String? poemCount}) async {
+  Future<DataState<List<PoemModel>>> getPoems({required String author, required String title, required String lineCount, required String poemCount, required bool isRandom}) async {
     final outputFields = <String>[];
     final searchTerms = <String>[];
 
-    if (author != null && author.isNotEmpty) {
+    if (author.isNotEmpty) {
       outputFields.add('author');
       searchTerms.add(author);
     }
-    if (title != null && title.isNotEmpty) {
+    if (title.isNotEmpty) {
       outputFields.add('title');
       searchTerms.add(title);
     }
-    if (lineCount != null && lineCount.isNotEmpty) {
+    if (lineCount.isNotEmpty) {
       outputFields.add('linecount');
       searchTerms.add(lineCount);
     }
-    if (poemCount != null && poemCount.isNotEmpty) {
-      outputFields.add('poemcount');
-      searchTerms.add(poemCount);
+    if (poemCount.isNotEmpty) {
+      if(isRandom){
+        print('changed to random poemCount != null');
+        outputFields.add('random');
+        searchTerms.add(poemCount);
+      } else{
+        outputFields.add('poemcount');
+        searchTerms.add(poemCount);
+      }
+    }
+    if(poemCount.isEmpty && isRandom){
+      print('changed to random poemCount == null');
+      outputFields.add('random');
+      searchTerms.add(defaultPoemsCount.toString());
     }
 
     final outputFieldsPart = outputFields.join(',');
     final searchTermsPart = searchTerms.join(';');
     final query = '$outputFieldsPart/$searchTermsPart';
+
+    print(query);
 
     try {
       final httpResponse = await _poemApiService.getPoems(query);

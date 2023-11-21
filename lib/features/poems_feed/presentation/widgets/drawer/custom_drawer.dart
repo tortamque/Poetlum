@@ -56,6 +56,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   title: _titleController.text,
                   lineCount: _numberOfLinesController.text,
                   poemCount: _resultCountController.text,
+                  isRandom: _isRandom ?? false,
                 ),
               );
             },
