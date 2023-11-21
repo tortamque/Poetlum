@@ -27,7 +27,7 @@ class PoemRepositoryImpl implements PoemRepository{
             type: DioExceptionType.badResponse,
             error: httpResponse.response.statusMessage,
           ),
-          'An error occurred during the attempt to connect to the server.'
+          'An error occurred during the attempt to connect to the server.',
         );
       }
     } on DioException catch(error){
@@ -40,41 +40,7 @@ class PoemRepositoryImpl implements PoemRepository{
 
   @override
   Future<DataState<List<PoemModel>>> getPoems({required String author, required String title, required String lineCount, required String poemCount, required bool isRandom}) async {
-    final outputFields = <String>[];
-    final searchTerms = <String>[];
-
-    if (author.isNotEmpty) {
-      outputFields.add('author');
-      searchTerms.add(author);
-    }
-    if (title.isNotEmpty) {
-      outputFields.add('title');
-      searchTerms.add(title);
-    }
-    if (lineCount.isNotEmpty) {
-      outputFields.add('linecount');
-      searchTerms.add(lineCount);
-    }
-    if (poemCount.isNotEmpty) {
-      if(isRandom){
-        print('changed to random poemCount != null');
-        outputFields.add('random');
-        searchTerms.add(poemCount);
-      } else{
-        outputFields.add('poemcount');
-        searchTerms.add(poemCount);
-      }
-    }
-    if(poemCount.isEmpty && isRandom){
-      print('changed to random poemCount == null');
-      outputFields.add('random');
-      searchTerms.add(defaultPoemsCount.toString());
-    }
-
-    final outputFieldsPart = outputFields.join(',');
-    final searchTermsPart = searchTerms.join(';');
-    final query = '$outputFieldsPart/$searchTermsPart';
-
+    final query = _buildQuery(author, title, lineCount, poemCount, isRandom);
     print(query);
 
     try {
@@ -98,6 +64,30 @@ class PoemRepositoryImpl implements PoemRepository{
         error,
         'An error occurred. Please ensure that you have provided the correct search settings.',
       );
+    }
+  }
+
+  String _buildQuery(String author, String title, String lineCount, String poemCount, bool isRandom) {
+    final outputFields = <String>[];
+    final searchTerms = <String>[];
+
+    _addQueryPart(outputFields, searchTerms, 'author', author);
+    _addQueryPart(outputFields, searchTerms, 'title', title);
+    _addQueryPart(outputFields, searchTerms, 'linecount', lineCount);
+    
+    if (poemCount.isNotEmpty || isRandom) {
+      final field = isRandom ? 'random' : 'poemcount';
+      final count = poemCount.isNotEmpty ? poemCount : defaultPoemsCount.toString();
+      _addQueryPart(outputFields, searchTerms, field, count);
+    }
+
+    return '${outputFields.join(',')}/${searchTerms.join(';')}';
+  }
+
+  void _addQueryPart(List<String> fields, List<String> terms, String field, String term) {
+    if (term.isNotEmpty) {
+      fields.add(field);
+      terms.add(term);
     }
   }
 }
