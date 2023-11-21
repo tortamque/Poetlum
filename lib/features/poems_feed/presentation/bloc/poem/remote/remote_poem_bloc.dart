@@ -16,6 +16,8 @@ class RemotePoemBloc extends Bloc<RemotePoemEvent, RemotePoemState>{
   final GetPoemsUseCase _getPoemsUseCase;
 
   Future<void> onGetInitialPoems(GetInitialPoemsEvent event, Emitter<RemotePoemState> emitter) async{
+    emit(const RemotePoemLoading());
+    
     final dataState = await _getInitialPoemsUseCase();
 
     if(dataState is DataSuccess && dataState.data!.isNotEmpty){
