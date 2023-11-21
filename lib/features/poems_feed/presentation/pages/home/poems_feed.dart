@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/data/repository/user_repository_impl.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
@@ -18,6 +19,7 @@ class CustomSpacer extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(height: MediaQuery.of(context).size.height * heightFactor);
 }
 
+
 class PoemsFeed extends StatelessWidget {
   const PoemsFeed({super.key});
 
@@ -28,6 +30,16 @@ class PoemsFeed extends StatelessWidget {
     ),
     drawer: CustomDrawer(UserRepositoryImpl(FirebaseAuth.instance)),
     body: _buildBody(context),
+    bottomNavigationBar: GNav(
+      onTabChange: (value) {
+
+      },
+      gap: 12,
+      tabs: const [
+        GButton(icon: Icons.menu, text: 'Menu'),
+        GButton(icon: Icons.bookmark_outline_rounded, text: 'Saved poems'),
+      ],
+    ),
   );
 
   BlocBuilder<RemotePoemBloc, RemotePoemState> _buildBody(BuildContext context) => BlocBuilder<RemotePoemBloc, RemotePoemState>(
