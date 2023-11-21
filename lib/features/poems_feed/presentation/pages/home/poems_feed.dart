@@ -64,9 +64,7 @@ class PoemsFeed extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: IconButton.filledTonal(
-            onPressed: (){
-              BlocProvider.of<RemotePoemBloc>(context).add(const GetInitialPoemsEvent());
-            }, 
+            onPressed: () => BlocProvider.of<RemotePoemBloc>(context).add(const GetInitialPoemsEvent()),
             icon: const Icon(Icons.refresh),
           ),
         ),
