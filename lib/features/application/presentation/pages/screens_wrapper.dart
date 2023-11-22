@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -28,7 +29,19 @@ class _ScreensWrapperState extends State<ScreensWrapper> {
       title: 'Poetlum',
     ),
     drawer: CustomDrawer(UserRepositoryImpl(FirebaseAuth.instance)),
-    body: screens[screenIndex],
+    body: PageTransitionSwitcher(
+      child: screens[screenIndex],
+      transitionBuilder: (
+        child, 
+        primaryAnimation, 
+        secondaryAnimation,
+      ) =>
+        FadeThroughTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+    ),
     bottomNavigationBar: GNav(
       onTabChange: (value) => setState(() => screenIndex = value),
       gap: 12,
