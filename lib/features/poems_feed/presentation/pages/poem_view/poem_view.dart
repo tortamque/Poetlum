@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
+import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_author.dart';

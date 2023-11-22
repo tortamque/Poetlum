@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
+import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/data/repository/user_repository_impl.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons/rotating_button_mixin.dart';
+import 'package:poetlum/features/application/presentation/widgets/app_bar/buttons/rotating_button_mixin.dart';
 
 class SettingsButton extends StatefulWidget {
   const SettingsButton({super.key});
