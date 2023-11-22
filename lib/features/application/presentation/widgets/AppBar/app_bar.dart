@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons/refresh_button.dart';
 import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons/settings_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,6 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) => AppBar(
     actions: const [
+      RefreshButton(),
       SettingsButton(),
     ],
     title: Text(
