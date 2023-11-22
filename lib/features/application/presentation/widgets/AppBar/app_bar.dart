@@ -11,13 +11,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     actions: const [
       SettingsButton(),
     ],
-    title: SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+    title: Text(
+      title,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
       ),
     ),
   );

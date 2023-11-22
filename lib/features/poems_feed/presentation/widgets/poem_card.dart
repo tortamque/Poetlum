@@ -9,9 +9,7 @@ class PoemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-    onTap: () {
-      Navigator.pushNamed(context, poemViewPageConstant);
-    },
+    onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: poemEntity),
     child: Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
