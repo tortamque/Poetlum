@@ -8,20 +8,10 @@ import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_card.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/poems_feed/poem_card.dart';
 
-class CustomSpacer extends StatelessWidget {
-  const CustomSpacer({super.key, required this.heightFactor});
-  final double heightFactor;
-
-
-  @override
-  Widget build(BuildContext context) => SizedBox(height: MediaQuery.of(context).size.height * heightFactor);
-}
-
-
-class PoemsFeed extends StatelessWidget {
-  const PoemsFeed({super.key});
+class PoemsFeedPage extends StatelessWidget {
+  const PoemsFeedPage({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

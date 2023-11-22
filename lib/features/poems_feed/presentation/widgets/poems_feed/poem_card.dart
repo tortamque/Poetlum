@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 
 class PoemCard extends StatelessWidget {
@@ -7,24 +8,27 @@ class PoemCard extends StatelessWidget {
   final PoemEntity poemEntity;
 
   @override
-  Widget build(BuildContext context) => Card(
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-    ),
-    elevation: 3,
-    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _TitleText(title: poemEntity.title),
-          const SizedBox(height: 8),
-          _AuthorText(author: poemEntity.author),
-          const SizedBox(height: 16),
-          _PoemText(text: poemEntity.text, maxLength: 250),
-        ],
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: poemEntity),
+    child: Card(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      elevation: 3,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _TitleText(title: poemEntity.title),
+            const SizedBox(height: 8),
+            _AuthorText(author: poemEntity.author),
+            const SizedBox(height: 16),
+            _PoemText(text: poemEntity.text, maxLength: 250),
+          ],
+        ),
       ),
     ),
   );

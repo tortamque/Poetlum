@@ -7,6 +7,7 @@ import 'package:poetlum/features/authorization/presentation/pages/login/login_pa
 import 'package:poetlum/features/authorization/presentation/pages/registration/registration_page.dart';
 import 'package:poetlum/features/multi_bloc_provider/presentation/init_blocs.dart';
 import 'package:poetlum/features/poems_feed/presentation/pages/home/poems_feed.dart';
+import 'package:poetlum/features/poems_feed/presentation/pages/poem_view/poem_view.dart';
 
 class PoetlumApp extends StatelessWidget {
   const PoetlumApp({super.key});
@@ -21,7 +22,8 @@ class PoetlumApp extends StatelessWidget {
         authWrapperPageConstant:(_) => const AuthWrapper(),
         registerPageConstant: (_) => const RegistrationPage(),
         loginPageConstant: (_) => const LoginPage(),
-        poemsFeedPageConstant: (_) => const PoemsFeed(),
+        poemsFeedPageConstant: (_) => const PoemsFeedPage(),
+        poemViewPageConstant:(_) => const PoemViewPage(),
       },
     ),
   );

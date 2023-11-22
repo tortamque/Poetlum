@@ -20,7 +20,7 @@ class AuthWrapper extends StatelessWidget {
           if (user == null) {
             return const RegistrationPage();
           }
-          return const PoemsFeed();
+          return const PoemsFeedPage();
         }
 
         return const Scaffold(

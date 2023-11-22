@@ -5,9 +5,9 @@ import 'package:poetlum/features/authorization/presentation/bloc/authorization/a
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_state.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
+import 'package:poetlum/features/authorization/presentation/widgets/auth_button.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
-import 'package:poetlum/features/authorization/presentation/widgets/auth_button.dart';
 
 class _Header extends StatelessWidget {
   const _Header();
