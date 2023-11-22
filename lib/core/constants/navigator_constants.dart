@@ -3,3 +3,4 @@ const String registerPageConstant = '/register';
 const String loginPageConstant = '/login';
 const String poemsFeedPageConstant = '/poems_feed';
 const String poemViewPageConstant = '/poem_view';
+const String savedPoemsPageConstant = '/saved_poems';
