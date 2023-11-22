@@ -8,7 +8,7 @@ import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_card.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/poems_feed/poem_card.dart';
 
 class PoemsFeedPage extends StatelessWidget {
   const PoemsFeedPage({super.key});
