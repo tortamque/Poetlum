@@ -21,7 +21,7 @@ class PoetlumApp extends StatelessWidget {
         authWrapperPageConstant:(_) => const AuthWrapper(),
         registerPageConstant: (_) => const RegistrationPage(),
         loginPageConstant: (_) => const LoginPage(),
-        poemsFeedPageConstant: (_) => const PoemsFeed(),
+        poemsFeedPageConstant: (_) => const PoemsFeedPage(),
       },
     ),
   );

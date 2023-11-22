@@ -20,8 +20,8 @@ class CustomSpacer extends StatelessWidget {
 }
 
 
-class PoemsFeed extends StatelessWidget {
-  const PoemsFeed({super.key});
+class PoemsFeedPage extends StatelessWidget {
+  const PoemsFeedPage({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
