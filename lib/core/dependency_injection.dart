@@ -28,48 +28,50 @@ import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database
 GetIt getIt = GetIt.instance;
 
 void initializeDependencies() {
-  getIt
-    // Database
-    ..registerSingleton<DatabaseManager>(DatabaseManager())
+  if(!GetIt.instance.isRegistered<DatabaseManager>()){
+    getIt
+      // Database 
+      ..registerSingleton<DatabaseManager>(DatabaseManager())
 
-    // Dio
-    ..registerSingleton<Dio>(Dio())
+      // Dio
+      ..registerSingleton<Dio>(Dio())
 
-    // API Service
-    ..registerSingleton<PoemApiService>(PoemApiService(getIt()))
-    ..registerSingleton<FirebaseService>(FirebaseServiceImpl())
-    ..registerSingleton<FirebaseDatabaseService>(FirebaseDatabaseServiceImpl())
+      // API Service
+      ..registerSingleton<PoemApiService>(PoemApiService(getIt()))
+      ..registerSingleton<FirebaseService>(FirebaseServiceImpl())
+      ..registerSingleton<FirebaseDatabaseService>(FirebaseDatabaseServiceImpl())
 
-    // Repository
-    ..registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImpl())
-    ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
-    ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
-    ..registerSingleton<FirebaseDatabaseRepository>(FirebaseDatabaseRepositoryImpl(getIt()))
-    ..registerSingleton<UserRepository>(UserRepositoryImpl(FirebaseAuth.instance))
+      // Repository
+      ..registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImpl())
+      ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
+      ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
+      ..registerSingleton<FirebaseDatabaseRepository>(FirebaseDatabaseRepositoryImpl(getIt()))
+      ..registerSingleton<UserRepository>(UserRepositoryImpl(FirebaseAuth.instance))
 
-    // Usecase
-    ..registerSingleton<GetInitialPoemsUseCase>(GetInitialPoemsUseCase(getIt()))
-    ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
-    ..registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(getIt()))
-    ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
-    ..registerSingleton<GetUserPoemsUseCase>(GetUserPoemsUseCase(getIt()))
+      // Usecase
+      ..registerSingleton<GetInitialPoemsUseCase>(GetInitialPoemsUseCase(getIt()))
+      ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
+      ..registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(getIt()))
+      ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
+      ..registerSingleton<GetUserPoemsUseCase>(GetUserPoemsUseCase(getIt()))
 
-    // Validators
-    ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
-    ..registerLazySingleton<LocalEmailValidator>(() => LocalEmailValidator())
-    ..registerLazySingleton<PasswordValidator>(() => PasswordValidator())
+      // Validators
+      ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
+      ..registerLazySingleton<LocalEmailValidator>(() => LocalEmailValidator())
+      ..registerLazySingleton<PasswordValidator>(() => PasswordValidator())
 
-    // Bloc
-    ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
-    ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
-    ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt()))
-    ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
-      usernameValidator: getIt<UsernameValidator>(),
-      emailValidator: getIt<LocalEmailValidator>(),
-      passwordValidator: getIt<PasswordValidator>(),
-    ),)
-    ..registerFactory<LoginFormValidationCubit>(() => LoginFormValidationCubit(
-      emailValidator: getIt<LocalEmailValidator>(), 
-      passwordValidator: getIt<PasswordValidator>(),
-    ),);
+      // Bloc
+      ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
+      ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
+      ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt()))
+      ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
+        usernameValidator: getIt<UsernameValidator>(),
+        emailValidator: getIt<LocalEmailValidator>(),
+        passwordValidator: getIt<PasswordValidator>(),
+      ),)
+      ..registerFactory<LoginFormValidationCubit>(() => LoginFormValidationCubit(
+        emailValidator: getIt<LocalEmailValidator>(), 
+        passwordValidator: getIt<PasswordValidator>(),
+      ),);
+  }
 }
