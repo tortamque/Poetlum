@@ -7,10 +7,17 @@ class CollectionModel extends CollectionEntity{
     super.poems = const [],
   });
 
-  factory CollectionModel.fromFirebase(Map<String, dynamic> json) => CollectionModel(
-    name: json['name'] ?? '',
-    poems: (json['poems'] as Map<String, dynamic>).entries.map(
-      (poem) => PoemModel.fromFirebase(poem.value),
-    ).toList(),
-  );
+  factory CollectionModel.fromFirebase(Map<String, dynamic> json) {
+    final poemsJson = json['poems'] as List<dynamic>;
+    final poems = poemsJson.map((poemJson) {
+      final poemMap = Map<String, dynamic>.from(poemJson as Map);
+      
+      return PoemModel.fromFirebase(poemMap);
+    }).toList();
+
+    return CollectionModel(
+      name: json['name'] ?? '',
+      poems: poems,
+    );
+  }
 }
