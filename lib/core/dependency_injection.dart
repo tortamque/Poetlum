@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:poetlum/features/authorization/data/data_sources/remote/firebase_service.dart';
 import 'package:poetlum/features/authorization/data/repository/auth_repository_impl.dart';
@@ -12,7 +13,9 @@ import 'package:poetlum/features/authorization/presentation/bloc/validation/vali
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validators.dart';
 import 'package:poetlum/features/poems_feed/data/data_sources/remote/poem_api_service.dart';
 import 'package:poetlum/features/poems_feed/data/repository/poem_repository_impl.dart';
+import 'package:poetlum/features/poems_feed/data/repository/user_repository_impl.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/poem_repository.dart';
+import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/domain/usecases/get_poems_usecase.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/realtime_database/domain/entities/database_manager.dart';
@@ -42,6 +45,7 @@ void initializeDependencies() {
     ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
     ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
     ..registerSingleton<FirebaseDatabaseRepository>(FirebaseDatabaseRepositoryImpl(getIt()))
+    ..registerSingleton<UserRepository>(UserRepositoryImpl(FirebaseAuth.instance))
 
     // Usecase
     ..registerSingleton<GetInitialPoemsUseCase>(GetInitialPoemsUseCase(getIt()))
