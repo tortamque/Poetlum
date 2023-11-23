@@ -11,6 +11,6 @@ class UserRepositoryImpl implements UserRepository{
   FirebaserUserModel getCurrentUser() {
     final firebaseUser = _firebaseAuth.currentUser;
 
-    return FirebaserUserModel(username: firebaseUser?.displayName);
+    return FirebaserUserModel(username: firebaseUser?.displayName, email: firebaseUser?.email, userId: firebaseUser?.uid);
   }
 }
