@@ -1,9 +1,8 @@
 import 'package:animations/animations.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
-import 'package:poetlum/features/poems_feed/data/repository/user_repository_impl.dart';
 import 'package:poetlum/features/poems_feed/presentation/screens/poems_feed_screen.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';
 import 'package:poetlum/features/saved_poems/presentation/screens/saved_poems_screen.dart';
@@ -20,7 +19,7 @@ class _ScreensWrapperState extends State<ScreensWrapper> {
 
   final screens = [
     const PoemsFeedScreen(),
-    SavedPoemsScreen(UserRepositoryImpl(FirebaseAuth.instance)),
+    SavedPoemsScreen(getIt()),
   ];
 
   @override
@@ -28,7 +27,7 @@ class _ScreensWrapperState extends State<ScreensWrapper> {
     appBar: const CustomAppBar(
       title: 'Poetlum',
     ),
-    drawer: CustomDrawer(UserRepositoryImpl(FirebaseAuth.instance)),
+    drawer: CustomDrawer(getIt()),
     body: PageTransitionSwitcher(
       child: screens[screenIndex],
       transitionBuilder: (
