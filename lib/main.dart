@@ -10,12 +10,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    InitDependencies(
-      child: InitFirebaseWidget(
-        options: DefaultFirebaseOptions.currentPlatform,
-        child: const InitCrashlyticsWidget(
+    InitFirebaseWidget(
+      options: DefaultFirebaseOptions.currentPlatform,
+      child: const InitDependencies(
+        child: InitCrashlyticsWidget(
           child: InitBlocs(
-            child: PoetlumApp()
+            child: PoetlumApp(),
           ),
         ),
       ),
