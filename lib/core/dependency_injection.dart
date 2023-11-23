@@ -16,6 +16,11 @@ import 'package:poetlum/features/poems_feed/domain/repository/poem_repository.da
 import 'package:poetlum/features/poems_feed/domain/usecases/get_poems_usecase.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/realtime_database/domain/entities/database_manager.dart';
+import 'package:poetlum/features/saved_poems/data/data_sources/remote/firebase_api_service.dart';
+import 'package:poetlum/features/saved_poems/data/repository/firebase_db_repository_impl.dart';
+import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repository.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -30,17 +35,20 @@ void initializeDependencies() {
     // API Service
     ..registerSingleton<PoemApiService>(PoemApiService(getIt()))
     ..registerSingleton<FirebaseService>(FirebaseServiceImpl())
+    ..registerSingleton<FirebaseDatabaseService>(FirebaseDatabaseServiceImpl())
 
     // Repository
     ..registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImpl())
     ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
     ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
+    ..registerSingleton<FirebaseDatabaseRepository>(FirebaseDatabaseRepositoryImpl(getIt()))
 
     // Usecase
     ..registerSingleton<GetInitialPoemsUseCase>(GetInitialPoemsUseCase(getIt()))
     ..registerSingleton<GetPoemsUseCase>(GetPoemsUseCase(getIt()))
     ..registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(getIt()))
     ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
+    ..registerSingleton<GetUserPoemsUseCase>(GetUserPoemsUseCase(getIt()))
 
     // Validators
     ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -50,6 +58,7 @@ void initializeDependencies() {
     // Bloc
     ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
     ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
+    ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt()))
     ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
       usernameValidator: getIt<UsernameValidator>(),
       emailValidator: getIt<LocalEmailValidator>(),
@@ -57,6 +66,6 @@ void initializeDependencies() {
     ),)
     ..registerFactory<LoginFormValidationCubit>(() => LoginFormValidationCubit(
       emailValidator: getIt<LocalEmailValidator>(), 
-      passwordValidator: getIt<PasswordValidator>()
+      passwordValidator: getIt<PasswordValidator>(),
     ),);
 }
