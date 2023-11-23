@@ -18,9 +18,9 @@ class ScreensWrapper extends StatefulWidget {
 class _ScreensWrapperState extends State<ScreensWrapper> {
   int screenIndex = 0;
 
-  final screens = const [
-    PoemsFeedScreen(),
-    SavedPoemsScreen(),
+  final screens = [
+    const PoemsFeedScreen(),
+    SavedPoemsScreen(UserRepositoryImpl(FirebaseAuth.instance)),
   ];
 
   @override

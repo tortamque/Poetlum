@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
 class SavedPoemsScreen extends StatefulWidget {
-  const SavedPoemsScreen({super.key});
+  const SavedPoemsScreen(this._userRepository, {super.key});
+
+  final UserRepository _userRepository;
 
   @override
   State<SavedPoemsScreen> createState() => _SavedPoemsScreenState();
@@ -19,7 +21,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
   }
 
   Future<void> initPoems() async{
-    final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(FirebaseAuth.instance.currentUser!.uid);
+    final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(widget._userRepository.getCurrentUser().userId!);
     print(poems);
   }
 
@@ -32,7 +34,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
         return Column(
           children: [
             TextButton(onPressed: () async{
-              final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(FirebaseAuth.instance.currentUser!.uid);
+              final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(widget._userRepository.getCurrentUser().userId!);
               print(poems);
             }, child: Text('a')),
           ],
