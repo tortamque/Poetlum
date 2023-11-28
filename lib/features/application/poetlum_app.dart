@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:poetlum/config/theme/app_theme.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
+import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/pages/auth_wrapper.dart';
 import 'package:poetlum/features/application/presentation/pages/screens_wrapper.dart';
 import 'package:poetlum/features/authorization/presentation/pages/login/login_page.dart';
@@ -23,7 +24,7 @@ class PoetlumApp extends StatelessWidget {
       loginPageConstant: (_) => const LoginPage(),
       screensWrapperPageConstant: (_) => const ScreensWrapper(),
       poemViewPageConstant:(_) => const PoemViewPage(),
-      writePoemPageConstant: (_) => WritePoemPage(),
+      writePoemPageConstant: (_) => WritePoemPage(getIt()),
     },
   );
 }
