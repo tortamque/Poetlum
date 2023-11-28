@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons/refresh_button.dart';
-import 'package:poetlum/features/application/presentation/widgets/AppBar/buttons/settings_button.dart';
+import 'package:poetlum/features/application/presentation/widgets/app_bar/buttons/refresh_button.dart';
+import 'package:poetlum/features/application/presentation/widgets/app_bar/buttons/settings_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, required this.title});

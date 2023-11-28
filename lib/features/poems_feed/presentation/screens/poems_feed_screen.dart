@@ -1,39 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:poetlum/features/application/presentation/widgets/AppBar/app_bar.dart';
-import 'package:poetlum/features/poems_feed/data/repository/user_repository_impl.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/poems_feed/poem_card.dart';
 
-class PoemsFeedPage extends StatelessWidget {
-  const PoemsFeedPage({super.key});
+class PoemsFeedScreen extends StatelessWidget {
+  const PoemsFeedScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: const CustomAppBar(
-      title: 'Poetlum',
-    ),
-    drawer: CustomDrawer(UserRepositoryImpl(FirebaseAuth.instance)),
-    body: _buildBody(context),
-    bottomNavigationBar: GNav(
-      onTabChange: (value) {
-
-      },
-      gap: 12,
-      tabs: const [
-        GButton(icon: Icons.menu, text: 'Menu'),
-        GButton(icon: Icons.bookmark_outline_rounded, text: 'Saved poems'),
-      ],
-    ),
-  );
-
-  BlocBuilder<RemotePoemBloc, RemotePoemState> _buildBody(BuildContext context) => BlocBuilder<RemotePoemBloc, RemotePoemState>(
-    builder: (_, state){
+  Widget build(BuildContext context) => BlocBuilder<RemotePoemBloc, RemotePoemState>(
+    builder: (context, state) {
       if(state is RemotePoemLoading){
         return const Center(child: CircularProgressIndicator(),);
       } 

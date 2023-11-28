@@ -63,7 +63,7 @@ class _Form extends StatelessWidget {
                 password: state.passwordValidationState.value,
               );
             },
-            navigateOnSuccess: () => Navigator.pushNamedAndRemoveUntil(context, poemsFeedPageConstant, (route) => false),
+            navigateOnSuccess: () => Navigator.pushNamedAndRemoveUntil(context, screensWrapperPageConstant, (route) => false),
           ),
         ],
       ),

@@ -4,5 +4,6 @@ class FirebaserUserModel extends FirebaseUserEntity{
   const FirebaserUserModel({
     super.username = '',
     super.email = '',
+    super.userId = '',
   });
 }

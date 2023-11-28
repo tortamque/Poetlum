@@ -5,6 +5,7 @@ import 'package:poetlum/features/authorization/presentation/bloc/authorization/a
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
 class InitBlocs extends StatelessWidget {
   const InitBlocs({super.key, required this.child});
@@ -18,6 +19,7 @@ class InitBlocs extends StatelessWidget {
       BlocProvider<AuthCubit>(create:(context) => getIt(),),
       BlocProvider<RegisterFormValidationCubit>(create:(context) => getIt()),
       BlocProvider<LoginFormValidationCubit>(create:(context) => getIt()),
+      BlocProvider<FirebaseDatabaseCubit>(create: (context) => getIt()),
     ],
     child: child,
   );
