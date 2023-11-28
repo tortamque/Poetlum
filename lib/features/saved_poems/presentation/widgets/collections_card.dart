@@ -22,7 +22,6 @@ class CollectionsCard extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _TitleText(title: collection.name),
                 
