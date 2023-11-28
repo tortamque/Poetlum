@@ -18,11 +18,17 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
   void initState() {
     super.initState();
     initPoems();
+    initCollections();
   }
 
   Future<void> initPoems() async{
     final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(widget._userRepository.getCurrentUser().userId!);
     print(poems);
+  }
+
+  Future<void> initCollections() async{
+    final collections = await context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
+    print(collections);
   }
 
   @override
@@ -34,7 +40,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
         return Column(
           children: [
             TextButton(onPressed: () async{
-              final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(widget._userRepository.getCurrentUser().userId!);
+              final poems = await context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
               print(poems);
             }, child: Text('a')),
           ],
