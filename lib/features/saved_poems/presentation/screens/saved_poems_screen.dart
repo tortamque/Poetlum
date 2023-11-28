@@ -44,25 +44,34 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
       if (state.status == FirebaseDatabaseStatus.submitting) {
         return const CircularProgressIndicator();
       } else {
-        return Column(
-          children: [
-            TextButton(onPressed: () async {
-              final poems = await context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
-              print(poems);
-            }, child: const Text('a')),
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FilledButton(onPressed: (){}, child: const Text('Create a collection')),
+                    FilledButton.tonal(onPressed: (){}, child: const Text('Write a poem')),
+                  ],
+                ),
+              ),
 
-            Expanded(
-              child: ListView.builder(
+              ListView.builder(
+                shrinkWrap: true, 
+                physics: const NeverScrollableScrollPhysics(), 
                 itemCount: collections!.length, 
                 itemBuilder: (context, index) => CollectionsCard(
                   collection: collections![index],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }
     },
   );
+
 }
 
