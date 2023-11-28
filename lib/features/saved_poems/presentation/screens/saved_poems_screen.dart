@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
@@ -44,7 +45,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FilledButton(onPressed: (){}, child: const Text('Create a collection')),
-                    FilledButton.tonal(onPressed: (){}, child: const Text('Write a poem')),
+                    FilledButton.tonal(onPressed: () => Navigator.pushNamed(context, writePoemPageConstant), child: const Text('Write a poem')),
                   ],
                 ),
               ),
@@ -64,4 +65,3 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     },
   );
 }
-
