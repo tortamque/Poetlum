@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/features/saved_poems/data/models/collection.dart';
+import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/widgets/collections_card.dart';
 
 class SavedPoemsScreen extends StatefulWidget {
   const SavedPoemsScreen(this._userRepository, {super.key});
@@ -14,6 +18,9 @@ class SavedPoemsScreen extends StatefulWidget {
 }
 
 class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
+  late List<PoemEntity>? poems;
+  late List<CollectionEntity>? collections;
+
   @override
   void initState() {
     super.initState();
@@ -21,31 +28,41 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     initCollections();
   }
 
-  Future<void> initPoems() async{
-    final poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(widget._userRepository.getCurrentUser().userId!);
-    print(poems);
+  Future<void> initPoems() async {
+    poems = await context.read<FirebaseDatabaseCubit>().getUserPoems(widget._userRepository.getCurrentUser().userId!);
   }
 
-  Future<void> initCollections() async{
-    final collections = await context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
-    print(collections);
+  Future<void> initCollections() async {
+    collections = await context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
+
+    collections?.insert(0, CollectionModel(name: 'All saved poems', poems: poems));
   }
 
   @override
   Widget build(BuildContext context) => BlocBuilder<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     builder: (context, state) {
-      if(state.status == FirebaseDatabaseStatus.submitting){
+      if (state.status == FirebaseDatabaseStatus.submitting) {
         return const CircularProgressIndicator();
-      } else{
+      } else {
         return Column(
           children: [
-            TextButton(onPressed: () async{
+            TextButton(onPressed: () async {
               final poems = await context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
               print(poems);
-            }, child: Text('a')),
+            }, child: const Text('a')),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: collections!.length, 
+                itemBuilder: (context, index) => CollectionsCard(
+                  collection: collections![index],
+                ),
+              ),
+            ),
           ],
         );
       }
     },
   );
 }
+
