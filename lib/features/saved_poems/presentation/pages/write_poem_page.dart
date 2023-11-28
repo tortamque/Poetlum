@@ -6,11 +6,17 @@ import 'package:poetlum/features/poems_feed/domain/repository/user_repository.da
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
-class WritePoemPage extends StatelessWidget {
-  WritePoemPage(this._userRepository, {super.key});
+class WritePoemPage extends StatefulWidget {
+  const WritePoemPage(this._userRepository, {super.key});
 
   final UserRepository _userRepository;
 
+  @override
+  State<WritePoemPage> createState() => _WritePoemPageState();
+}
+
+class _WritePoemPageState extends State<WritePoemPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
@@ -24,8 +30,10 @@ class WritePoemPage extends StatelessWidget {
       }
     },
     builder: (context, state) => Scaffold(
-        appBar: const CustomAppBar(title: 'Poetlum'),
-        body: SingleChildScrollView(
+      appBar: const CustomAppBar(title: 'Poetlum'),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -34,30 +42,33 @@ class WritePoemPage extends StatelessWidget {
               const _CustomSpacer(heightFactor: 0.03),
               _CustomTextField(hintText: 'Your amazing poem :D', controller: _contentController, isLarge: true),
               const _CustomSpacer(heightFactor: 0.03),
-  
               if (state.status == FirebaseDatabaseStatus.submitting) 
                 const CircularProgressIndicator() 
               else FilledButton.tonal(
-                onPressed: () => context.read<FirebaseDatabaseCubit>().saveCustomPoem(
-                  userId: _userRepository.getCurrentUser().userId!, 
-                  username: _userRepository.getCurrentUser().username!, 
-                  title: _nameController.text, 
-                  text: _contentController.text,
-                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<FirebaseDatabaseCubit>().saveCustomPoem(
+                      userId: widget._userRepository.getCurrentUser().userId!, 
+                      username: widget._userRepository.getCurrentUser().username!, 
+                      title: _nameController.text, 
+                      text: _contentController.text,
+                    );
+                  }
+                },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
                   child: Text('Save'),
                 ),
               ),
-  
               const _CustomSpacer(heightFactor: 0.03),
             ],
           ),
         ),
+      ),
     ),
   );
 
-    Future<void> _showPositiveToast(String text) async{
+  Future<void> _showPositiveToast(String text) async{
     await Fluttertoast.showToast(
       msg: text,
       toastLength: Toast.LENGTH_SHORT,
@@ -98,11 +109,17 @@ class _CustomTextField extends StatelessWidget {
       return Align(
         child: SizedBox(
           width: width,  
-          child: TextField(
+          child: TextFormField(
             controller: controller,
             maxLines: null,
             minLines: isLarge ? 20 : 1,
             textAlign: TextAlign.center,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: hintText,
@@ -118,7 +135,6 @@ class _CustomTextField extends StatelessWidget {
 class _CustomSpacer extends StatelessWidget {
   const _CustomSpacer({required this.heightFactor});
   final double heightFactor;
-
 
   @override
   Widget build(BuildContext context) => SizedBox(height: MediaQuery.of(context).size.height * heightFactor);
