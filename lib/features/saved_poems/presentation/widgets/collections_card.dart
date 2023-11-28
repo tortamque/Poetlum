@@ -19,20 +19,20 @@ class CollectionsCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _TitleText(title: collection.name),
-              
-              SingleChildScrollView(
-                child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _TitleText(title: collection.name),
+                
+                Column(
                   children: collection.poems!.map(
                     (poem) => _InfoText(author: poem.author, title: poem.title),
                   ).toList(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
