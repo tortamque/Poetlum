@@ -45,7 +45,14 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FilledButton(onPressed: (){}, child: const Text('Create a collection')),
-                    FilledButton.tonal(onPressed: () => Navigator.pushNamed(context, writePoemPageConstant), child: const Text('Write a poem')),
+                    FilledButton.tonal(
+                      onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                        context, 
+                        writePoemPageConstant, 
+                        (route) => false,
+                      ), 
+                      child: const Text('Write a poem'),
+                    ),
                   ],
                 ),
               ),
