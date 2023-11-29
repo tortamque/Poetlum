@@ -40,9 +40,10 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
       params: userId,
     );
 
-  
-    collections.insert(0, CollectionModel(name: 'All saved poems', poems: poems));
-
+    if(poems != null){
+      collections.insert(0, CollectionModel(name: 'All saved poems', poems: poems));
+    }
+    
     emit(state.copyWith(status: FirebaseDatabaseStatus.success));
 
     return collections;
