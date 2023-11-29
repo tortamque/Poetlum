@@ -14,8 +14,8 @@ class CustomLikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LikeButton(
     size: 42,
-    circleColor: CircleColor(start: Theme.of(context).colorScheme.primary, end: Theme.of(context).colorScheme.secondary),
-    bubblesColor: BubblesColor(dotPrimaryColor: Theme.of(context).colorScheme.primary, dotSecondaryColor: Theme.of(context).colorScheme.secondary),
+    circleColor: CircleColor(start: Theme.of(context).colorScheme.primaryContainer, end: Theme.of(context).colorScheme.primary),
+    bubblesColor: BubblesColor(dotPrimaryColor: Theme.of(context).colorScheme.primaryContainer, dotSecondaryColor: Theme.of(context).colorScheme.primary),
     onTap: (isLiked) async {
       if(isLiked == false){
         await context.read<FirebaseDatabaseCubit>().saveCustomPoem(
@@ -27,5 +27,10 @@ class CustomLikeButton extends StatelessWidget {
       }
       return !isLiked;
     },
+    likeBuilder: (isLiked) => Icon(
+      Icons.bookmark_rounded,
+      color: isLiked ? Theme.of(context).colorScheme.primary : Colors.grey,
+      size: 42,
+    ),
   );
 }
