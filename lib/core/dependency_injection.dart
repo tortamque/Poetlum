@@ -24,6 +24,7 @@ import 'package:poetlum/features/saved_poems/data/repository/firebase_db_reposit
 import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_custom_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
 GetIt getIt = GetIt.instance;
@@ -56,6 +57,7 @@ void initializeDependencies() {
       ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
       ..registerSingleton<GetUserPoemsUseCase>(GetUserPoemsUseCase(getIt()))
       ..registerSingleton<GetUserCollectionsUseCase>(GetUserCollectionsUseCase(getIt()))
+      ..registerSingleton<SaveCustomPoemUseCase>(SaveCustomPoemUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -65,7 +67,7 @@ void initializeDependencies() {
       // Bloc
       ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
       ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
-      ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt(), getIt()))
+      ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt(), getIt(), getIt()))
       ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
         usernameValidator: getIt<UsernameValidator>(),
         emailValidator: getIt<LocalEmailValidator>(),

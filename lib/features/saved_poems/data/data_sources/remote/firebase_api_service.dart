@@ -1,10 +1,12 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:poetlum/features/poems_feed/data/models/poem.dart';
+import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/saved_poems/data/models/collection.dart';
 
 abstract class FirebaseDatabaseService{
   Future<List<PoemModel>?> getUserPoems(String userId);
   Future<List<CollectionModel>?> getUserCollections(String userId);
+  Future<void> saveCustomPoem({required String userId, required PoemEntity poemEntity});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -48,5 +50,12 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     } else {
       return null;
     }
+  }
+  
+  @override
+  Future<void> saveCustomPoem({required String userId, required PoemEntity poemEntity}) async{
+    final poemsRef = FirebaseDatabase.instance.ref().child('$userId/poems');
+
+    await poemsRef.push().set(poemEntity.toJson());
   }
 }

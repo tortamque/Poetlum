@@ -15,4 +15,11 @@ class PoemEntity extends Equatable{
     text,
     linecount,
   ];
+
+  Map<String, dynamic> toJson() => {
+      'title': title,
+      'author': author,
+      'text': text,
+      'linecount': linecount,
+    };
 }

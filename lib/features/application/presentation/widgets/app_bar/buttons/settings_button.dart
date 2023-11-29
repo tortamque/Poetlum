@@ -13,6 +13,7 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
   Widget build(BuildContext context) => RotationTransition(
     turns: rotationAnimation,
     child: IconButton(
+      tooltip: 'Settings',
       onPressed: (){
         playAnimation();
         // ...

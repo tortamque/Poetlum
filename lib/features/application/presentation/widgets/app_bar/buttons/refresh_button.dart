@@ -18,6 +18,7 @@ class _RefreshButtonState extends State<RefreshButton> with TickerProviderStateM
     builder: (context, state) =>  RotationTransition(
       turns: rotationAnimation,
       child: IconButton(
+        tooltip: 'Refresh poems list',
         onPressed: state is RemotePoemLoading 
         ? null
         : (){
