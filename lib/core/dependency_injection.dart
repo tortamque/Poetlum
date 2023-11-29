@@ -22,6 +22,7 @@ import 'package:poetlum/features/realtime_database/domain/entities/database_mana
 import 'package:poetlum/features/saved_poems/data/data_sources/remote/firebase_api_service.dart';
 import 'package:poetlum/features/saved_poems/data/repository/firebase_db_repository_impl.dart';
 import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repository.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
@@ -58,6 +59,7 @@ void initializeDependencies() {
       ..registerSingleton<GetUserPoemsUseCase>(GetUserPoemsUseCase(getIt()))
       ..registerSingleton<GetUserCollectionsUseCase>(GetUserCollectionsUseCase(getIt()))
       ..registerSingleton<SavePoemUseCase>(SavePoemUseCase(getIt()))
+      ..registerSingleton<DeletePoemUseCase>(DeletePoemUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -67,7 +69,7 @@ void initializeDependencies() {
       // Bloc
       ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
       ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
-      ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt(), getIt(), getIt()))
+      ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt(), getIt(), getIt(), getIt()))
       ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
         usernameValidator: getIt<UsernameValidator>(),
         emailValidator: getIt<LocalEmailValidator>(),
