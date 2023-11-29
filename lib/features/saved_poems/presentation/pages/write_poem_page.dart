@@ -120,7 +120,6 @@ class _CustomTextField extends StatelessWidget {
             controller: controller,
             maxLines: null,
             minLines: isLarge ? 20 : 1,
-            textAlign: TextAlign.center,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter some text';
