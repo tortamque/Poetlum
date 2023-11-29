@@ -3,9 +3,10 @@ import 'package:poetlum/features/application/presentation/widgets/app_bar/button
 import 'package:poetlum/features/application/presentation/widgets/app_bar/buttons/settings_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, required this.title});
+  const CustomAppBar({super.key, required this.title, this.leading});
 
   final String title;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) => AppBar(
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       RefreshButton(),
       SettingsButton(),
     ],
+    leading: leading,
     title: Text(
       title,
       style: const TextStyle(
