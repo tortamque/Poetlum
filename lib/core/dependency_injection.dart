@@ -24,7 +24,7 @@ import 'package:poetlum/features/saved_poems/data/repository/firebase_db_reposit
 import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
-import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_custom_poem_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
 GetIt getIt = GetIt.instance;

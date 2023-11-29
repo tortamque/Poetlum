@@ -4,8 +4,8 @@ import 'package:poetlum/features/saved_poems/data/models/collection.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
-import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_custom_poem_params.dart';
-import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_custom_poem_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_params.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
 class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
