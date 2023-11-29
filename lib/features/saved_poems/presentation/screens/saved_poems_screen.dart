@@ -50,7 +50,10 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                 ),
               ),
 
-              ListView.builder(
+              
+              if (collections == null) 
+                const Text("You haven't saved any poems yet. :(") 
+              else ListView.builder(
                 shrinkWrap: true, 
                 physics: const NeverScrollableScrollPhysics(), 
                 itemCount: collections!.length, 

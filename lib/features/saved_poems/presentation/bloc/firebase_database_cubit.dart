@@ -30,15 +30,18 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
   Future<List<CollectionEntity>?> getUserCollections(String userId) async{
     emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
 
-    final collections = await _getUserCollectionsUseCase(
+    var collections = await _getUserCollectionsUseCase(
       params: userId,
     );
+
+    collections ??= [];
 
     final poems = await _getUserPoemsUseCase(
       params: userId,
     );
 
-    collections?.insert(0, CollectionModel(name: 'All saved poems', poems: poems));
+  
+    collections.insert(0, CollectionModel(name: 'All saved poems', poems: poems));
 
     emit(state.copyWith(status: FirebaseDatabaseStatus.success));
 
