@@ -61,7 +61,7 @@ class _InfoText extends StatelessWidget {
   Widget build(BuildContext context) => SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Text(
-        '$author $title',
+        '$author: $title',
         style: const TextStyle(fontSize: 17),
       ),
   );
