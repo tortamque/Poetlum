@@ -25,6 +25,8 @@ class PoemViewPage extends StatelessWidget {
             child: Column(
               children: [
                 const CustomSpacer(heightFactor: 0.02),
+                CustomLikeButton(poemEntity: poemEntity),
+                const CustomSpacer(heightFactor: 0.02),
                 PoemTitle(title: poemEntity.title ?? ''),
                 const CustomSpacer(heightFactor: 0.02),
                 PoemAuthor(author: poemEntity.author ?? ''),
@@ -32,8 +34,6 @@ class PoemViewPage extends StatelessWidget {
                 PoemContent(text: poemEntity.text ?? ''),
                 const CustomSpacer(heightFactor: 0.02),
                 PoemLineCount(lineCount: poemEntity.linecount ?? 0),
-                const CustomSpacer(heightFactor: 0.02),
-                CustomLikeButton(poemEntity: poemEntity),
                 const CustomSpacer(heightFactor: 0.02),
               ],
             ),
