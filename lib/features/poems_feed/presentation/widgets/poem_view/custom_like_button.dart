@@ -24,6 +24,11 @@ class CustomLikeButton extends StatelessWidget {
           title: poemEntity.title ?? '', 
           text: poemEntity.text ?? '',
         );
+      } else{
+        await context.read<FirebaseDatabaseCubit>().deletePoem(
+          poemEntity: poemEntity, 
+          userId: getIt<UserRepository>().getCurrentUser().userId!, 
+        );
       }
       return !isLiked;
     },
