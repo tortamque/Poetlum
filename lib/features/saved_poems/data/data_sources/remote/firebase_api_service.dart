@@ -10,6 +10,7 @@ abstract class FirebaseDatabaseService{
   Future<List<CollectionModel>?> getUserCollections(String userId);
   Future<void> savePoem({required String userId, required PoemEntity poemEntity});
   Future<void> deletePoem({required PoemEntity poemEntity, required String userId, required String? collectionName});
+  Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -84,18 +85,35 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
   }
 }
 
-Future<void> _deletePoemFromNode(DatabaseReference nodeRef, PoemEntity poemEntity) async {
-  final poemQuery = nodeRef.orderByChild('title').equalTo(poemEntity.title);
-  final snapshot = await poemQuery.get();
-  if (snapshot.exists) {
-    final poems = snapshot.value as Map<dynamic, dynamic>;
-    for (var key in poems.keys) {
-      final value = poems[key];
-      if (value['author'] == poemEntity.author && value['text'] == poemEntity.text) {
-        await nodeRef.child(key).remove();
+  Future<void> _deletePoemFromNode(DatabaseReference nodeRef, PoemEntity poemEntity) async {
+    final poemQuery = nodeRef.orderByChild('title').equalTo(poemEntity.title);
+    final snapshot = await poemQuery.get();
+    if (snapshot.exists) {
+      final poems = snapshot.value as Map<dynamic, dynamic>;
+      for (var key in poems.keys) {
+        final value = poems[key];
+        if (value['author'] == poemEntity.author && value['text'] == poemEntity.text) {
+          await nodeRef.child(key).remove();
+        }
       }
     }
   }
-}
 
+  @override
+  Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId}) async {
+    final poemsRef = FirebaseDatabase.instance.ref('$userId/poems');
+    
+    final query = poemsRef.orderByChild('title').equalTo(poemEntity.title);
+    final snapshot = await query.get();
+
+    if (snapshot.exists) {
+      final poems = snapshot.value as Map<dynamic, dynamic>;
+      for (final poem in poems.values) {
+        if (poem['author'] == poemEntity.author && poem['text'] == poemEntity.text) {
+          return true; 
+        }
+      }
+    }
+    return false; 
+  }
 }
