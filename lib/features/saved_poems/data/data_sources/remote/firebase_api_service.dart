@@ -7,6 +7,7 @@ abstract class FirebaseDatabaseService{
   Future<List<PoemModel>?> getUserPoems(String userId);
   Future<List<CollectionModel>?> getUserCollections(String userId);
   Future<void> savePoem({required String userId, required PoemEntity poemEntity});
+  Future<void> deletePoem({required PoemEntity poemEntity, required String userId, required String? collectionName});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -57,5 +58,42 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     final poemsRef = FirebaseDatabase.instance.ref().child('$userId/poems');
 
     await poemsRef.push().set(poemEntity.toJson());
+  }
+  
+  @override
+  Future<void> deletePoem({required PoemEntity poemEntity, required String userId, required String? collectionName}) async {
+    final userRef = FirebaseDatabase.instance.ref(userId);
+    
+    final poemsRef = userRef.child('poems');
+    final poemQuery = poemsRef.orderByChild('title').equalTo(poemEntity.title);
+    await _deleteIfMatches(poemQuery, poemEntity.author ?? '', poemEntity.text ?? '');
+
+    if (collectionName != null) {
+      final collectionsRef = userRef.child('collections');
+      final collectionsSnapshot = await collectionsRef.get();
+
+      if (collectionsSnapshot.exists) {
+        final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
+        collections.forEach((key, value) {
+          if (value['name'] == collectionName && value['poems'] != null) {
+            final collectionPoemsRef = collectionsRef.child('$key/poems');
+            final collectionPoemQuery = collectionPoemsRef.orderByChild('title').equalTo(poemEntity.title);
+            _deleteIfMatches(collectionPoemQuery, poemEntity.author ?? '', poemEntity.text ?? '');
+          }
+        });
+      }
+    }
+  }
+
+  Future<void> _deleteIfMatches(Query query, String author, String text) async {
+    final snapshot = await query.get();
+    if (snapshot.exists) {
+      final poems = snapshot.value as Map<dynamic, dynamic>;
+      poems.forEach((key, value) {
+        if (value['author'] == author && value['text'] == text) {
+          query.ref.child(key).remove();
+        }
+      });
+    }
   }
 }
