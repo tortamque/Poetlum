@@ -18,7 +18,7 @@ class CustomLikeButton extends StatelessWidget {
     bubblesColor: BubblesColor(dotPrimaryColor: Theme.of(context).colorScheme.primaryContainer, dotSecondaryColor: Theme.of(context).colorScheme.primary),
     onTap: (isLiked) async {
       if(isLiked == false){
-        await context.read<FirebaseDatabaseCubit>().saveCustomPoem(
+        await context.read<FirebaseDatabaseCubit>().savePoem(
           userId: getIt<UserRepository>().getCurrentUser().userId!, 
           username: poemEntity.author ?? '', 
           title: poemEntity.title ?? '', 

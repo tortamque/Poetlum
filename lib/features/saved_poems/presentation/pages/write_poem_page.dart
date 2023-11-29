@@ -54,7 +54,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
               else FilledButton.tonal(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<FirebaseDatabaseCubit>().saveCustomPoem(
+                    context.read<FirebaseDatabaseCubit>().savePoem(
                       userId: widget._userRepository.getCurrentUser().userId!, 
                       username: widget._userRepository.getCurrentUser().username!, 
                       title: _nameController.text, 

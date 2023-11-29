@@ -57,7 +57,7 @@ void initializeDependencies() {
       ..registerSingleton<LoginUserUseCase>(LoginUserUseCase(getIt()))
       ..registerSingleton<GetUserPoemsUseCase>(GetUserPoemsUseCase(getIt()))
       ..registerSingleton<GetUserCollectionsUseCase>(GetUserCollectionsUseCase(getIt()))
-      ..registerSingleton<SaveCustomPoemUseCase>(SaveCustomPoemUseCase(getIt()))
+      ..registerSingleton<SavePoemUseCase>(SavePoemUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
