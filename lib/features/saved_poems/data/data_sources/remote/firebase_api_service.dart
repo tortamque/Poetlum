@@ -11,6 +11,7 @@ abstract class FirebaseDatabaseService{
   Future<void> savePoem({required String userId, required PoemEntity poemEntity});
   Future<void> deletePoem({required PoemEntity poemEntity, required String userId, required String? collectionName});
   Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
+  Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -115,5 +116,19 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
       }
     }
     return false; 
+  }
+  
+  @override
+  Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems}) async{
+    final collectionsRef = FirebaseDatabase.instance.ref('$userId/collections');
+
+    final poemsJson = poems.map((poem) => poem.toJson()).toList();
+
+    final newCollectionData = {
+      'name': collectionName,
+      'poems': poemsJson,
+    };
+
+    await collectionsRef.push().set(newCollectionData);
   }
 }
