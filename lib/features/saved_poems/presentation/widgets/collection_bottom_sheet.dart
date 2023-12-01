@@ -9,12 +9,32 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.d
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
-class CollectionBottomSheetContent extends StatelessWidget {
-  CollectionBottomSheetContent({super.key, required this.poems});
+class CollectionBottomSheetContent extends StatefulWidget {
+  const CollectionBottomSheetContent({super.key, required this.poems});
 
   final List<PoemEntity>? poems;
-  final TextEditingController _collectionNameController = TextEditingController();
-  final MultiSelectController<PoemEntity> _selectController = MultiSelectController();
+
+  @override
+  State<CollectionBottomSheetContent> createState() => _CollectionBottomSheetContentState();
+}
+
+class _CollectionBottomSheetContentState extends State<CollectionBottomSheetContent> {
+  late TextEditingController _collectionNameController;
+  late MultiSelectController<PoemEntity> _selectController;
+
+  @override
+  void initState() {
+    super.initState();
+    _collectionNameController = TextEditingController();
+    _selectController = MultiSelectController();
+  }
+
+  @override
+  void dispose() {
+    _collectionNameController.dispose();
+    _selectController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -27,7 +47,7 @@ class CollectionBottomSheetContent extends StatelessWidget {
         const CustomSpacer(heightFactor: 0.05),
         _CollectionNameInputWidget(controller: _collectionNameController),
         const CustomSpacer(heightFactor: 0.05),
-        _PoemSelectionWidget(controller: _selectController, poems: poems),
+        _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
         const CustomSpacer(heightFactor: 0.05),
         _CreateButtonWidget(
           collectionName: _collectionNameController.text, 
@@ -102,7 +122,6 @@ class _CreateButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) => FilledButton.tonal(
       onPressed: () async {
         print(selectController.selectedOptions.length);
-        print(selectController.selectedOptions.map((e) => e.value!).toList());
 
         if(selectController.selectedOptions.isEmpty){
           await _showNegativeToast('Please select at least one poem to add to the collection');
@@ -117,6 +136,8 @@ class _CreateButtonWidget extends StatelessWidget {
               (selectedOption) => selectedOption.value!,
             ).toList(),
           );
+
+          await _showPositiveToast('The collection has been successfully saved');
         }
       }, 
       child: const Padding(
@@ -124,6 +145,17 @@ class _CreateButtonWidget extends StatelessWidget {
         child: Text('Create'),
       ),
     );
+
+  Future<void> _showPositiveToast(String text) async{
+    await Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16,
+    );
+  }
 
   Future<void> _showNegativeToast(String error) async{
     await Fluttertoast.showToast(
