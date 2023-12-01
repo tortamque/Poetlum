@@ -54,10 +54,7 @@ class _CollectionBottomSheetContentState extends State<CollectionBottomSheetCont
           collectionName: _collectionNameController.text, 
           selectController: _selectController,
         ),
-        TextButton(onPressed: (){
-          print(_selectController.selectedOptions.length);
-          print(_selectController.selectedOptions.map((e) => e.value!).toList());
-        }, child: Text('check'))
+        const CustomSpacer(heightFactor: 0.05),
       ],
     ),
   );
