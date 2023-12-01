@@ -122,9 +122,7 @@ class _CreateButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     listener: (context, state) {
-      if (state.status == FirebaseDatabaseStatus.success) {
-        _showPositiveToast('Your amazing poem has been saved! :D');
-      } else if (state.status == FirebaseDatabaseStatus.error) {
+      if (state.status == FirebaseDatabaseStatus.error) {
         _showNegativeToast('An error occurred :(');
       }
     },
