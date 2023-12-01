@@ -10,6 +10,7 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_t
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
+// TODO: Пофиксить проблему, что текстовое поле пустое пока не спрячешь клавиатуру
 class CollectionBottomSheetContent extends StatefulWidget {
   const CollectionBottomSheetContent({super.key, required this.poems});
 
@@ -52,7 +53,7 @@ class _CollectionBottomSheetContentState extends State<CollectionBottomSheetCont
         _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
         const CustomSpacer(heightFactor: 0.05),
         _CreateButtonWidget(
-          collectionName: _collectionNameController.text, 
+          textController: _collectionNameController, 
           selectController: _selectController,
         ),
         const CustomSpacer(heightFactor: 0.05),
@@ -112,9 +113,9 @@ class _PoemSelectionWidget extends StatelessWidget {
 }
 
 class _CreateButtonWidget extends StatelessWidget {
-  const _CreateButtonWidget({required this.collectionName, required this.selectController});
+  const _CreateButtonWidget({required this.textController, required this.selectController});
 
-  final String collectionName;
+  final TextEditingController textController;
   final MultiSelectController<PoemEntity> selectController; 
 
   @override
@@ -130,13 +131,13 @@ class _CreateButtonWidget extends StatelessWidget {
           onPressed: () async {
             if(selectController.selectedOptions.isEmpty){
               await _showNegativeToast('Please select at least one poem to add to the collection');
-            } else if(collectionName.isEmpty){
+            } else if(textController.text.isEmpty){
               await _showNegativeToast('Please provide the name for the collection');
             }
             else{
               await context.read<FirebaseDatabaseCubit>().createNewCollection(
                 userId: getIt<UserRepository>().getCurrentUser().userId!, 
-                collectionName: collectionName, 
+                collectionName: textController.text, 
                 poems: selectController.selectedOptions.map(
                   (selectedOption) => selectedOption.value!,
                 ).toList(),
