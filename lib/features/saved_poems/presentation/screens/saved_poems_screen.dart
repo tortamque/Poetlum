@@ -5,6 +5,7 @@ import 'package:poetlum/features/poems_feed/domain/repository/user_repository.da
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/widgets/collection_bottom_sheet.dart';
 import 'package:poetlum/features/saved_poems/presentation/widgets/collections_card.dart';
 
 class SavedPoemsScreen extends StatefulWidget {
@@ -44,7 +45,18 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FilledButton(onPressed: (){}, child: const Text('Create a collection')),
+                    FilledButton(
+                      child: const Text('Create a collection'),
+                      onPressed: (){
+                        showModalBottomSheet(
+                          context: context, 
+                          isScrollControlled: true,
+                          builder:(context) => ColectionBottomSheetContent(
+                            poems: collections?[0].poems,
+                          ),
+                        );
+                      }, 
+                    ),
                     FilledButton.tonal(
                       onPressed: () => Navigator.pushNamedAndRemoveUntil(
                         context, 
