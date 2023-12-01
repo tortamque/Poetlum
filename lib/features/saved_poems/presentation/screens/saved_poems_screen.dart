@@ -51,7 +51,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                         showModalBottomSheet(
                           context: context, 
                           isScrollControlled: true,
-                          builder:(context) => ColectionBottomSheetContent(
+                          builder:(context) => CollectionBottomSheetContent(
                             poems: collections?[0].poems,
                           ),
                         );
