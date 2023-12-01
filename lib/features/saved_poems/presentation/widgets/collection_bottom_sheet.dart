@@ -8,6 +8,7 @@ import 'package:poetlum/features/poems_feed/domain/repository/user_repository.da
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
 class CollectionBottomSheetContent extends StatefulWidget {
   const CollectionBottomSheetContent({super.key, required this.poems});
@@ -119,32 +120,41 @@ class _CreateButtonWidget extends StatelessWidget {
   final MultiSelectController<PoemEntity> selectController; 
 
   @override
-  Widget build(BuildContext context) => FilledButton.tonal(
-      onPressed: () async {
-        print(selectController.selectedOptions.length);
-
-        if(selectController.selectedOptions.isEmpty){
-          await _showNegativeToast('Please select at least one poem to add to the collection');
-        } else if(collectionName.isEmpty){
-          await _showNegativeToast('Please provide the name for the collection');
-        }
-        else{
-          await context.read<FirebaseDatabaseCubit>().createNewCollection(
-            userId: getIt<UserRepository>().getCurrentUser().userId!, 
-            collectionName: collectionName, 
-            poems: selectController.selectedOptions.map(
-              (selectedOption) => selectedOption.value!,
-            ).toList(),
-          );
-
-          await _showPositiveToast('The collection has been successfully saved');
-        }
-      }, 
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Text('Create'),
-      ),
-    );
+  Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
+    listener: (context, state) {
+      if (state.status == FirebaseDatabaseStatus.success) {
+        _showPositiveToast('Your amazing poem has been saved! :D');
+      } else if (state.status == FirebaseDatabaseStatus.error) {
+        _showNegativeToast('An error occurred :(');
+      }
+    },
+    builder: (context, state) => state.status == FirebaseDatabaseStatus.submitting
+      ? const CircularProgressIndicator()
+      : FilledButton.tonal(
+          onPressed: () async {
+            if(selectController.selectedOptions.isEmpty){
+              await _showNegativeToast('Please select at least one poem to add to the collection');
+            } else if(collectionName.isEmpty){
+              await _showNegativeToast('Please provide the name for the collection');
+            }
+            else{
+              await context.read<FirebaseDatabaseCubit>().createNewCollection(
+                userId: getIt<UserRepository>().getCurrentUser().userId!, 
+                collectionName: collectionName, 
+                poems: selectController.selectedOptions.map(
+                  (selectedOption) => selectedOption.value!,
+                ).toList(),
+              );
+    
+              await _showPositiveToast('The collection has been successfully saved');
+            }
+          }, 
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text('Create'),
+          ),
+        ),
+  );
 
   Future<void> _showPositiveToast(String text) async{
     await Fluttertoast.showToast(
