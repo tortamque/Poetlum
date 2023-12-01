@@ -59,7 +59,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                           ),
                         );
 
-                        await context.read<FirebaseDatabaseCubit>().getUserCollections(getIt<UserRepository>().getCurrentUser().userId!);
+                        collections = await context.read<FirebaseDatabaseCubit>().getUserCollections(getIt<UserRepository>().getCurrentUser().userId!);
                       }, 
                     ),
                     FilledButton.tonal(
