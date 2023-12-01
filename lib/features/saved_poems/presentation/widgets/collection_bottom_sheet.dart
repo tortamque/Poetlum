@@ -10,7 +10,6 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_t
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
-// TODO: Пофиксить проблему, что текстовое поле пустое пока не спрячешь клавиатуру
 class CollectionBottomSheetContent extends StatefulWidget {
   const CollectionBottomSheetContent({super.key, required this.poems});
 
