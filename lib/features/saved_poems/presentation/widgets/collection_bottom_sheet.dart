@@ -34,6 +34,7 @@ class _CollectionBottomSheetContentState extends State<CollectionBottomSheetCont
   void dispose() {
     _collectionNameController.dispose();
     _selectController.dispose();
+    
     super.dispose();
   }
 
