@@ -25,7 +25,7 @@ class SavedPoemViewPage extends StatelessWidget {
             child: Column(
               children: [
                 const CustomSpacer(heightFactor: 0.02),
-                CustomLikeButton(poemEntity: poemEntity),
+                CustomSaveButton(poemEntity: poemEntity),
                 const CustomSpacer(heightFactor: 0.02),
                 PoemTitle(title: poemEntity.title ?? ''),
                 const CustomSpacer(heightFactor: 0.02),
