@@ -145,19 +145,23 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     }
 
     final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
+    var collectionDeleted = false;
+
     collections.forEach((key, value) {
+      if (collectionDeleted) return;
+
       if (value['name'] == collectionName) {
         final collectionPoems = (value['poems'] as List<dynamic>)
             .map((poem) {
               final poemData = Map<String, dynamic>.from(poem as Map);
               final poemModel = PoemModel.fromFirebase(poemData);
-              
               return poemModel;
             })
             .toList();
 
         if (_arePoemListsEqual(collectionPoems, poems)) {
           collectionsRef.child(key).remove();
+          collectionDeleted = true;
         }
       }
     });
@@ -174,8 +178,9 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     return true;
   }
 
-  bool _isPoemEqual(PoemEntity poem1, PoemEntity poem2) => poem1.title == poem2.title &&
-          poem1.author == poem2.author &&
-          poem1.text == poem2.text &&
-          poem1.linecount == poem2.linecount;
+  bool _isPoemEqual(PoemEntity poem1, PoemEntity poem2) => 
+    poem1.title == poem2.title &&
+    poem1.author == poem2.author &&
+    poem1.text == poem2.text &&
+    poem1.linecount == poem2.linecount;
 }
