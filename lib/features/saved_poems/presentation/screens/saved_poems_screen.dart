@@ -9,7 +9,7 @@ import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 import 'package:poetlum/features/saved_poems/presentation/widgets/collection_bottom_sheet.dart';
-import 'package:poetlum/features/saved_poems/presentation/widgets/collections_card.dart';
+import 'package:poetlum/features/saved_poems/presentation/widgets/collection_card.dart';
 
 class SavedPoemsScreen extends StatefulWidget {
   const SavedPoemsScreen(this._userRepository, {super.key});
