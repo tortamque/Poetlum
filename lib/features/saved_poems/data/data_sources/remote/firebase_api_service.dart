@@ -13,6 +13,7 @@ abstract class FirebaseDatabaseService{
   Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
   Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
+  Future<void> deletePoemFromCollection({required String userId, required String collectionName, required PoemEntity poemToDelete});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -183,4 +184,40 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     poem1.author == poem2.author &&
     poem1.text == poem2.text &&
     poem1.linecount == poem2.linecount;
+
+  @override
+  Future<void> deletePoemFromCollection({required String userId, required String collectionName, required PoemEntity poemToDelete}) async {
+    final userRef = FirebaseDatabase.instance.ref(userId);
+    final collectionsRef = userRef.child('collections');
+
+    final collectionsSnapshot = await collectionsRef.get();
+
+    if (!collectionsSnapshot.exists) {
+      return;
+    }
+
+    final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
+    
+    for (final key in collections.keys) {
+      final value = collections[key];
+      if (value['name'] == collectionName && value['poems'] != null) {
+        final collectionPoemsRef = collectionsRef.child('$key/poems');
+        final collectionPoemsSnapshot = await collectionPoemsRef.get();
+
+        if (collectionPoemsSnapshot.exists) {
+          final collectionPoems = collectionPoemsSnapshot.value as Map<dynamic, dynamic>;
+          for (final poemKey in collectionPoems.keys) {
+            final poemValue = collectionPoems[poemKey];
+            final poemData = Map<String, dynamic>.from(poemValue as Map);
+            final poemModel = PoemModel.fromFirebase(poemData);
+
+            if (_isPoemEqual(poemModel, poemToDelete)) {
+              await collectionPoemsRef.child(poemKey).remove();
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
 }
