@@ -138,8 +138,6 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
   }
 
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems}) async{
-    emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
-
     try{
       await _deleteCollectionUseCase(
         params: DeleteCollectionParams(
@@ -149,7 +147,6 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
         ),
       );
 
-      emit(state.copyWith(status: FirebaseDatabaseStatus.success));
     } catch(e) {
       emit(state.copyWith(status: FirebaseDatabaseStatus.error));
     }
