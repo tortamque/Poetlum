@@ -6,7 +6,6 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_
 import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_content.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_line_count.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_title.dart';
-import 'package:poetlum/features/saved_poems/presentation/widgets/custom_delete_button.dart';
 
 class SavedPoemViewPage extends StatelessWidget {
   const SavedPoemViewPage({super.key});
@@ -25,7 +24,7 @@ class SavedPoemViewPage extends StatelessWidget {
             child: Column(
               children: [
                 const CustomSpacer(heightFactor: 0.02),
-                CustomDeleteButton(poemEntity: poemEntity),
+                SizedBox(height: 60, width: 60, child: IconButton.filledTonal(onPressed: (){}, icon: const Icon(Icons.delete, size: 30))),
                 const CustomSpacer(heightFactor: 0.02),
                 PoemTitle(title: poemEntity.title ?? ''),
                 const CustomSpacer(heightFactor: 0.02),
