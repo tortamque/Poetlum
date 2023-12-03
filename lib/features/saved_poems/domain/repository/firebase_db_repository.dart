@@ -8,4 +8,5 @@ abstract class FirebaseDatabaseRepository {
   Future<void> deletePoem({required PoemEntity poemEntity, required String userId, String? collectionName});
   Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
   Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
+  Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
 }

@@ -5,6 +5,7 @@ class CollectionModel extends CollectionEntity{
   const CollectionModel({
     super.name = '', 
     super.poems = const [],
+    super.isAllSavedPoems = false,
   });
 
   factory CollectionModel.fromFirebase(Map<String, dynamic> json) {

@@ -23,6 +23,7 @@ import 'package:poetlum/features/saved_poems/data/data_sources/remote/firebase_a
 import 'package:poetlum/features/saved_poems/data/repository/firebase_db_repository_impl.dart';
 import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/create_new_collection/create_new_collection_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/delete_collection/delete_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
@@ -64,6 +65,7 @@ void initializeDependencies() {
       ..registerSingleton<DeletePoemUseCase>(DeletePoemUseCase(getIt()))
       ..registerSingleton<IsPoemExistsUseCase>(IsPoemExistsUseCase(getIt()))
       ..registerSingleton<CreateNewCollectionUseCase>(CreateNewCollectionUseCase(getIt()))
+      ..registerSingleton<DeleteCollectionUseCase>(DeleteCollectionUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -73,7 +75,17 @@ void initializeDependencies() {
       // Bloc
       ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
       ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
-      ..registerFactory<FirebaseDatabaseCubit>(() => FirebaseDatabaseCubit(getIt(), getIt(), getIt(), getIt(), getIt(), getIt()))
+      ..registerFactory<FirebaseDatabaseCubit>(
+        () => FirebaseDatabaseCubit(
+          getIt(), 
+          getIt(), 
+          getIt(), 
+          getIt(), 
+          getIt(), 
+          getIt(), 
+          getIt(),
+        ),
+      )
       ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(
         usernameValidator: getIt<UsernameValidator>(),
         emailValidator: getIt<LocalEmailValidator>(),

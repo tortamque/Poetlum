@@ -81,7 +81,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                 shrinkWrap: true, 
                 physics: const NeverScrollableScrollPhysics(), 
                 itemCount: collections!.length, 
-                itemBuilder: (context, index) => CollectionsCard(
+                itemBuilder: (context, index) => CollectionCard(
                   collection: collections![index],
                 ),
               ),
