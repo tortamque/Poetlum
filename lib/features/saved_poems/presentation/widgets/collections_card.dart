@@ -7,30 +7,39 @@ class CollectionCard extends StatelessWidget {
   final CollectionEntity collection;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    //onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: poemEntity),
-    child: SizedBox(
-      height: MediaQuery.of(context).size.height / 4,
-      child: Card(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        elevation: 3,
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _TitleText(title: collection.name),
-                
-                Column(
-                  children: collection.poems!.map(
-                    (poem) => _InfoText(author: poem.author, title: poem.title),
-                  ).toList(),
-                ),
-              ],
+  Widget build(BuildContext context) => Dismissible(
+    key: UniqueKey(),
+    direction: collection.isAllSavedPoems 
+     ? DismissDirection.none
+     : DismissDirection.horizontal,
+    onDismissed: (direction) {
+      
+    },
+    child: GestureDetector(
+      //onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: poemEntity),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 4,
+        child: Card(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          elevation: 3,
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _TitleText(title: collection.name),
+                  
+                  Column(
+                    children: collection.poems!.map(
+                      (poem) => _InfoText(author: poem.author, title: poem.title),
+                    ).toList(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
