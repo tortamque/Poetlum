@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
@@ -25,7 +26,7 @@ class CollectionCard extends StatelessWidget {
       );
     },
     child: GestureDetector(
-      //onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: poemEntity),
+      onTap: () => Navigator.pushNamed(context, savedCollectionViewConstant, arguments: collection),
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 4,
         child: Card(
