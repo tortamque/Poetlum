@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 
-class CollectionsCard extends StatelessWidget {
-  const CollectionsCard({super.key, required this.collection});
+class CollectionCard extends StatelessWidget {
+  const CollectionCard({super.key, required this.collection});
 
   final CollectionEntity collection;
 
