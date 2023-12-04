@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 
 class PoemCard extends StatelessWidget {
-  const PoemCard({super.key, required this.poemEntity, required this.route});
+  const PoemCard({super.key, required this.poemEntity});
 
   final PoemEntity poemEntity;
-  final String route;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-    onTap: () => Navigator.pushNamed(context, route, arguments: poemEntity),
+    onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: poemEntity),
     child: Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),

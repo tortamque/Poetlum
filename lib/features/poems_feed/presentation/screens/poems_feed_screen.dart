@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
@@ -24,7 +23,6 @@ class PoemsFeedScreen extends StatelessWidget {
         return ListView.builder(
           itemCount: state.poems!.length,
           itemBuilder: (__, index) => PoemCard(
-            route: poemViewPageConstant,
             poemEntity: state.poems![index],
           ),
         );
