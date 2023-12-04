@@ -25,6 +25,7 @@ import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repos
 import 'package:poetlum/features/saved_poems/domain/usecases/create_new_collection/create_new_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_collection/delete_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_poem_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem_from_collection/delete_poem_from_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_poem_exists_usecase.dart';
@@ -66,6 +67,7 @@ void initializeDependencies() {
       ..registerSingleton<IsPoemExistsUseCase>(IsPoemExistsUseCase(getIt()))
       ..registerSingleton<CreateNewCollectionUseCase>(CreateNewCollectionUseCase(getIt()))
       ..registerSingleton<DeleteCollectionUseCase>(DeleteCollectionUseCase(getIt()))
+      ..registerSingleton<DeletePoemFromCollectionUseCase>(DeletePoemFromCollectionUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -83,6 +85,7 @@ void initializeDependencies() {
           getIt(), 
           getIt(), 
           getIt(), 
+          getIt(),
           getIt(),
         ),
       )
