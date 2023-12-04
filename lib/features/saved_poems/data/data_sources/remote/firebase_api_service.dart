@@ -205,14 +205,12 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
         final collectionPoemsSnapshot = await collectionPoemsRef.get();
 
         if (collectionPoemsSnapshot.exists) {
-          final collectionPoems = collectionPoemsSnapshot.value as Map<dynamic, dynamic>;
-          for (final poemKey in collectionPoems.keys) {
-            final poemValue = collectionPoems[poemKey];
-            final poemData = Map<String, dynamic>.from(poemValue as Map);
-            final poemModel = PoemModel.fromFirebase(poemData);
-
+          final collectionPoems = collectionPoemsSnapshot.value as List<Object?>;
+          for (final poemData in collectionPoems) {
+            final poemModel = PoemModel.fromFirebase(Map<String, dynamic>.from(poemData as Map));
             if (_isPoemEqual(poemModel, poemToDelete)) {
-              await collectionPoemsRef.child(poemKey).remove();
+              final poemIndex = collectionPoems.indexOf(poemData);
+              await collectionPoemsRef.child('$poemIndex').remove();
               break;
             }
           }
