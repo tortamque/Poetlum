@@ -43,11 +43,11 @@ class CollectionCard extends StatelessWidget {
                 children: [
                   _TitleText(title: collection.name),
                   
-                  Column(
+                  if (collection.poems != null) Column(
                     children: collection.poems!.map(
                       (poem) => _InfoText(author: poem.author, title: poem.title),
                     ).toList(),
-                  ),
+                  ) else const _EmptyCollectionText(),
                 ],
               ),
             ),
@@ -82,6 +82,19 @@ class _InfoText extends StatelessWidget {
     child: Text(
         '$author: $title',
         style: const TextStyle(fontSize: 17),
+      ),
+  );
+}
+
+class _EmptyCollectionText extends StatelessWidget {
+  const _EmptyCollectionText();
+
+  @override
+  Widget build(BuildContext context) => const SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Text(
+        'The collection is currently empty, but not for long ✍️',
+        style: TextStyle(fontSize: 17),
       ),
   );
 }
