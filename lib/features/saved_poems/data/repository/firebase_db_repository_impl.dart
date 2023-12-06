@@ -31,4 +31,7 @@ class FirebaseDatabaseRepositoryImpl implements FirebaseDatabaseRepository{
   
   @override
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete}) => _databaseService.deletePoemFromCollection(userId: userId, collectionName: collectionName, poemToDelete: poemToDelete);
+  
+  @override
+  Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems}) => _databaseService.updatePoemsInCollection(userId: userId, collectionName: collectionName, updatedPoems: updatedPoems);
 }
