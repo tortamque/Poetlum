@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
+import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
+import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
 class SavedPoemCard extends StatelessWidget {
   const SavedPoemCard({super.key, required this.poemEntity, required this.collectionEntity});
@@ -10,26 +14,36 @@ class SavedPoemCard extends StatelessWidget {
   final CollectionEntity collectionEntity;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: () => Navigator.pushNamed(context, savedPoemViewConstant, arguments: {'poem': poemEntity, 'collection': collectionEntity}),
-    child: Card(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      elevation: 3,
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _TitleText(title: poemEntity.title),
-            const SizedBox(height: 8),
-            _AuthorText(author: poemEntity.author),
-            const SizedBox(height: 16),
-            _PoemText(text: poemEntity.text, maxLength: 250),
-          ],
+  Widget build(BuildContext context) => Dismissible(
+    key: UniqueKey(),
+    onDismissed: (direction) async{
+      await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
+        poemEntity: poemEntity, 
+        userId: getIt<UserRepository>().getCurrentUser().userId!, 
+        collectionName: collectionEntity.name ?? '',
+      );
+    },
+    child: GestureDetector(
+      onTap: () => Navigator.pushNamed(context, savedPoemViewConstant, arguments: poemEntity),
+      child: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        elevation: 3,
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _TitleText(title: poemEntity.title),
+              const SizedBox(height: 8),
+              _AuthorText(author: poemEntity.author),
+              const SizedBox(height: 16),
+              _PoemText(text: poemEntity.text, maxLength: 250),
+            ],
+          ),
         ),
       ),
     ),
