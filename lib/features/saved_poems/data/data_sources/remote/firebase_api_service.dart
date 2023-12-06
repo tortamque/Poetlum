@@ -14,6 +14,7 @@ abstract class FirebaseDatabaseService{
   Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
+  Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -242,6 +243,40 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
           }
         }
       }
+    }
+  }
+
+  @override
+  Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems}) async {
+    final userRef = FirebaseDatabase.instance.ref(userId);
+    final collectionsRef = userRef.child('collections');
+
+    final collectionsSnapshot = await collectionsRef.get();
+
+    if (!collectionsSnapshot.exists) {
+      return;
+    }
+
+    final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
+
+    String? targetCollectionKey;
+    for (var key in collections.keys) {
+      final collectionData = collections[key];
+      if (collectionData['name'] == collectionName) {
+        targetCollectionKey = key;
+        break;
+      }
+    }
+
+    if (targetCollectionKey != null) {
+      final updatedPoemsData = updatedPoems.map((poem) => {
+        'author': poem.author,
+        'linecount': poem.linecount,
+        'text': poem.text,
+        'title': poem.title
+      }).toList();
+
+      await collectionsRef.child('$targetCollectionKey/poems').set(updatedPoemsData);
     }
   }
 }
