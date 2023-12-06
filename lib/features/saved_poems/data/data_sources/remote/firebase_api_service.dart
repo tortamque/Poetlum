@@ -13,6 +13,7 @@ abstract class FirebaseDatabaseService{
   Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
   Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
+  Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -183,4 +184,57 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     poem1.author == poem2.author &&
     poem1.text == poem2.text &&
     poem1.linecount == poem2.linecount;
+
+  @override
+  Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete}) async {
+    final userRef = FirebaseDatabase.instance.ref(userId);
+
+    if (collectionName == null) {
+      final poemsRef = userRef.child('poems');
+      final poemQuery = poemsRef.orderByChild('title').equalTo(poemToDelete.title);
+
+      final snapshot = await poemQuery.get();
+      if (snapshot.exists) {
+        final poems = snapshot.value as Map<dynamic, dynamic>;
+        poems.forEach((key, value) {
+          final poemData = Map<String, dynamic>.from(value as Map);
+          final poemModel = PoemModel.fromFirebase(poemData);
+
+          if (_isPoemEqual(poemModel, poemToDelete)) {
+            poemsRef.child(key).remove();
+          }
+        });
+      }
+    } else {
+      final collectionsRef = userRef.child('collections');
+      final collectionsSnapshot = await collectionsRef.get();
+
+      if (!collectionsSnapshot.exists) {
+        return;
+      }
+
+      final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
+      
+      for (final key in collections.keys) {
+        final value = collections[key];
+        if (value['name'] == collectionName && value['poems'] != null) {
+          final collectionPoemsRef = collectionsRef.child('$key/poems');
+          final collectionPoemsSnapshot = await collectionPoemsRef.get();
+
+          if (collectionPoemsSnapshot.exists) {
+            final collectionPoems = collectionPoemsSnapshot.value as List<Object?>;
+            final updatedPoems = collectionPoems.where((poemData) {
+              if (poemData == null) return false; 
+
+              final poemModel = PoemModel.fromFirebase(Map<String, dynamic>.from(poemData as Map));
+              
+              return !_isPoemEqual(poemModel, poemToDelete);
+            }).toList();
+
+            await collectionPoemsRef.set(updatedPoems);
+          }
+        }
+      }
+    }
+  }
 }

@@ -6,8 +6,8 @@ import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
-class CustomLikeButton extends StatelessWidget {
-  const CustomLikeButton({super.key, required this.poemEntity});
+class CustomSaveButton extends StatelessWidget {
+  const CustomSaveButton({super.key, required this.poemEntity});
 
   final PoemEntity poemEntity;
 

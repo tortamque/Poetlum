@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum FirebaseDatabaseStatus{initial, submitting, success, error}
+enum FirebaseDatabaseStatus{initial, submitting, success, error, needsRefresh}
 
 class FirebaseDatabaseState extends Equatable{
   const FirebaseDatabaseState({
