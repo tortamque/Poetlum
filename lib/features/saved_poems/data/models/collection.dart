@@ -9,12 +9,15 @@ class CollectionModel extends CollectionEntity{
   });
 
   factory CollectionModel.fromFirebase(Map<String, dynamic> json) {
-    final poemsJson = json['poems'] as List<dynamic>;
-    final poems = poemsJson.map((poemJson) {
-      final poemMap = Map<String, dynamic>.from(poemJson as Map);
-      
-      return PoemModel.fromFirebase(poemMap);
-    }).toList();
+    final poemsJson = json['poems'] as List<dynamic>?;
+    List<PoemModel>? poems;
+
+    if (poemsJson != null) {
+      poems = poemsJson.map((poemJson) {
+        final poemMap = Map<String, dynamic>.from(poemJson as Map);
+        return PoemModel.fromFirebase(poemMap);
+      }).toList();
+    }
 
     return CollectionModel(
       name: json['name'] ?? '',
