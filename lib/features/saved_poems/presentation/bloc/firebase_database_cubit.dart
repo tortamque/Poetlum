@@ -155,7 +155,7 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
     }
   }
 
-  Future<void> deletePoemFromCollection({required PoemEntity poemEntity, required String userId, required String collectionName}) async{
+  Future<void> deletePoemFromCollection({required PoemEntity poemEntity, required String userId, String? collectionName}) async{
     emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
 
     try{

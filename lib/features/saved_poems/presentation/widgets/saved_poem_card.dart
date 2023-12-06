@@ -17,11 +17,18 @@ class SavedPoemCard extends StatelessWidget {
   Widget build(BuildContext context) => Dismissible(
     key: UniqueKey(),
     onDismissed: (direction) async{
-      await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
-        poemEntity: poemEntity, 
-        userId: getIt<UserRepository>().getCurrentUser().userId!, 
-        collectionName: collectionEntity.name ?? '',
-      );
+      if(collectionEntity.isAllSavedPoems){
+        await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
+          poemEntity: poemEntity, 
+          userId: getIt<UserRepository>().getCurrentUser().userId!,
+        );
+      } else{
+        await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
+          poemEntity: poemEntity, 
+          userId: getIt<UserRepository>().getCurrentUser().userId!, 
+          collectionName: collectionEntity.name ?? '',
+        );
+      }
     },
     child: GestureDetector(
       onTap: () => Navigator.pushNamed(context, savedPoemViewConstant, arguments: poemEntity),
