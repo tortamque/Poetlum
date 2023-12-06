@@ -9,18 +9,18 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.d
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
-class AddToCollectionBottomSheetContent extends StatefulWidget {
-  const AddToCollectionBottomSheetContent({super.key, this.allSavedPoems, this.poemsInTheCollection, required this.collectionName});
+class UpdateCollectionBottomSheetContent extends StatefulWidget {
+  const UpdateCollectionBottomSheetContent({super.key, this.allSavedPoems, this.poemsInTheCollection, required this.collectionName});
 
   final List<PoemEntity>? allSavedPoems;
   final List<PoemEntity>? poemsInTheCollection;
   final String collectionName;
 
   @override
-  State<AddToCollectionBottomSheetContent> createState() => _AddToCollectionBottomSheetContentState();
+  State<UpdateCollectionBottomSheetContent> createState() => _UpdateCollectionBottomSheetContentState();
 }
 
-class _AddToCollectionBottomSheetContentState extends State<AddToCollectionBottomSheetContent> {
+class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBottomSheetContent> {
   late MultiSelectController<PoemEntity> _selectController;
   late List<ValueItem<PoemEntity>> selectedValues = <ValueItem<PoemEntity>>[];
   late List<ValueItem<PoemEntity>> allValues = <ValueItem<PoemEntity>>[];
