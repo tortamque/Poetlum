@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -134,15 +136,25 @@ class _CreateButtonWidget extends StatelessWidget {
               await _showNegativeToast('Please provide the name for the collection');
             }
             else{
-              await context.read<FirebaseDatabaseCubit>().createNewCollection(
-                userId: getIt<UserRepository>().getCurrentUser().userId!, 
+              final isCollectionExist = await context.read<FirebaseDatabaseCubit>().isCollectionExists(
                 collectionName: textController.text, 
-                poems: selectController.selectedOptions.map(
-                  (selectedOption) => selectedOption.value!,
-                ).toList(),
+                userId: getIt<UserRepository>().getCurrentUser().userId!,
               );
-    
-              await _showPositiveToast('The collection has been successfully saved');
+
+              if(!isCollectionExist){
+                await context.read<FirebaseDatabaseCubit>().createNewCollection(
+                  userId: getIt<UserRepository>().getCurrentUser().userId!, 
+                  collectionName: textController.text, 
+                  poems: selectController.selectedOptions.map(
+                    (selectedOption) => selectedOption.value!,
+                  ).toList(),
+                );
+      
+                await _showPositiveToast('The collection has been successfully saved');
+              } else{
+                await _showNegativeToast('The collection with this name already exists');
+              }
+              
             }
           }, 
           child: const Padding(
