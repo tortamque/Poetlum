@@ -6,7 +6,7 @@ import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
-import 'package:poetlum/features/saved_poems/presentation/widgets/create_collection_bottom_sheet.dart';
+import 'package:poetlum/features/saved_poems/presentation/widgets/add_to_collection_bottom_sheet_content.dart';
 import 'package:poetlum/features/saved_poems/presentation/widgets/saved_poem_card.dart';
 
 class SavedCollectionViewPage extends StatelessWidget {
@@ -20,16 +20,18 @@ class SavedCollectionViewPage extends StatelessWidget {
       appBar: const CustomAppBar(title: 'Poetlum'),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          final savedPoems = await context.read<FirebaseDatabaseCubit>().getUserPoems(
+            getIt<UserRepository>().getCurrentUser().userId!,
+          );
+
           await showModalBottomSheet(
             context: context, 
             isScrollControlled: true,
-            builder:(context) => CreateCollectionBottomSheetContent(
-              poems: collectionEntity.poems,
+            builder:(context) => AddToCollectionBottomSheetContent(
+              collectionName: collectionEntity.name ?? '',
+              poemsInTheCollection: collectionEntity.poems,
+              allSavedPoems: savedPoems,
             ),
-          );
-
-          final savedPoems = await context.read<FirebaseDatabaseCubit>().getUserPoems(
-            getIt<UserRepository>().getCurrentUser().userId!,
           );
         },
         child: const Icon(Icons.add),
