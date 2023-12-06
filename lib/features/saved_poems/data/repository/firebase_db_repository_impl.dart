@@ -34,4 +34,7 @@ class FirebaseDatabaseRepositoryImpl implements FirebaseDatabaseRepository{
   
   @override
   Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems}) => _databaseService.updatePoemsInCollection(userId: userId, collectionName: collectionName, updatedPoems: updatedPoems);
+  
+  @override
+  Future<List<PoemEntity>> getPoemsInCollection({required String userId, required String collectionName}) => _databaseService.getPoemsInCollection(userId: userId, collectionName: collectionName);  
 }
