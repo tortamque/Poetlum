@@ -30,6 +30,7 @@ import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collection
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_poem_exists_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
 GetIt getIt = GetIt.instance;
@@ -68,6 +69,7 @@ void initializeDependencies() {
       ..registerSingleton<CreateNewCollectionUseCase>(CreateNewCollectionUseCase(getIt()))
       ..registerSingleton<DeleteCollectionUseCase>(DeleteCollectionUseCase(getIt()))
       ..registerSingleton<DeletePoemFromCollectionUseCase>(DeletePoemFromCollectionUseCase(getIt()))
+      ..registerSingleton<UpdatePoemsInCollectionUseCase>(UpdatePoemsInCollectionUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
