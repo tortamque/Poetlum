@@ -16,6 +16,7 @@ abstract class FirebaseDatabaseService{
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
   Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems});
   Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName});
+  Future<bool> isCollectionExists({required String userId, required String collectionName});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -323,5 +324,27 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
 
       return poems;
     }
+  }
+
+  @override
+  Future<bool> isCollectionExists({required String userId, required String collectionName}) async {
+    final userRef = FirebaseDatabase.instance.ref(userId);
+    final collectionsRef = userRef.child('collections');
+
+    final collectionsSnapshot = await collectionsRef.get();
+
+    if (!collectionsSnapshot.exists || collectionsSnapshot.value == null) {
+      return false;
+    }
+
+    final collections = Map<String, dynamic>.from(collectionsSnapshot.value as Map);
+
+    for (final key in collections.keys) {
+      if (collections[key]['name'] == collectionName) {
+        return true;
+      }
+    }
+
+    return false; 
   }
 }
