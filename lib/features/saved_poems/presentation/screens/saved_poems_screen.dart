@@ -35,7 +35,12 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<FirebaseDatabaseCubit, FirebaseDatabaseState>(
+  Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
+    listener: (context, state) {
+      if (state.status == FirebaseDatabaseStatus.needsRefresh) {
+        initCollections();
+      }
+    },
     builder: (context, state) {
       if (state.status == FirebaseDatabaseStatus.submitting) {
         return const Center(child: CircularProgressIndicator());
