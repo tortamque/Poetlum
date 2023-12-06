@@ -8,7 +8,7 @@ import 'package:poetlum/features/poems_feed/domain/repository/user_repository.da
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
-import 'package:poetlum/features/saved_poems/presentation/widgets/collection_bottom_sheet.dart';
+import 'package:poetlum/features/saved_poems/presentation/widgets/create_collection_bottom_sheet.dart';
 import 'package:poetlum/features/saved_poems/presentation/widgets/collection_card.dart';
 
 class SavedPoemsScreen extends StatefulWidget {
@@ -59,7 +59,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                         await showModalBottomSheet(
                           context: context, 
                           isScrollControlled: true,
-                          builder:(context) => CollectionBottomSheetContent(
+                          builder:(context) => CreateCollectionBottomSheetContent(
                             poems: collections?[0].poems,
                           ),
                         );

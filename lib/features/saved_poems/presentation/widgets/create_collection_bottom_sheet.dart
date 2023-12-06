@@ -10,16 +10,16 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_t
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
-class CollectionBottomSheetContent extends StatefulWidget {
-  const CollectionBottomSheetContent({super.key, required this.poems});
+class CreateCollectionBottomSheetContent extends StatefulWidget {
+  const CreateCollectionBottomSheetContent({super.key, required this.poems});
 
   final List<PoemEntity>? poems;
 
   @override
-  State<CollectionBottomSheetContent> createState() => _CollectionBottomSheetContentState();
+  State<CreateCollectionBottomSheetContent> createState() => _CreateCollectionBottomSheetContentState();
 }
 
-class _CollectionBottomSheetContentState extends State<CollectionBottomSheetContent> {
+class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBottomSheetContent> {
   late TextEditingController _collectionNameController;
   late MultiSelectController<PoemEntity> _selectController;
 
