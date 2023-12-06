@@ -89,6 +89,7 @@ void initializeDependencies() {
           getIt(), 
           getIt(),
           getIt(),
+          getIt(),
         ),
       )
       ..registerFactory<RegisterFormValidationCubit>(() => RegisterFormValidationCubit(

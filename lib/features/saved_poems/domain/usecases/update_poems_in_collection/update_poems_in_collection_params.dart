@@ -1,7 +1,7 @@
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 
 class UpdatePoemsInCollectionParams {
-  UpdatePoemsInCollectionParams(this.updatedPoems, {required this.userId, required this.collectionName});
+  UpdatePoemsInCollectionParams({required this.userId, required this.collectionName, required this.updatedPoems});
 
   final String userId;
   final String collectionName;
