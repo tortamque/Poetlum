@@ -152,17 +152,24 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
       if (collectionDeleted) return;
 
       if (value['name'] == collectionName) {
-        final collectionPoems = (value['poems'] as List<dynamic>)
-            .map((poem) {
-              final poemData = Map<String, dynamic>.from(poem as Map);
-              final poemModel = PoemModel.fromFirebase(poemData);
-              return poemModel;
-            })
-            .toList();
-
-        if (_arePoemListsEqual(collectionPoems, poems)) {
+        final collectionPoemsJson = value['poems'] as List<dynamic>?;
+        
+        if (collectionPoemsJson == null || collectionPoemsJson.isEmpty) {
           collectionsRef.child(key).remove();
           collectionDeleted = true;
+        } else {
+          final collectionPoems = collectionPoemsJson
+              .map((poem) {
+                final poemData = Map<String, dynamic>.from(poem as Map);
+                final poemModel = PoemModel.fromFirebase(poemData);
+                return poemModel;
+              })
+              .toList();
+
+          if (_arePoemListsEqual(collectionPoems, poems)) {
+            collectionsRef.child(key).remove();
+            collectionDeleted = true;
+          }
         }
       }
     });
