@@ -35,7 +35,9 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
   Future<void> initPoems() async {
     poems = await context.read<FirebaseDatabaseCubit>().getPoemsInCollection(
       userId: getIt<UserRepository>().getCurrentUser().userId!, 
-      collectionName: collectionEntity.name ?? '',
+      collectionName: collectionEntity.isAllSavedPoems
+        ? null
+        : collectionEntity.name,
     );
   }
   

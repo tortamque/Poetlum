@@ -11,5 +11,5 @@ abstract class FirebaseDatabaseRepository {
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
   Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems});
-  Future<List<PoemEntity>> getPoemsInCollection({required String userId, required String collectionName});
+  Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName});
 }

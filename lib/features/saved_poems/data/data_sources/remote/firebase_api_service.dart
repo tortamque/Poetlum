@@ -15,7 +15,7 @@ abstract class FirebaseDatabaseService{
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
   Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems});
-  Future<List<PoemEntity>> getPoemsInCollection({required String userId, required String collectionName});
+  Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -282,32 +282,46 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
   }
 
   @override
-  Future<List<PoemEntity>> getPoemsInCollection({required String userId, required String collectionName}) async {
+  Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName}) async {
     final userRef = FirebaseDatabase.instance.ref(userId);
-    final collectionsRef = userRef.child('collections');
 
-    final collectionsSnapshot = await collectionsRef.get();
+    if (collectionName == null) {
+      final poemsRef = userRef.child('poems');
+      final poemsSnapshot = await poemsRef.get();
 
-    if (!collectionsSnapshot.exists) {
-      return [];
-    }
-
-    final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
-    var poems = <PoemEntity>[];
-    
-
-    for (final key in collections.keys) {
-      final collectionData = collections[key];
-      if (collectionData['name'] == collectionName && collectionData['poems'] != null) {
-        final poemsData = collectionData['poems'] as List<dynamic>;
-        poems = poemsData.map((poemJson) {
-          final poemMap = Map<String, dynamic>.from(poemJson as Map);
-          return PoemModel.fromFirebase(poemMap);
-        }).toList();
-        break;
+      if (!poemsSnapshot.exists) {
+        return [];
       }
-    }
 
-    return poems;
+      final poemsData = poemsSnapshot.value as Map<dynamic, dynamic>;
+      return poemsData.values.map((poemJson) {
+        final poemMap = Map<String, dynamic>.from(poemJson as Map);
+        return PoemModel.fromFirebase(poemMap);
+      }).toList();
+    } else {
+      final collectionsRef = userRef.child('collections');
+      final collectionsSnapshot = await collectionsRef.get();
+
+      if (!collectionsSnapshot.exists) {
+        return [];
+      }
+
+      final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
+      var poems = <PoemEntity>[];
+      
+      for (final key in collections.keys) {
+        final collectionData = collections[key];
+        if (collectionData['name'] == collectionName && collectionData['poems'] != null) {
+          final poemsData = collectionData['poems'] as List<dynamic>;
+          poems = poemsData.map((poemJson) {
+            final poemMap = Map<String, dynamic>.from(poemJson as Map);
+            return PoemModel.fromFirebase(poemMap);
+          }).toList();
+          break;
+        }
+      }
+
+      return poems;
+    }
   }
 }

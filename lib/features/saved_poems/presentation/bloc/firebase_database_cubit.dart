@@ -200,7 +200,7 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
     }
   }
 
-  Future<List<PoemEntity>> getPoemsInCollection({required String userId, required String collectionName}) async{
+  Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName}) async{
     emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
 
     try{
