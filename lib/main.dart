@@ -4,6 +4,7 @@ import 'package:poetlum/features/dependency_injection/presentation/widgets/init_
 import 'package:poetlum/features/firebase/presentation/widgets/init_crashlytics_widget.dart';
 import 'package:poetlum/features/firebase/presentation/widgets/init_firebase_widget.dart';
 import 'package:poetlum/features/multi_bloc_provider/presentation/init_blocs.dart';
+import 'package:poetlum/features/theme_change/presentation/widgets/init_theme_widget.dart';
 import 'package:poetlum/firebase_options.dart';
 
 void main() async {
@@ -15,7 +16,9 @@ void main() async {
       child: const InitDependencies(
         child: InitCrashlyticsWidget(
           child: InitBlocs(
-            child: PoetlumApp(),
+            child: InitTheme(
+              child: PoetlumApp(),
+            ),
           ),
         ),
       ),
