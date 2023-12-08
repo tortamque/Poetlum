@@ -31,7 +31,7 @@ class _ColorOptionButtonState extends State<ColorOptionButton>  with TickerProvi
         onTap: () async {
           playAnimation();
           
-          await context.read<ThemeCubit>().setThemeColor(widget.themeColor);
+          await context.read<ThemeCubit>().setThemeColor(themeColor: widget.themeColor, needSave: true);
         },
         child: Container(
           decoration: BoxDecoration(
