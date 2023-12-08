@@ -18,7 +18,7 @@ class SavedCollectionViewPage extends StatefulWidget {
 }
 
 class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
-  List<PoemEntity> poems = [];
+  List<PoemEntity> poemsInTheCollection = [];
   late CollectionEntity collectionEntity;
   bool isInit = true;
   
@@ -33,7 +33,7 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
   }
 
   Future<void> initPoems() async {
-    poems = await context.read<FirebaseDatabaseCubit>().getPoemsInCollection(
+    poemsInTheCollection = await context.read<FirebaseDatabaseCubit>().getPoemsInCollection(
       userId: getIt<UserRepository>().getCurrentUser().userId!, 
       collectionName: collectionEntity.isAllSavedPoems
         ? null
@@ -60,7 +60,7 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
               isScrollControlled: true,
               builder:(context) => UpdateCollectionBottomSheetContent(
                 collectionName: collectionEntity.name ?? '',
-                poemsInTheCollection: poems,
+                poemsInTheCollection: poemsInTheCollection,
                 allSavedPoems: savedPoems,
               ),
             );
@@ -79,9 +79,9 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
             return const Center(child: CircularProgressIndicator());
           } else {
             return  ListView.builder(
-              itemCount: poems.length,
+              itemCount: poemsInTheCollection.length,
               itemBuilder: (__, index) => SavedPoemCard(
-                poemEntity: poems[index],
+                poemEntity: poemsInTheCollection[index],
                 collectionEntity: collectionEntity,
               ),
             );
