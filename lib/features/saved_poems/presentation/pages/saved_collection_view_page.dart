@@ -78,13 +78,24 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
           if (state.status == FirebaseDatabaseStatus.submitting) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return  ListView.builder(
-              itemCount: poemsInTheCollection.length,
-              itemBuilder: (__, index) => SavedPoemCard(
-                poemEntity: poemsInTheCollection[index],
-                collectionEntity: collectionEntity,
-              ),
-            );
+            return poemsInTheCollection.isEmpty
+              ? const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Center(
+                  child: Text(
+                    'Nothing to show here 😔\nTap on the "Edit" button to add amazing poems to the collection',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              )
+              : ListView.builder(
+                itemCount: poemsInTheCollection.length,
+                itemBuilder: (__, index) => SavedPoemCard(
+                  poemEntity: poemsInTheCollection[index],
+                  collectionEntity: collectionEntity,
+                ),
+              );
           }
         },
       ),
