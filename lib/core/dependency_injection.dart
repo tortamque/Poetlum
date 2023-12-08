@@ -34,6 +34,7 @@ import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_p
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/theme_change/presentation/bloc/change_theme_cubit.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -80,9 +81,10 @@ void initializeDependencies() {
       ..registerLazySingleton<LocalEmailValidator>(() => LocalEmailValidator())
       ..registerLazySingleton<PasswordValidator>(() => PasswordValidator())
 
-      // Bloc
+      // Bloc 
       ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
       ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
+      ..registerFactory<ThemeCubit>(() => ThemeCubit())
       ..registerFactory<FirebaseDatabaseCubit>(
         () => FirebaseDatabaseCubit(
           getIt(), 
