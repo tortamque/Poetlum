@@ -60,7 +60,7 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
               isScrollControlled: true,
               builder:(context) => UpdateCollectionBottomSheetContent(
                 collectionName: collectionEntity.name ?? '',
-                poemsInTheCollection: collectionEntity.poems,
+                poemsInTheCollection: poems,
                 allSavedPoems: savedPoems,
               ),
             );
