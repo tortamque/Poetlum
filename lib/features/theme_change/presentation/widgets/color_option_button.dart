@@ -24,29 +24,29 @@ class _ColorOptionButtonState extends State<ColorOptionButton>  with TickerProvi
 
   @override
   Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.all(30),
-      child: RotationTransition(
-        turns: rotationAnimation,
-        child: GestureDetector(
-          onTap: (){
-            playAnimation();
-            
-            context.read<ThemeCubit>().setThemeColor(widget.themeColor);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: widget.themeColor,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.2),
-                  offset: Offset(4, 4),
-                  blurRadius: 5,
-                )
-              ]
-            ),
+    padding: const EdgeInsets.all(30),
+    child: RotationTransition(
+      turns: rotationAnimation,
+      child: GestureDetector(
+        onTap: () async {
+          playAnimation();
+          
+          await context.read<ThemeCubit>().setThemeColor(widget.themeColor);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: widget.themeColor,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.2),
+                offset: Offset(4, 4),
+                blurRadius: 5,
+              ),
+            ],
           ),
         ),
-      )
-    );
+      ),
+    ),
+  );
 }
