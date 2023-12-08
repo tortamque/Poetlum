@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-ThemeData theme()=> ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+ThemeData theme(Color color) => ThemeData(
+  colorScheme: ColorScheme.fromSeed(seedColor: color),
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.white,
 );
