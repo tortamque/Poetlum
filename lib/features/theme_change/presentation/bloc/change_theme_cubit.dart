@@ -11,14 +11,16 @@ class ThemeCubit extends Cubit<ThemeState> {
   final SaveColorUseCase _saveColorUseCase;
   final GetColorUseCase _getColorUseCase;
 
-  Future<void> setThemeColor(Color themeColor) async {
+  Future<void> setThemeColor({required Color themeColor, required bool needSave}) async {
     emit(
       ThemeState(
         themeData: theme(themeColor),
       ),
     );
 
-    await _saveColorUseCase(params: themeColor);
+    if(needSave){
+      await _saveColorUseCase(params: themeColor);
+    }
   }
 
   Future<Color> getThemeColor() async => _getColorUseCase();
