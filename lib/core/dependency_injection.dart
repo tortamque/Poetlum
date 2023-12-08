@@ -34,6 +34,11 @@ import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_p
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/theme_change/data/data_sources/local/shared_preferences_service.dart';
+import 'package:poetlum/features/theme_change/data/repository/shared_preferences_repository_impl.dart';
+import 'package:poetlum/features/theme_change/domain/repository/shared_preferences_repository.dart';
+import 'package:poetlum/features/theme_change/domain/usecases/get_color/get_color_usecase.dart';
+import 'package:poetlum/features/theme_change/domain/usecases/save_color/save_color_usecase.dart';
 import 'package:poetlum/features/theme_change/presentation/bloc/change_theme_cubit.dart';
 
 GetIt getIt = GetIt.instance;
@@ -51,12 +56,14 @@ void initializeDependencies() {
       ..registerSingleton<PoemApiService>(PoemApiService(getIt()))
       ..registerSingleton<FirebaseService>(FirebaseServiceImpl())
       ..registerSingleton<FirebaseDatabaseService>(FirebaseDatabaseServiceImpl())
+      ..registerSingleton<SharedPreferencesService>(SharedPreferencesServiceImpl())
 
       // Repository
       ..registerSingleton<AuthenticationRepository>(AuthenticationRepositoryImpl())
       ..registerSingleton<PoemRepository>(PoemRepositoryImpl(getIt()))
       ..registerSingleton<FirebaseRepository>(FirebaseRepositoryImpl(getIt()))
       ..registerSingleton<FirebaseDatabaseRepository>(FirebaseDatabaseRepositoryImpl(getIt()))
+      ..registerSingleton<SharedPreferencesRepository>(SharedPreferencesRepositoryImpl(getIt()))
       ..registerSingleton<UserRepository>(UserRepositoryImpl(FirebaseAuth.instance))
 
       // Usecase
@@ -75,6 +82,8 @@ void initializeDependencies() {
       ..registerSingleton<UpdatePoemsInCollectionUseCase>(UpdatePoemsInCollectionUseCase(getIt()))
       ..registerSingleton<GetPoemsInCollectionUseCase>(GetPoemsInCollectionUseCase(getIt()))
       ..registerSingleton<IsCollectionExistsUseCase>(IsCollectionExistsUseCase(getIt()))
+      ..registerSingleton<SaveColorUseCase>(SaveColorUseCase(getIt()))
+      ..registerSingleton<GetColorUseCase>(GetColorUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -84,7 +93,7 @@ void initializeDependencies() {
       // Bloc 
       ..registerFactory<RemotePoemBloc>(() => RemotePoemBloc(getIt(), getIt()))
       ..registerFactory<AuthCubit>(() => AuthCubit(getIt(), getIt()))
-      ..registerFactory<ThemeCubit>(() => ThemeCubit())
+      ..registerFactory<ThemeCubit>(() => ThemeCubit(getIt(), getIt()))
       ..registerFactory<FirebaseDatabaseCubit>(
         () => FirebaseDatabaseCubit(
           getIt(), 
