@@ -36,7 +36,8 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
   Widget _buildBottomSheetContent() => SizedBox(
     child: Column(
       children: [
-        const Text('Choose your theme'),
+        const _Title(text: 'Choose your theme'),
+
         Expanded( 
           child: GridView.count(
             crossAxisCount: 3,
@@ -44,6 +45,24 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
           ),
         ),
       ],
+    ),
+  );
+}
+
+class _Title extends StatelessWidget {
+  const _Title({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 30),
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+      ),
     ),
   );
 }
