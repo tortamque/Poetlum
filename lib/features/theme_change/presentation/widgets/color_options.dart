@@ -15,7 +15,7 @@ class ColorOptions{
     ColorOptionButton(themeColor: Colors.blueAccent),
     ColorOptionButton(themeColor: Colors.cyanAccent),
 
-    ColorOptionButton(themeColor: Colors.limeAccent),
+    ColorOptionButton(themeColor: Color(0xFFD2E0FB)),
     ColorOptionButton(themeColor: Colors.pinkAccent),
     ColorOptionButton(themeColor: Colors.tealAccent),
 
@@ -24,15 +24,11 @@ class ColorOptions{
     ColorOptionButton(themeColor: Colors.indigoAccent),
 
     ColorOptionButton(themeColor: Colors.orangeAccent),
-    ColorOptionButton(themeColor: Colors.purpleAccent),
     ColorOptionButton(themeColor: Colors.yellowAccent),
-
     ColorOptionButton(themeColor: Colors.lightBlueAccent),
+
     ColorOptionButton(themeColor: Colors.deepOrangeAccent),
     ColorOptionButton(themeColor: Colors.deepPurpleAccent),
-
     ColorOptionButton(themeColor: Colors.lightGreenAccent),
-    ColorOptionButton(themeColor: Colors.grey),
-    ColorOptionButton(themeColor: Colors.white)
   ];
 }
