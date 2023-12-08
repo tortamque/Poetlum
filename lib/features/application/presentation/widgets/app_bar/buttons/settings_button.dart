@@ -33,16 +33,15 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
     super.dispose();
   }
 
-  Widget _buildBottomSheetContent() => SizedBox(
+  Widget _buildBottomSheetContent() => SingleChildScrollView(
     child: Column(
       children: [
         const _Title(text: 'Choose your theme'),
-
-        Expanded( 
-          child: GridView.count(
-            crossAxisCount: 3,
-            children: ColorOptions.colors,
-          ),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(), 
+          crossAxisCount: 3,
+          children: ColorOptions.colors,
         ),
       ],
     ),
@@ -60,7 +59,7 @@ class _Title extends StatelessWidget {
     child: Text(
       text,
       style: const TextStyle(
-        fontSize: 22,
+        fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
     ),
