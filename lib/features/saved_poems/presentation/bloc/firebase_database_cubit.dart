@@ -107,7 +107,7 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
         ),
       );
 
-      emit(state.copyWith(status: FirebaseDatabaseStatus.success));
+    emit(state.copyWith(status: FirebaseDatabaseStatus.success));
     } catch(e) {
       emit(state.copyWith(status: FirebaseDatabaseStatus.error));
     }
@@ -144,6 +144,7 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
       );
 
       emit(state.copyWith(status: FirebaseDatabaseStatus.success));
+      emit(state.copyWith(status: FirebaseDatabaseStatus.needsRefresh));
     } catch(e) {
       emit(state.copyWith(status: FirebaseDatabaseStatus.error));
     }
