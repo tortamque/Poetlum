@@ -45,7 +45,7 @@ class _ScreensWrapperState extends State<ScreensWrapper> {
       onTabChange: (value) => setState(() => screenIndex = value),
       gap: 12,
       tabs: const [
-        GButton(icon: Icons.home, text: 'Menu'),
+        GButton(icon: Icons.home_outlined, text: 'Menu'),
         GButton(icon: Icons.bookmark_outline_rounded, text: 'Saved poems'),
       ],
     ),
