@@ -39,9 +39,9 @@ class _ColorOptionButtonState extends State<ColorOptionButton>  with TickerProvi
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             boxShadow: const [
               BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.2),
-                offset: Offset(4, 4),
-                blurRadius: 5,
+                color: Color.fromRGBO(0, 0, 0, 0.5),
+                offset: Offset(5, 5),
+                blurRadius: 6,
               ),
             ],
           ),
