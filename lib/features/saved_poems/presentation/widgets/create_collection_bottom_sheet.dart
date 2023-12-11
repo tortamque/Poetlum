@@ -7,6 +7,7 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
@@ -25,11 +26,18 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
   late TextEditingController _collectionNameController;
   late MultiSelectController<PoemEntity> _selectController;
 
+  bool isHeaderAnimated = false;
+  bool isTextFieldAnimated = false;
+  bool isSelectAnimated = false;
+  bool isButtonAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
   @override
   void initState() {
     super.initState();
     _collectionNameController = TextEditingController();
     _selectController = MultiSelectController();
+    _startAnimations();
   }
 
   @override
@@ -40,6 +48,21 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
     super.dispose();
   }
 
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isHeaderAnimated = val,
+      (val) => isTextFieldAnimated = val,
+      (val) => isSelectAnimated = val,
+      (val) => isButtonAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_) => setState(() => setters[i](true)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => SizedBox(
     height: MediaQuery.of(context).size.height / 1.15,
@@ -47,15 +70,39 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
     child: Column(
       children: [
         const CustomSpacer(heightFactor: 0.05),
-        const _TitleTextWidget(),
+
+        RightAnimation(
+          animationField: isHeaderAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          opacityInitialValue: 0,
+          child: const _TitleTextWidget(),
+        ),
         const CustomSpacer(heightFactor: 0.05),
-        _CollectionNameInputWidget(controller: _collectionNameController),
+
+        RightAnimation(
+          animationField: isTextFieldAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          opacityInitialValue: 0,
+          child: _CollectionNameInputWidget(controller: _collectionNameController),
+        ),
         const CustomSpacer(heightFactor: 0.05),
-        _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
+
+        RightAnimation(
+          animationField: isSelectAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          opacityInitialValue: 0,
+          child: _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
+        ),
         const CustomSpacer(heightFactor: 0.05),
-        _CreateButtonWidget(
-          textController: _collectionNameController, 
-          selectController: _selectController,
+
+        RightAnimation(
+          animationField: isButtonAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          opacityInitialValue: 0,
+          child: _CreateButtonWidget(
+            textController: _collectionNameController, 
+            selectController: _selectController,
+          ),
         ),
         const CustomSpacer(heightFactor: 0.05),
       ],
