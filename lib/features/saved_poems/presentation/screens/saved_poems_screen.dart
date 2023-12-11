@@ -80,10 +80,6 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
 
             var collections = snapshot.data;
 
-            if (collections == null || collections.isEmpty) {
-              return const Center(child: Text("You haven't saved any poems yet. :("));
-            }
-
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -130,8 +126,9 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                     ),
                   ),
                   if (collections == null || collections!.isEmpty) 
-                    const Text("You haven't saved any poems yet. :(") 
-                  else ListView.builder(
+                    const Text("You haven't saved any poems yet. :(") ,
+                  if (!(collections == null || collections!.isEmpty))
+                    ListView.builder(
                     shrinkWrap: true, 
                     physics: const NeverScrollableScrollPhysics(), 
                     itemCount: collections!.length, 
@@ -148,3 +145,4 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     },
   );
 }
+
