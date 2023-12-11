@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_checkbox_tile.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_header.dart';
@@ -70,56 +70,56 @@ class _CustomDrawerState extends State<CustomDrawer> {
           child: Column(
             children: [
               const CustomSpacer(heightFactor: 0.02),
-              RightAnimation(
+              TopAnimation(
                 animationField: isHeaderAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
               ),
 
-              RightAnimation(
+              TopAnimation(
                 animationField: isAuthorAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Author', controller: _authorController),
               ),
               const CustomSpacer(heightFactor: 0.04),
 
-              RightAnimation(
+              TopAnimation(
                 animationField: isTitleAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Title', controller: _titleController),
               ),
               const CustomSpacer(heightFactor: 0.04),
 
-              RightAnimation(
+              TopAnimation(
                 animationField: isLinesNumberAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Number of lines', isNumberInput: true, controller: _numberOfLinesController),
               ),
               const CustomSpacer(heightFactor: 0.04),
 
-              RightAnimation(
+              TopAnimation(
                 animationField: isResultCountAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
               ),
               const CustomSpacer(heightFactor: 0.04),
 
-              RightAnimation(
+              TopAnimation(
                 animationField: isCheckboxAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
               ),
               const CustomSpacer(heightFactor: 0.04),
 
-              RightAnimation(
+              TopAnimation(
                 animationField: isButtonAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/6,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
                 opacityInitialValue: 0,
                 child: CustomSearchButton(
                   onPressed: () {
