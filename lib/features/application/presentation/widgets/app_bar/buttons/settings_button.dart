@@ -12,20 +12,46 @@ class SettingsButton extends StatefulWidget {
 }
 
 class _SettingsButtonState extends State<SettingsButton> with TickerProviderStateMixin, RotatingButtonMixin {
+  bool isButtonAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
   @override
-  Widget build(BuildContext context) => RotationTransition(
-    turns: rotationAnimation,
-    child: IconButton(
-      tooltip: 'Settings',
-      onPressed: () async{
-        playAnimation();
-        
-        await showModalBottomSheet(
-          context: context, 
-          builder: (context) => _BottomSheetContent(),
-        );
-      },
-      icon: const Icon(Icons.settings),
+  void initState() {
+    super.initState();
+    _startAnimations();
+  }
+
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isButtonAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_) => setState(() => setters[i](true)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => RightAnimation(
+    animationField: isButtonAnimated ,
+    positionInitialValue: MediaQuery.of(context).size.width/6,
+    opacityInitialValue: 0,
+    child: RotationTransition(
+      turns: rotationAnimation,
+      child: IconButton(
+        tooltip: 'Settings',
+        onPressed: () async{
+          playAnimation();
+          
+          await showModalBottomSheet(
+            context: context, 
+            builder: (context) => const _BottomSheetContent(),
+          );
+        },
+        icon: const Icon(Icons.settings),
+      ),
     ),
   );
 
