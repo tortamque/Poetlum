@@ -35,7 +35,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     _startAnimations();
   }
 
-    void _startAnimations() {
+  void _startAnimations() {
     final setters = <Function(bool)>[
       (val) => isButton1Animated = val,
       (val) => isButton2Animated = val,
