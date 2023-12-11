@@ -35,7 +35,11 @@ class _PoemCardState extends State<PoemCard> {
 
     for (var i = 0; i < setters.length; i++) {
       Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
+        (_){
+          if (mounted) {
+            setState(() => setters[i](true));
+          }
+        }
       );
     }
   }
