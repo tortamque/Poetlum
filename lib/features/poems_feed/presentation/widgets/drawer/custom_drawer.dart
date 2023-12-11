@@ -72,14 +72,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               const CustomSpacer(heightFactor: 0.02),
               RightAnimation(
                 animationField: isHeaderAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
               ),
 
               RightAnimation(
                 animationField: isAuthorAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Author', controller: _authorController),
               ),
@@ -87,7 +87,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
               RightAnimation(
                 animationField: isTitleAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Title', controller: _titleController),
               ),
@@ -95,7 +95,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
               RightAnimation(
                 animationField: isLinesNumberAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Number of lines', isNumberInput: true, controller: _numberOfLinesController),
               ),
@@ -103,7 +103,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
               RightAnimation(
                 animationField: isResultCountAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
               ),
@@ -111,7 +111,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
               RightAnimation(
                 animationField: isCheckboxAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
               ),
@@ -119,7 +119,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
               RightAnimation(
                 animationField: isButtonAnimated,
-                positionInitialValue: MediaQuery.of(context).size.width/8,
+                positionInitialValue: MediaQuery.of(context).size.width/6,
                 opacityInitialValue: 0,
                 child: CustomSearchButton(
                   onPressed: () {

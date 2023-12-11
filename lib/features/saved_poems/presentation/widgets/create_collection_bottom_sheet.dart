@@ -73,7 +73,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
 
         RightAnimation(
           animationField: isHeaderAnimated,
-          positionInitialValue: MediaQuery.of(context).size.width/8,
+          positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
           child: const _TitleTextWidget(),
         ),
@@ -81,7 +81,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
 
         RightAnimation(
           animationField: isTextFieldAnimated,
-          positionInitialValue: MediaQuery.of(context).size.width/8,
+          positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
           child: _CollectionNameInputWidget(controller: _collectionNameController),
         ),
@@ -89,7 +89,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
 
         RightAnimation(
           animationField: isSelectAnimated,
-          positionInitialValue: MediaQuery.of(context).size.width/8,
+          positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
           child: _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
         ),
@@ -97,7 +97,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
 
         RightAnimation(
           animationField: isButtonAnimated,
-          positionInitialValue: MediaQuery.of(context).size.width/8,
+          positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
           child: _CreateButtonWidget(
             textController: _collectionNameController, 
