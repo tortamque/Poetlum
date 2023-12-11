@@ -69,7 +69,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomSpacer(heightFactor: 0.04),
+              const CustomSpacer(heightFactor: 0.02),
               RightAnimation(
                 animationField: isHeaderAnimated,
                 positionInitialValue: MediaQuery.of(context).size.width/8,
