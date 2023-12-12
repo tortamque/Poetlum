@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -34,6 +37,13 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
   @override
   void initState() {
     super.initState();
+    FirebaseAnalytics.instance.logEvent(
+      name: 'update_collection',
+      parameters: {
+        'opened': 'true'
+      },
+    );
+        
     _selectController = MultiSelectController();
 
     _initPoemsInTheCollectionValues();
@@ -168,8 +178,28 @@ class _EditButtonWidget extends StatelessWidget {
       : FilledButton.tonal(
           onPressed: () async {
             if(selectController.selectedOptions.isEmpty){
+              unawaited(
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'update_collection',
+                  parameters: {
+                    'successful': 'true',
+                    'error': 'Empty poems'
+                  },
+                ),
+              );
+
               await _showNegativeToast('Please select at least one poem to add to the collection');
             } else{
+              unawaited(
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'update_collection',
+                  parameters: {
+                    'collection_name': collectionName,
+                    'updated_poems_count': selectController.selectedOptions.length,
+                  },
+                ),
+              );
+
               await context.read<FirebaseDatabaseCubit>().updatePoemsInCollection(
                 userId: getIt<UserRepository>().getCurrentUser().userId!,
                 collectionName: collectionName,
