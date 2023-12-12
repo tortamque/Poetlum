@@ -9,7 +9,7 @@ import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_checkbox_tile.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_header.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_search_buttond.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_search_button.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 
 class CustomDrawer extends StatefulWidget {

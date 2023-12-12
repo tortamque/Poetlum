@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/features/application/presentation/widgets/loader.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
@@ -76,7 +77,7 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
         },
         builder: (context, state) {
           if (state.status == FirebaseDatabaseStatus.submitting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Loader(text: 'Snatching your poems from our top-secret database 🕵️‍♂️');
           } else {
             return poemsInTheCollection.isEmpty
               ? const Padding(
