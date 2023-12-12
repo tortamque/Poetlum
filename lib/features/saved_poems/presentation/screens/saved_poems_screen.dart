@@ -75,7 +75,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
           future: collectionsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Loader(text: 'Snatching your poems from our top-secret database 🕵️‍♂️');
+              return const Loader(text: 'Snatching your collections from our top-secret database 🕵️‍♂️');
             }
 
             if (snapshot.hasError) {
