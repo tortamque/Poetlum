@@ -195,7 +195,7 @@ class _EditButtonWidget extends StatelessWidget {
                   name: 'update_collection',
                   parameters: {
                     'collection_name': collectionName,
-                    'updated_poems_count': selectController.selectedOptions.length,
+                    'updated_poems_count': selectController.selectedOptions.length.toString(),
                   },
                 ),
               );

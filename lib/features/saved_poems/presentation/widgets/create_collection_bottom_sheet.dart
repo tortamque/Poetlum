@@ -229,7 +229,7 @@ class _CreateButtonWidget extends StatelessWidget {
                     parameters: {
                       'success': 'true',
                       'collection_name': textController.text,
-                      'poems_count': selectController.selectedOptions.length,
+                      'poems_count': selectController.selectedOptions.length.toString(),
                     },
                   ),
                 );
