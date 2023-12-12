@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -35,6 +38,12 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
   @override
   void initState() {
     super.initState();
+    FirebaseAnalytics.instance.logEvent(
+      name: 'create_collection',
+      parameters: {
+        'opened': 'true',
+      },
+    );
     _collectionNameController = TextEditingController();
     _selectController = MultiSelectController();
     _startAnimations();
@@ -173,9 +182,38 @@ class _CreateButtonWidget extends StatelessWidget {
       ? const CircularProgressIndicator()
       : FilledButton.tonal(
           onPressed: () async {
+            unawaited(
+              FirebaseAnalytics.instance.logEvent(
+                name: 'create_collection',
+                parameters: {
+                  'button_pressed': 'true',
+                },
+              ),
+            );
+
             if(selectController.selectedOptions.isEmpty){
+              unawaited(
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'create_collection',
+                  parameters: {
+                    'success': 'false',
+                    'error': 'Empty selected options',
+                  },
+                ),
+              );
+
               await _showNegativeToast('Please select at least one poem to add to the collection');
             } else if(textController.text.isEmpty){
+              unawaited(
+                FirebaseAnalytics.instance.logEvent(
+                  name: 'create_collection',
+                  parameters: {
+                    'success': 'false',
+                    'error': 'Empty collection name options',
+                  },
+                ),
+              );
+
               await _showNegativeToast('Please provide the name for the collection');
             }
             else{
@@ -185,6 +223,17 @@ class _CreateButtonWidget extends StatelessWidget {
               );
 
               if(!isCollectionExist){
+                unawaited(
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'create_collection',
+                    parameters: {
+                      'success': 'true',
+                      'collection_name': textController.text,
+                      'poems_count': selectController.selectedOptions.length.toString(),
+                    },
+                  ),
+                );
+
                 await context.read<FirebaseDatabaseCubit>().createNewCollection(
                   userId: getIt<UserRepository>().getCurrentUser().userId!, 
                   collectionName: textController.text, 
@@ -195,6 +244,16 @@ class _CreateButtonWidget extends StatelessWidget {
       
                 await _showPositiveToast('The collection has been successfully saved');
               } else{
+                unawaited(
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'create_collection',
+                    parameters: {
+                      'success': 'false',
+                      'error': 'Collection exists',
+                    },
+                  ),
+                );
+
                 await _showNegativeToast('The collection with this name already exists');
               }
               

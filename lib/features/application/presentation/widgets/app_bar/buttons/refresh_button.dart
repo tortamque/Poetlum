@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/buttons/rotating_button_mixin.dart';
@@ -48,6 +49,10 @@ class _RefreshButtonState extends State<RefreshButton> with TickerProviderStateM
           ? null
           : (){
             playAnimation();
+
+            FirebaseAnalytics.instance.logEvent(
+              name: 'refresh_poems',
+            );
   
             BlocProvider.of<RemotePoemBloc>(context).add(const GetInitialPoemsEvent());
           },

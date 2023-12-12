@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -23,6 +24,9 @@ class PoetlumApp extends StatelessWidget {
       title: 'Poetlum',
       theme: state.themeData,
       initialRoute: authWrapperPageConstant,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+      ],
       routes: {
         authWrapperPageConstant:(_) => const AuthWrapper(),
         registerPageConstant: (_) => const RegistrationPage(),

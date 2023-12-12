@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -25,8 +26,20 @@ class AuthButton<
       listener: (__, registerState) {
         if (registerState.status == AuthStatus.success) {
           _showPositiveToast(successfulToastText);
+          FirebaseAnalytics.instance.logEvent(
+            name: 'auth',
+            parameters: {
+              'status': 'success',
+            },
+          );
           navigateOnSuccess();
         } else if (registerState.status == AuthStatus.error) {
+          FirebaseAnalytics.instance.logEvent(
+            name: 'auth',
+            parameters: {
+              'status': 'failed',
+            },
+          );
           _showNegativeToast(registerState.errorMessage ?? 'Unknown error');
         }
       },

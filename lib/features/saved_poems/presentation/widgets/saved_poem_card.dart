@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
@@ -48,6 +51,19 @@ class _SavedPoemCardState extends State<SavedPoemCard> {
   Widget build(BuildContext context) => Dismissible(
     key: UniqueKey(),
     onDismissed: (direction) async{
+      unawaited(
+        FirebaseAnalytics.instance.logEvent(
+          name: 'saved_poem_card',
+          parameters: {
+            'deleted': 'true',
+            'author': widget.poemEntity.author,
+            'title': widget.poemEntity.title,
+            'line_count': widget.poemEntity.linecount,
+            'collecton_name': widget.collectionEntity.name,
+          },
+        ),
+      );
+
       if(widget.collectionEntity.isAllSavedPoems){
         await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
           poemEntity: widget.poemEntity, 
@@ -62,7 +78,19 @@ class _SavedPoemCardState extends State<SavedPoemCard> {
       }
     },
     child: GestureDetector(
-      onTap: () => Navigator.pushNamed(context, savedPoemViewConstant, arguments: widget.poemEntity),
+      onTap: (){
+        FirebaseAnalytics.instance.logEvent(
+          name: 'saved_poem_card',
+          parameters: {
+            'author': widget.poemEntity.author,
+            'title': widget.poemEntity.title,
+            'line_count': widget.poemEntity.linecount,
+            'collecton_name': widget.collectionEntity.name,
+          },
+        );
+
+        Navigator.pushNamed(context, savedPoemViewConstant, arguments: widget.poemEntity);
+      },
       child: Card(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/buttons/rotating_button_mixin.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
@@ -18,6 +19,12 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
   @override
   void initState() {
     super.initState();
+    FirebaseAnalytics.instance.logEvent(
+      name: 'theme',
+      parameters: {
+        'opened': 'true',
+      },
+    );
     _startAnimations();
   }
 

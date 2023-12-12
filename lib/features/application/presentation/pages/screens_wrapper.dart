@@ -1,8 +1,11 @@
 import 'package:animations/animations.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/features/application/presentation/widgets/loader.dart';
+import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/screens/poems_feed_screen.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';
 import 'package:poetlum/features/saved_poems/presentation/screens/saved_poems_screen.dart';
@@ -28,21 +31,41 @@ class _ScreensWrapperState extends State<ScreensWrapper> {
       title: 'Poetlum',
     ),
     drawer: CustomDrawer(getIt()),
-    body: PageTransitionSwitcher(
-      child: screens[screenIndex],
-      transitionBuilder: (
-        child, 
-        primaryAnimation, 
-        secondaryAnimation,
-      ) =>
-        FadeThroughTransition(
-          animation: primaryAnimation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
+    body: FutureBuilder(
+      future: FirebaseAnalytics.instance.setUserId(
+        id: getIt<UserRepository>().getCurrentUser().userId,
+      ),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const Loader(text: 'Setting up analytics 🔎');
+        } else{
+          return PageTransitionSwitcher(
+            child: screens[screenIndex],
+            transitionBuilder: (
+              child, 
+              primaryAnimation, 
+              secondaryAnimation,
+            ) =>
+              FadeThroughTransition(
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+              ),
+          );
+        }
+      },
     ),
     bottomNavigationBar: GNav(
-      onTabChange: (value) => setState(() => screenIndex = value),
+      onTabChange: (value){
+        FirebaseAnalytics.instance.logEvent(
+          name: 'screen_navigation',
+          parameters: {
+            'screen_index': value,
+          },
+        );
+
+        setState(() => screenIndex = value);
+      },
       gap: 12,
       tabs: const [
         GButton(icon: Icons.home_outlined, text: 'Menu'),

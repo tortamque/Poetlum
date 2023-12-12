@@ -26,34 +26,10 @@ class SavedPoemsScreen extends StatefulWidget {
 class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
   Future<List<CollectionEntity>?>? collectionsFuture;
 
-  bool isButton1Animated = false;
-  bool isButton2Animated = false;
-  bool isTextAnimated = false;
-  final Duration animationDelay = const Duration(milliseconds: 300);
-
   @override
   void initState() {
     super.initState();
-    collectionsFuture = initCollections();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isButton1Animated = val,
-      (val) => isButton2Animated = val,
-      (val) => isTextAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    collectionsFuture = initCollections();;
   }
 
   Future<List<CollectionEntity>?> initCollections() async => context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
@@ -93,7 +69,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RightAnimation(
-                          animationField: isButton2Animated,
+                          animationField: true,
                           positionInitialValue: MediaQuery.of(context).size.width/8,
                           child: FilledButton(
                             child: const Text('Create a collection'),
@@ -113,7 +89,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                         ),
                         
                         RightAnimation(
-                          animationField: isButton1Animated,
+                          animationField: true,
                           positionInitialValue: MediaQuery.of(context).size.width/8,
                           child: FilledButton.tonal(
                             onPressed: () => Navigator.pushNamedAndRemoveUntil(
@@ -129,9 +105,9 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                   ),
                   if (collections == null || collections!.isEmpty) 
                     TopAnimation(
-                      animationField: isTextAnimated,
+                      animationField: true,
                       positionInitialValue: MediaQuery.of(context).size.width/8,
-                      child: const Text("You haven't saved any poems yet. :(") ,
+                      child: const Text("You haven't saved any poems yet. 😔") ,
                     ),
                   if (!(collections == null || collections!.isEmpty))
                     ListView.builder(

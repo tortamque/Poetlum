@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
@@ -34,13 +37,25 @@ class _CustomSaveButtonState extends State<CustomSaveButton> {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return const CircularProgressIndicator();
       } else {
-        bool isLiked = snapshot.data ?? false;
+        final isLiked = snapshot.data ?? false;
         return LikeButton(
           isLiked: isLiked,
           size: 42,
           circleColor: CircleColor(start: Theme.of(context).colorScheme.primaryContainer, end: Theme.of(context).colorScheme.primary),
           bubblesColor: BubblesColor(dotPrimaryColor: Theme.of(context).colorScheme.primaryContainer, dotSecondaryColor: Theme.of(context).colorScheme.primary),
           onTap: (isLiked) async {
+            unawaited(
+              FirebaseAnalytics.instance.logEvent(
+                name: 'collection_save',
+                parameters: {
+                  'title': widget.poemEntity.title,
+                  'author': widget.poemEntity.author,
+                  'linecount': widget.poemEntity.linecount,
+                  'is_saved': (!isLiked).toString(),
+                },
+              ),
+            );
+
             if(isLiked == false){
               await context.read<FirebaseDatabaseCubit>().savePoem(
                 userId: getIt<UserRepository>().getCurrentUser().userId!, 
