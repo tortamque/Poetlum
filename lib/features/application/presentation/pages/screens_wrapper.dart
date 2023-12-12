@@ -56,7 +56,16 @@ class _ScreensWrapperState extends State<ScreensWrapper> {
       },
     ),
     bottomNavigationBar: GNav(
-      onTabChange: (value) => setState(() => screenIndex = value),
+      onTabChange: (value){
+        FirebaseAnalytics.instance.logEvent(
+          name: 'screen_navigation',
+          parameters: {
+            'screen_index': value,
+          },
+        );
+
+        setState(() => screenIndex = value);
+      },
       gap: 12,
       tabs: const [
         GButton(icon: Icons.home_outlined, text: 'Menu'),
