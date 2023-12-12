@@ -51,7 +51,6 @@ class _HeaderState extends State<_Header> {
         RightAnimation(
           animationField: isHeaderAnimated,
           positionInitialValue: MediaQuery.of(context).size.height/14,
-          opacityInitialValue: 0,
           child: const Text(
             'Login',
             style: TextStyle(
@@ -117,7 +116,6 @@ class _FormState extends State<_Form> {
           RightAnimation(
             animationField: isEmailAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: EmailTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: widget.emailController),
           ),
           const Spacer(),
@@ -125,7 +123,6 @@ class _FormState extends State<_Form> {
           RightAnimation(
             animationField: isPasswordAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: PasswordTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: widget.passwordController),
           ),
           const Spacer(),
@@ -133,7 +130,6 @@ class _FormState extends State<_Form> {
           RightAnimation(
             animationField: isButtonAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: AuthButton<
               AuthCubit, 
               AuthState, 
@@ -197,7 +193,6 @@ class _FooterState extends State<_Footer> {
     child: RightAnimation(
       animationField: isFooterAnimated,
       positionInitialValue: MediaQuery.of(context).size.height/14,
-      opacityInitialValue: 0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

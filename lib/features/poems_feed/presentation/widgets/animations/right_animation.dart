@@ -7,13 +7,11 @@ class RightAnimation extends StatelessWidget {
     required this.child, 
     required this.animationField,
     required this.positionInitialValue, 
-    required this.opacityInitialValue,
   });
   
   final Widget child;
   final bool animationField;
   final double positionInitialValue;
-  final double opacityInitialValue;
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder(
@@ -21,7 +19,7 @@ class RightAnimation extends StatelessWidget {
     duration: animationDuration,
     curve: animationCurve,
     builder: (context, value, child) => Opacity(
-      opacity: opacityInitialValue + (1 - opacityInitialValue) * value,
+      opacity: value,
       child: Transform.translate(
         offset: Offset(-positionInitialValue * (1 - value), 0),
         child: child,

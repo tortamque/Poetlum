@@ -37,7 +37,6 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
   Widget build(BuildContext context) => RightAnimation(
     animationField: isButtonAnimated ,
     positionInitialValue: MediaQuery.of(context).size.width/6,
-    opacityInitialValue: 0,
     child: RotationTransition(
       turns: rotationAnimation,
       child: IconButton(
@@ -116,7 +115,6 @@ class _BottomSheetContentState extends State<_BottomSheetContent> {
         RightAnimation(
           animationField: isHeaderAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
-          opacityInitialValue: 0,
           child: const _Title(text: 'Choose your theme'),
         ),
 

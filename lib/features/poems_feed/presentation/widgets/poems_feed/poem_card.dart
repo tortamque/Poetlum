@@ -62,7 +62,6 @@ class _PoemCardState extends State<PoemCard> {
             RightAnimation(
               animationField: isTitleAnimated,
               positionInitialValue: MediaQuery.of(context).size.width/8,
-              opacityInitialValue: 0,
               child: _TitleText(title: widget.poemEntity.title),
             ),
             const SizedBox(height: 8),
@@ -70,7 +69,6 @@ class _PoemCardState extends State<PoemCard> {
             RightAnimation(
               animationField: isAuthorAnimated,
               positionInitialValue: MediaQuery.of(context).size.width/8,
-              opacityInitialValue: 0,
               child: _AuthorText(author: widget.poemEntity.author),
             ),
             const SizedBox(height: 16),
@@ -78,7 +76,6 @@ class _PoemCardState extends State<PoemCard> {
             RightAnimation(
               animationField: isTextAnimated,
               positionInitialValue: MediaQuery.of(context).size.width/8,
-              opacityInitialValue: 0,
               child: _PoemText(text: widget.poemEntity.text, maxLength: 250),
             ),
           ],

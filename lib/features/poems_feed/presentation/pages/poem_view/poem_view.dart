@@ -70,7 +70,6 @@ class _PoemViewPageState extends State<PoemViewPage> {
                 RightAnimation(
                   animationField: isSaveButtonAnimated,
                   positionInitialValue: MediaQuery.of(context).size.width/8,
-                  opacityInitialValue: 0,
                   child: CustomSaveButton(poemEntity: poemEntity),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
@@ -78,7 +77,6 @@ class _PoemViewPageState extends State<PoemViewPage> {
                 RightAnimation(
                   animationField: isTitleAnimated,
                   positionInitialValue: MediaQuery.of(context).size.width/8,
-                  opacityInitialValue: 0,
                   child: PoemTitle(title: poemEntity.title ?? ''),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
@@ -86,7 +84,6 @@ class _PoemViewPageState extends State<PoemViewPage> {
                 RightAnimation(
                   animationField: isAuthorAnimated,
                   positionInitialValue: MediaQuery.of(context).size.width/8,
-                  opacityInitialValue: 0,
                   child: PoemAuthor(author: poemEntity.author ?? ''),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
@@ -94,7 +91,6 @@ class _PoemViewPageState extends State<PoemViewPage> {
                 RightAnimation(
                   animationField: isShareButtonAnimated,
                   positionInitialValue: MediaQuery.of(context).size.width/8,
-                  opacityInitialValue: 0,
                   child: CustomShareButton(poemEntity: poemEntity),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
@@ -102,7 +98,6 @@ class _PoemViewPageState extends State<PoemViewPage> {
                 RightAnimation(
                   animationField: isContentAnimated,
                   positionInitialValue: MediaQuery.of(context).size.width/8,
-                  opacityInitialValue: 0,
                   child: PoemContent(text: poemEntity.text ?? ''),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
@@ -110,7 +105,6 @@ class _PoemViewPageState extends State<PoemViewPage> {
                 RightAnimation(
                   animationField: isPoemLineAnimated,
                   positionInitialValue: MediaQuery.of(context).size.width/8,
-                  opacityInitialValue: 0,
                   child: PoemLineCount(lineCount: poemEntity.linecount ?? 0),
                 ),
                 const CustomSpacer(heightFactor: 0.02),

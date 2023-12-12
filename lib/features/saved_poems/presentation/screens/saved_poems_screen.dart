@@ -91,7 +91,6 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                         RightAnimation(
                           animationField: isButton2Animated,
                           positionInitialValue: MediaQuery.of(context).size.width/8,
-                          opacityInitialValue: 0,
                           child: FilledButton(
                             child: const Text('Create a collection'),
                             onPressed: () async{
@@ -112,7 +111,6 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                         RightAnimation(
                           animationField: isButton1Animated,
                           positionInitialValue: MediaQuery.of(context).size.width/8,
-                          opacityInitialValue: 0,
                           child: FilledButton.tonal(
                             onPressed: () => Navigator.pushNamedAndRemoveUntil(
                               context, 

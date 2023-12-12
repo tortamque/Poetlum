@@ -72,7 +72,6 @@ class _CollectionCardState extends State<CollectionCard> {
               child: TopAnimation(
                 animationField: isAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

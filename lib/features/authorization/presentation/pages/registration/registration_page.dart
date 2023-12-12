@@ -52,7 +52,6 @@ class _HeaderState extends State<_Header> {
         TopAnimation(
           animationField: isHeaderAnimated,
           positionInitialValue: MediaQuery.of(context).size.height/14,
-          opacityInitialValue: 0,
           child: const Text(
             'Registration',
             style: TextStyle(
@@ -121,7 +120,6 @@ class _FormState extends State<_Form> {
           TopAnimation(
             animationField: isUsernameAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: UsernameTextField(controller: widget.usernameController),
           ),
           const Spacer(),
@@ -129,7 +127,6 @@ class _FormState extends State<_Form> {
           TopAnimation(
             animationField: isEmailAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: widget.emailController),
           ),
           const Spacer(),
@@ -137,7 +134,6 @@ class _FormState extends State<_Form> {
           TopAnimation(
             animationField: isPasswordAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: widget.passwordController),
           ),
           const Spacer(),
@@ -145,7 +141,6 @@ class _FormState extends State<_Form> {
           TopAnimation(
             animationField: isButtonAnimated,
             positionInitialValue: MediaQuery.of(context).size.height/14,
-            opacityInitialValue: 0,
             child: AuthButton<
               AuthCubit, 
               AuthState, 
@@ -208,7 +203,6 @@ class _FooterState extends State<_Footer> {
     child: TopAnimation(
       animationField: isFooterAnimated,
       positionInitialValue: MediaQuery.of(context).size.height/14,
-      opacityInitialValue: 0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

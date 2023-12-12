@@ -78,7 +78,6 @@ class _WritePoemPageState extends State<WritePoemPage> {
               RightAnimation(
                 animationField: isNameTextFieldAnimated,
                 positionInitialValue: MediaQuery.of(context).size.width/3,
-                opacityInitialValue: 0,
                 child: _CustomTextField(hintText: 'Poem name', controller: _nameController, isLarge: false),
               ),
               const _CustomSpacer(heightFactor: 0.03),
@@ -86,7 +85,6 @@ class _WritePoemPageState extends State<WritePoemPage> {
               RightAnimation(
                 animationField: isPoemTextFieldAnimated,
                 positionInitialValue: MediaQuery.of(context).size.width/3,
-                opacityInitialValue: 0,
                 child: _CustomTextField(hintText: 'Your amazing poem :D', controller: _contentController, isLarge: true),
               ),
               const _CustomSpacer(heightFactor: 0.03),
@@ -96,7 +94,6 @@ class _WritePoemPageState extends State<WritePoemPage> {
               else RightAnimation(
                 animationField: isButtonAnimated,
                 positionInitialValue: MediaQuery.of(context).size.width/3,
-                opacityInitialValue: 0,
                 child: FilledButton.tonal(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

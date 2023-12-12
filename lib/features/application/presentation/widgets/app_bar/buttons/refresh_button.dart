@@ -39,7 +39,6 @@ class _RefreshButtonState extends State<RefreshButton> with TickerProviderStateM
   Widget build(BuildContext context) => RightAnimation(
     animationField: isButtonAnimated ,
     positionInitialValue: MediaQuery.of(context).size.width/6,
-    opacityInitialValue: 0,
     child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
       builder: (context, state) =>  RotationTransition(
         turns: rotationAnimation,

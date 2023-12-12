@@ -74,7 +74,6 @@ class _SavedPoemCardState extends State<SavedPoemCard> {
           child: RightAnimation(
             animationField: isAnimated,
             positionInitialValue: MediaQuery.of(context).size.width/8,
-            opacityInitialValue: 0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

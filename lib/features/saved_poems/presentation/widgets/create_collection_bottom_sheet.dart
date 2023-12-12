@@ -74,7 +74,6 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         TopAnimation(
           animationField: isHeaderAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
-          opacityInitialValue: 0,
           child: const _TitleTextWidget(),
         ),
         const CustomSpacer(heightFactor: 0.05),
@@ -82,7 +81,6 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         TopAnimation(
           animationField: isTextFieldAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
-          opacityInitialValue: 0,
           child: _CollectionNameInputWidget(controller: _collectionNameController),
         ),
         const CustomSpacer(heightFactor: 0.05),
@@ -90,7 +88,6 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         TopAnimation(
           animationField: isSelectAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
-          opacityInitialValue: 0,
           child: _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
         ),
         const CustomSpacer(heightFactor: 0.05),
@@ -98,7 +95,6 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         TopAnimation(
           animationField: isButtonAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
-          opacityInitialValue: 0,
           child: _CreateButtonWidget(
             textController: _collectionNameController, 
             selectController: _selectController,

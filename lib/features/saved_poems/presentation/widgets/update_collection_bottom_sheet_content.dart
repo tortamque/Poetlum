@@ -92,7 +92,6 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
         RightAnimation(
           animationField: isTitleAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/8,
-          opacityInitialValue: 0,
           child: const _TitleTextWidget(),
         ),
         const CustomSpacer(heightFactor: 0.05),
@@ -100,7 +99,6 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
         RightAnimation(
           animationField: isSelectorAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/8,
-          opacityInitialValue: 0,
           child: _PoemSelectionWidget(controller: _selectController, allValues: allValues, selectedValues: selectedValues),
         ),
         const CustomSpacer(heightFactor: 0.05),
@@ -108,7 +106,6 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
         RightAnimation(
           animationField: isButtonAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/8,
-          opacityInitialValue: 0,
           child: _EditButtonWidget(selectController: _selectController, collectionName: widget.collectionName),
         ),
         const CustomSpacer(heightFactor: 0.05),

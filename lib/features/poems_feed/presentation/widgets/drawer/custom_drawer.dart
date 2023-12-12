@@ -73,14 +73,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
               TopAnimation(
                 animationField: isHeaderAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
               ),
 
               TopAnimation(
                 animationField: isAuthorAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Author', controller: _authorController),
               ),
               const CustomSpacer(heightFactor: 0.04),
@@ -88,7 +86,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               TopAnimation(
                 animationField: isTitleAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Title', controller: _titleController),
               ),
               const CustomSpacer(heightFactor: 0.04),
@@ -96,7 +93,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               TopAnimation(
                 animationField: isLinesNumberAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Number of lines', isNumberInput: true, controller: _numberOfLinesController),
               ),
               const CustomSpacer(heightFactor: 0.04),
@@ -104,7 +100,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               TopAnimation(
                 animationField: isResultCountAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
               ),
               const CustomSpacer(heightFactor: 0.04),
@@ -112,7 +107,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               TopAnimation(
                 animationField: isCheckboxAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
               ),
               const CustomSpacer(heightFactor: 0.04),
@@ -120,7 +114,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               TopAnimation(
                 animationField: isButtonAnimated,
                 positionInitialValue: MediaQuery.of(context).size.height/14,
-                opacityInitialValue: 0,
                 child: CustomSearchButton(
                   onPressed: () {
                     BlocProvider.of<RemotePoemBloc>(context).add(
