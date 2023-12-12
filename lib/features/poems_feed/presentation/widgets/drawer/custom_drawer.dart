@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
@@ -116,6 +117,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 positionInitialValue: MediaQuery.of(context).size.height/14,
                 child: CustomSearchButton(
                   onPressed: () {
+                    FirebaseAnalytics.instance.logEvent(
+                      name: 'search_poem',
+                      parameters: {
+                        'author': _authorController.text,
+                        'title': _titleController.text,
+                        'line_count': _numberOfLinesController.text,
+                        'poem_count': _resultCountController.text,
+                        'is_random': _isRandom.toString(),
+                      },
+                    );
+
                     BlocProvider.of<RemotePoemBloc>(context).add(
                       GetPoemsEvent(
                         author: _authorController.text,
