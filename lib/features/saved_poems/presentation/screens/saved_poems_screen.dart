@@ -6,6 +6,7 @@ import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
@@ -26,6 +27,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
 
   bool isButton1Animated = false;
   bool isButton2Animated = false;
+  bool isTextAnimated = false;
   final Duration animationDelay = const Duration(milliseconds: 300);
 
   @override
@@ -39,6 +41,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     final setters = <Function(bool)>[
       (val) => isButton1Animated = val,
       (val) => isButton2Animated = val,
+      (val) => isTextAnimated = val,
     ];
 
     for (var i = 0; i < setters.length; i++) {
@@ -124,7 +127,11 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                     ),
                   ),
                   if (collections == null || collections!.isEmpty) 
-                    const Text("You haven't saved any poems yet. :(") ,
+                    TopAnimation(
+                      animationField: isTextAnimated,
+                      positionInitialValue: MediaQuery.of(context).size.width/8,
+                      child: const Text("You haven't saved any poems yet. :(") ,
+                    ),
                   if (!(collections == null || collections!.isEmpty))
                     ListView.builder(
                     shrinkWrap: true, 
