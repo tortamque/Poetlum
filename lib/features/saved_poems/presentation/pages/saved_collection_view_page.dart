@@ -69,9 +69,9 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
         child: const Icon(Icons.edit),
       ),
       body: BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state.status == FirebaseDatabaseStatus.needsRefresh) {
-            initPoems();
+            await initPoems();
           }
         },
         builder: (context, state) {
