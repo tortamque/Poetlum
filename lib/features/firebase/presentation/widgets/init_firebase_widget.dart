@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:poetlum/features/firebase/presentation/widgets/loaders/loader.dart';
+import 'package:poetlum/features/application/presentation/widgets/loader.dart';
 
 class InitFirebaseWidget extends StatefulWidget {
   const InitFirebaseWidget({
@@ -34,7 +34,7 @@ class _InitFirebaseWidgetState extends State<InitFirebaseWidget> {
       } else{
         return MaterialApp(
           home: Scaffold(
-            body: widget.loader ?? const Loader(),
+            body: widget.loader ?? const Loader(text: 'Initializing Firebase'),
           ),
         );
       }
