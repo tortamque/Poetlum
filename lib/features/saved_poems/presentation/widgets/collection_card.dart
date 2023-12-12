@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
@@ -50,6 +51,15 @@ class _CollectionCardState extends State<CollectionCard> {
      ? DismissDirection.none
      : DismissDirection.horizontal,
     onDismissed: (direction) {
+      FirebaseAnalytics.instance.logEvent(
+        name: 'collection_card',
+        parameters: {
+          'deleted': 'true',
+          'name': widget.collection.name,
+          'poems_count': widget.collection.poems?.length,
+        },
+      );
+
       context.read<FirebaseDatabaseCubit>().deleteCollection(
         userId: getIt<UserRepository>().getCurrentUser().userId!, 
         collectionName: widget.collection.name ?? '', 
@@ -57,7 +67,17 @@ class _CollectionCardState extends State<CollectionCard> {
       );
     },
     child: GestureDetector(
-      onTap: () => Navigator.pushNamed(context, savedCollectionViewConstant, arguments: widget.collection),
+      onTap: (){
+        FirebaseAnalytics.instance.logEvent(
+          name: 'collection_card',
+          parameters: {
+            'name': widget.collection.name,
+            'poems_count': widget.collection.poems?.length,
+          },
+        );
+
+        Navigator.pushNamed(context, savedCollectionViewConstant, arguments: widget.collection);
+      },
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 4,
         child: Card(
