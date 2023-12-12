@@ -25,7 +25,7 @@ class _Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 20),
+    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
     child: Text(
       text,
       style: const TextStyle(
