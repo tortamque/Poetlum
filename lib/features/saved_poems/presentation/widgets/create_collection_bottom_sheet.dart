@@ -7,7 +7,7 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
@@ -71,7 +71,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
       children: [
         const CustomSpacer(heightFactor: 0.05),
 
-        RightAnimation(
+        TopAnimation(
           animationField: isHeaderAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
@@ -79,7 +79,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         ),
         const CustomSpacer(heightFactor: 0.05),
 
-        RightAnimation(
+        TopAnimation(
           animationField: isTextFieldAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
@@ -87,7 +87,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         ),
         const CustomSpacer(heightFactor: 0.05),
 
-        RightAnimation(
+        TopAnimation(
           animationField: isSelectAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
@@ -95,7 +95,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         ),
         const CustomSpacer(heightFactor: 0.05),
 
-        RightAnimation(
+        TopAnimation(
           animationField: isButtonAnimated,
           positionInitialValue: MediaQuery.of(context).size.width/6,
           opacityInitialValue: 0,
