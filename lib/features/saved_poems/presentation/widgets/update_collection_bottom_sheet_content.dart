@@ -5,6 +5,7 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
@@ -25,6 +26,11 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
   late List<ValueItem<PoemEntity>> selectedValues = <ValueItem<PoemEntity>>[];
   late List<ValueItem<PoemEntity>> allValues = <ValueItem<PoemEntity>>[];
 
+  bool isTitleAnimated = false;
+  bool isSelectorAnimated = false;
+  bool isButtonAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +38,25 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
 
     _initPoemsInTheCollectionValues();
     _initAllSavedPoemsValues();
+    _startAnimations();
+  }
+
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isTitleAnimated = val,
+      (val) => isSelectorAnimated = val,
+      (val) => isButtonAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_){
+          if (mounted) {
+            setState(() => setters[i](true));
+          }
+        }
+      );
+    }
   }
 
   void _initPoemsInTheCollectionValues(){
@@ -64,11 +89,25 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
     child: Column(
       children: [
         const CustomSpacer(heightFactor: 0.05),
-        const _TitleTextWidget(),
+        RightAnimation(
+          animationField: isTitleAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          child: const _TitleTextWidget(),
+        ),
         const CustomSpacer(heightFactor: 0.05),
-        _PoemSelectionWidget(controller: _selectController, allValues: allValues, selectedValues: selectedValues),
+
+        RightAnimation(
+          animationField: isSelectorAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          child: _PoemSelectionWidget(controller: _selectController, allValues: allValues, selectedValues: selectedValues),
+        ),
         const CustomSpacer(heightFactor: 0.05),
-        _EditButtonWidget(selectController: _selectController, collectionName: widget.collectionName),
+
+        RightAnimation(
+          animationField: isButtonAnimated,
+          positionInitialValue: MediaQuery.of(context).size.width/8,
+          child: _EditButtonWidget(selectController: _selectController, collectionName: widget.collectionName),
+        ),
         const CustomSpacer(heightFactor: 0.05),
       ],
     ),

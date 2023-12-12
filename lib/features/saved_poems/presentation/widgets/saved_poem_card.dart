@@ -4,34 +4,65 @@ import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
-class SavedPoemCard extends StatelessWidget {
+class SavedPoemCard extends StatefulWidget {
   const SavedPoemCard({super.key, required this.poemEntity, required this.collectionEntity});
 
   final PoemEntity poemEntity;
   final CollectionEntity collectionEntity;
 
   @override
+  State<SavedPoemCard> createState() => _SavedPoemCardState();
+}
+
+class _SavedPoemCardState extends State<SavedPoemCard> {
+  bool isAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  @override
+  void initState() {
+    super.initState();
+    _startAnimations();
+  }
+
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_){
+          if (mounted) {
+            setState(() => setters[i](true));
+          }
+        }
+      );
+    }
+  }
+  
+  @override
   Widget build(BuildContext context) => Dismissible(
     key: UniqueKey(),
     onDismissed: (direction) async{
-      if(collectionEntity.isAllSavedPoems){
+      if(widget.collectionEntity.isAllSavedPoems){
         await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
-          poemEntity: poemEntity, 
+          poemEntity: widget.poemEntity, 
           userId: getIt<UserRepository>().getCurrentUser().userId!,
         );
       } else{
         await context.read<FirebaseDatabaseCubit>().deletePoemFromCollection(
-          poemEntity: poemEntity, 
+          poemEntity: widget.poemEntity, 
           userId: getIt<UserRepository>().getCurrentUser().userId!, 
-          collectionName: collectionEntity.name ?? '',
+          collectionName: widget.collectionEntity.name ?? '',
         );
       }
     },
     child: GestureDetector(
-      onTap: () => Navigator.pushNamed(context, savedPoemViewConstant, arguments: poemEntity),
+      onTap: () => Navigator.pushNamed(context, savedPoemViewConstant, arguments: widget.poemEntity),
       child: Card(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -40,16 +71,20 @@ class SavedPoemCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _TitleText(title: poemEntity.title),
-              const SizedBox(height: 8),
-              _AuthorText(author: poemEntity.author),
-              const SizedBox(height: 16),
-              _PoemText(text: poemEntity.text, maxLength: 250),
-            ],
+          child: RightAnimation(
+            animationField: isAnimated,
+            positionInitialValue: MediaQuery.of(context).size.width/8,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _TitleText(title: widget.poemEntity.title),
+                const SizedBox(height: 8),
+                _AuthorText(author: widget.poemEntity.author),
+                const SizedBox(height: 16),
+                _PoemText(text: widget.poemEntity.text, maxLength: 250),
+              ],
+            ),
           ),
         ),
       ),

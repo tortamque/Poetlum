@@ -4,29 +4,60 @@ import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
-class CollectionCard extends StatelessWidget {
+class CollectionCard extends StatefulWidget {
   const CollectionCard({super.key, required this.collection});
 
   final CollectionEntity collection;
 
   @override
+  State<CollectionCard> createState() => _CollectionCardState();
+}
+
+class _CollectionCardState extends State<CollectionCard> {
+  bool isAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  @override
+  void initState() {
+    super.initState();
+    _startAnimations();
+  }
+
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_){
+          if (mounted) {
+            setState(() => setters[i](true));
+          }
+        }
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) => Dismissible(
     key: UniqueKey(),
-    direction: collection.isAllSavedPoems 
+    direction: widget.collection.isAllSavedPoems 
      ? DismissDirection.none
      : DismissDirection.horizontal,
     onDismissed: (direction) {
       context.read<FirebaseDatabaseCubit>().deleteCollection(
         userId: getIt<UserRepository>().getCurrentUser().userId!, 
-        collectionName: collection.name ?? '', 
-        poems: collection.poems ?? <PoemEntity>[],
+        collectionName: widget.collection.name ?? '', 
+        poems: widget.collection.poems ?? <PoemEntity>[],
       );
     },
     child: GestureDetector(
-      onTap: () => Navigator.pushNamed(context, savedCollectionViewConstant, arguments: collection),
+      onTap: () => Navigator.pushNamed(context, savedCollectionViewConstant, arguments: widget.collection),
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 4,
         child: Card(
@@ -38,17 +69,21 @@ class CollectionCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _TitleText(title: collection.name),
-                  
-                  if (collection.poems != null) Column(
-                    children: collection.poems!.map(
-                      (poem) => _InfoText(author: poem.author, title: poem.title),
-                    ).toList(),
-                  ) else const _EmptyCollectionText(),
-                ],
+              child: TopAnimation(
+                animationField: isAnimated,
+                positionInitialValue: MediaQuery.of(context).size.height/14,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _TitleText(title: widget.collection.name),
+                    
+                    if (widget.collection.poems != null) Column(
+                      children: widget.collection.poems!.map(
+                        (poem) => _InfoText(author: poem.author, title: poem.title),
+                      ).toList(),
+                    ) else const _EmptyCollectionText(),
+                  ],
+                ),
               ),
             ),
           ),

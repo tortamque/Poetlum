@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
@@ -20,6 +21,35 @@ class _WritePoemPageState extends State<WritePoemPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
+
+  bool isNameTextFieldAnimated = false;
+  bool isPoemTextFieldAnimated = false;
+  bool isButtonAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  @override
+  void initState() {
+    super.initState();
+    _startAnimations();
+  }
+
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isNameTextFieldAnimated = val,
+      (val) => isPoemTextFieldAnimated = val,
+      (val) => isButtonAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_){
+          if (mounted) {
+            setState(() => setters[i](true));
+          }
+        }
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
@@ -45,26 +75,40 @@ class _WritePoemPageState extends State<WritePoemPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const _CustomSpacer(heightFactor: 0.03),
-              _CustomTextField(hintText: 'Poem name', controller: _nameController, isLarge: false),
+              RightAnimation(
+                animationField: isNameTextFieldAnimated,
+                positionInitialValue: MediaQuery.of(context).size.width/3,
+                child: _CustomTextField(hintText: 'Poem name', controller: _nameController, isLarge: false),
+              ),
               const _CustomSpacer(heightFactor: 0.03),
-              _CustomTextField(hintText: 'Your amazing poem :D', controller: _contentController, isLarge: true),
+
+              RightAnimation(
+                animationField: isPoemTextFieldAnimated,
+                positionInitialValue: MediaQuery.of(context).size.width/3,
+                child: _CustomTextField(hintText: 'Your amazing poem :D', controller: _contentController, isLarge: true),
+              ),
               const _CustomSpacer(heightFactor: 0.03),
+
               if (state.status == FirebaseDatabaseStatus.submitting) 
                 const CircularProgressIndicator() 
-              else FilledButton.tonal(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    context.read<FirebaseDatabaseCubit>().savePoem(
-                      userId: widget._userRepository.getCurrentUser().userId!, 
-                      username: widget._userRepository.getCurrentUser().username!, 
-                      title: _nameController.text, 
-                      text: _contentController.text,
-                    );
-                  }
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
-                  child: Text('Save'),
+              else RightAnimation(
+                animationField: isButtonAnimated,
+                positionInitialValue: MediaQuery.of(context).size.width/3,
+                child: FilledButton.tonal(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<FirebaseDatabaseCubit>().savePoem(
+                        userId: widget._userRepository.getCurrentUser().userId!, 
+                        username: widget._userRepository.getCurrentUser().username!, 
+                        title: _nameController.text, 
+                        text: _contentController.text,
+                      );
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
+                    child: Text('Save'),
+                  ),
                 ),
               ),
               const _CustomSpacer(heightFactor: 0.03),

@@ -6,20 +6,37 @@ import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 
-class CustomSaveButton extends StatelessWidget {
+class CustomSaveButton extends StatefulWidget {
   const CustomSaveButton({super.key, required this.poemEntity});
 
   final PoemEntity poemEntity;
 
   @override
-  Widget build(BuildContext context) => FutureBuilder(
-    future: context.read<FirebaseDatabaseCubit>().isPoemExists(poemEntity: poemEntity, userId: getIt<UserRepository>().getCurrentUser().userId!),
+  State<CustomSaveButton> createState() => _CustomSaveButtonState();
+}
+
+class _CustomSaveButtonState extends State<CustomSaveButton> {
+  late Future<bool> isPoemSavedFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    isPoemSavedFuture = context.read<FirebaseDatabaseCubit>().isPoemExists(
+      poemEntity: widget.poemEntity,
+      userId: getIt<UserRepository>().getCurrentUser().userId!,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder<bool>(
+    future: isPoemSavedFuture,
     builder: (context, snapshot) {
-      if(snapshot.connectionState == ConnectionState.waiting){
+      if (snapshot.connectionState == ConnectionState.waiting) {
         return const CircularProgressIndicator();
-      } else{
+      } else {
+        bool isLiked = snapshot.data ?? false;
         return LikeButton(
-          isLiked: snapshot.data,
+          isLiked: isLiked,
           size: 42,
           circleColor: CircleColor(start: Theme.of(context).colorScheme.primaryContainer, end: Theme.of(context).colorScheme.primary),
           bubblesColor: BubblesColor(dotPrimaryColor: Theme.of(context).colorScheme.primaryContainer, dotSecondaryColor: Theme.of(context).colorScheme.primary),
@@ -27,13 +44,13 @@ class CustomSaveButton extends StatelessWidget {
             if(isLiked == false){
               await context.read<FirebaseDatabaseCubit>().savePoem(
                 userId: getIt<UserRepository>().getCurrentUser().userId!, 
-                username: poemEntity.author ?? '', 
-                title: poemEntity.title ?? '', 
-                text: poemEntity.text ?? '',
+                username: widget.poemEntity.author ?? '', 
+                title: widget.poemEntity.title ?? '', 
+                text: widget.poemEntity.text ?? '',
               );
             } else{
               await context.read<FirebaseDatabaseCubit>().deletePoem(
-                poemEntity: poemEntity, 
+                poemEntity: widget.poemEntity, 
                 userId: getIt<UserRepository>().getCurrentUser().userId!, 
               );
             }
