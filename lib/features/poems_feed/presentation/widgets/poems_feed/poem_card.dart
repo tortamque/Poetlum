@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
@@ -46,7 +47,18 @@ class _PoemCardState extends State<PoemCard> {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-    onTap: () => Navigator.pushNamed(context, poemViewPageConstant, arguments: widget.poemEntity),
+    onTap: () {
+      FirebaseAnalytics.instance.logEvent(
+        name: 'poem_card',
+        parameters: {
+          'title': widget.poemEntity.title,
+          'author': widget.poemEntity.author,
+          'linecount': widget.poemEntity.linecount,
+        },
+      );
+      
+      Navigator.pushNamed(context, poemViewPageConstant, arguments: widget.poemEntity);
+    },
     child: Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
