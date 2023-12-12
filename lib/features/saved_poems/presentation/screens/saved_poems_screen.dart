@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
+import 'package:poetlum/features/application/presentation/widgets/loader.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
@@ -68,13 +69,13 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     },
     builder: (context, state) {
       if (state.status == FirebaseDatabaseStatus.submitting) {
-        return const Center(child: CircularProgressIndicator());
+        return const Loader(text: 'Hitching a ride to our super database 🚀');
       } else {
         return FutureBuilder<List<CollectionEntity>?>(
           future: collectionsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Loader(text: 'Snatching your poems from our top-secret database 🕵️‍♂️');
             }
 
             if (snapshot.hasError) {
