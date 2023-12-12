@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,6 +31,12 @@ class _WritePoemPageState extends State<WritePoemPage> {
   @override
   void initState() {
     super.initState();
+    FirebaseAnalytics.instance.logEvent(
+      name: 'write_poem',
+      parameters: {
+        'opened': 'true',
+      },
+    );
     _startAnimations();
   }
 
@@ -55,8 +62,23 @@ class _WritePoemPageState extends State<WritePoemPage> {
   Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     listener: (context, state) {
       if (state.status == FirebaseDatabaseStatus.success) {
+        FirebaseAnalytics.instance.logEvent(
+          name: 'write_poem',
+          parameters: {
+            'success': 'true',
+            'username': widget._userRepository.getCurrentUser().username!, 
+            'title': _nameController.text, 
+            'text': _contentController.text,
+          },
+        );
         _showPositiveToast('Your amazing poem has been saved! :D');
       } else if (state.status == FirebaseDatabaseStatus.error) {
+        FirebaseAnalytics.instance.logEvent(
+          name: 'write_poem',
+          parameters: {
+            'success': 'false',
+          },
+        );
         _showNegativeToast('An error occurred :(');
       }
     },
@@ -96,6 +118,13 @@ class _WritePoemPageState extends State<WritePoemPage> {
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: FilledButton.tonal(
                   onPressed: () {
+                    FirebaseAnalytics.instance.logEvent(
+                      name: 'write_poem',
+                      parameters: {
+                        'button_pressed': 'true',
+                      },
+                    );
+
                     if (_formKey.currentState!.validate()) {
                       context.read<FirebaseDatabaseCubit>().savePoem(
                         userId: widget._userRepository.getCurrentUser().userId!, 
