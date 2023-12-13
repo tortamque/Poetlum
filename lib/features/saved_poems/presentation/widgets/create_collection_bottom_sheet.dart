@@ -66,9 +66,11 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
     ];
 
     for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
+      Future.delayed(animationDelay * (i + 1)).then((_) {
+        if (mounted) {
+          setState(() => setters[i](true));
+        }
+      });
     }
   }
 
