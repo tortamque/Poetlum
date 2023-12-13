@@ -13,7 +13,7 @@ class PoemsFeedScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<RemotePoemBloc, RemotePoemState>(
     builder: (context, state) {
       if(state is RemotePoemLoading){
-        return const Loader(text: 'Grabbing some amazing amazing poems to read 📚');
+        return const Loader(text: 'Grabbing some amazing poems to read 📚');
       } 
 
       if(state is RemotePoemError){
