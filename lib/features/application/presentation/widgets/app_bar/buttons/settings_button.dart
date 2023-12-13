@@ -95,7 +95,7 @@ class _BottomSheetContent extends StatefulWidget {
 
 class _BottomSheetContentState extends State<_BottomSheetContent> {
   bool isHeaderAnimated = false;
-  final Duration animationDelay = const Duration(milliseconds: 200);
+  final Duration animationDelay = const Duration(milliseconds: 150);
 
   @override
   void initState() {
