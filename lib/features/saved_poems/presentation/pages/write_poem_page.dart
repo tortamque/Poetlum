@@ -115,6 +115,15 @@ class _WritePoemPageState extends State<WritePoemPage> {
                     );
 
                     if(isPoemExists == false){
+                      unawaited(
+                        FirebaseAnalytics.instance.logEvent(
+                          name: 'write_poem',
+                          parameters: {
+                            'success': 'true',
+                          },
+                        ),
+                      );
+
                       if (_formKey.currentState!.validate()) {
                         await context.read<FirebaseDatabaseCubit>().savePoem(
                           userId: widget._userRepository.getCurrentUser().userId!, 
@@ -126,6 +135,15 @@ class _WritePoemPageState extends State<WritePoemPage> {
 
                       await _showPositiveToast('Your amazing poem has been saved! :D');
                     } else{
+                      unawaited(
+                        FirebaseAnalytics.instance.logEvent(
+                          name: 'write_poem',
+                          parameters: {
+                            'success': 'false',
+                          },
+                        ),
+                      );
+
                       await _showNegativeToast('A poem with the stunning name is already in your saved poems. Please try another name 📝');
                     }
                   },
