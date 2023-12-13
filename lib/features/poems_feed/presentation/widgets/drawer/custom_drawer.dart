@@ -3,9 +3,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
+import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_checkbox_tile.dart';
@@ -112,32 +114,46 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
               const CustomSpacer(heightFactor: 0.04),
 
-              TopAnimation(
-                animationField: isButtonAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomSearchButton(
-                  onPressed: () {
-                    FirebaseAnalytics.instance.logEvent(
-                      name: 'search_poem',
-                      parameters: {
-                        'author': _authorController.text,
-                        'title': _titleController.text,
-                        'line_count': _numberOfLinesController.text,
-                        'poem_count': _resultCountController.text,
-                        'is_random': _isRandom.toString(),
-                      },
-                    );
+              BlocListener<RemotePoemBloc, RemotePoemState>(
+                listener: (context, state) {
+                  if (state is RemotePoemDone) {
+                    Navigator.pop(context);
 
-                    BlocProvider.of<RemotePoemBloc>(context).add(
-                      GetPoemsEvent(
-                        author: _authorController.text,
-                        title: _titleController.text,
-                        lineCount: _numberOfLinesController.text,
-                        poemCount: _resultCountController.text,
-                        isRandom: _isRandom ?? false,
-                      ),
-                    );
-                  },
+                    _showPositiveToast('We have received wonderful poems 😉');
+                  }
+                  if(state is RemotePoemError){
+                    _showNegativeToast('Failed to retrieve wonderful poems. An error occurred 😓');
+                  }
+                },
+                child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
+                  builder: (context, state) => TopAnimation(
+                    animationField: isButtonAnimated,
+                    positionInitialValue: MediaQuery.of(context).size.height / 14,
+                    child: CustomSearchButton(
+                      onPressed: () {
+                        FirebaseAnalytics.instance.logEvent(
+                          name: 'search_poem',
+                          parameters: {
+                            'author': _authorController.text,
+                            'title': _titleController.text,
+                            'line_count': _numberOfLinesController.text,
+                            'poem_count': _resultCountController.text,
+                            'is_random': _isRandom.toString(),
+                          },
+                        );
+
+                        BlocProvider.of<RemotePoemBloc>(context).add(
+                          GetPoemsEvent(
+                            author: _authorController.text,
+                            title: _titleController.text,
+                            lineCount: _numberOfLinesController.text,
+                            poemCount: _resultCountController.text,
+                            isRandom: _isRandom ?? false,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -148,4 +164,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
   );
 
   void _toggleCheckbox(bool? value) => setState(() => _isRandom = value);
+
+  Future<void> _showPositiveToast(String text) async{
+    await Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16,
+    );
+  }
+
+  Future<void> _showNegativeToast(String error) async{
+    await Fluttertoast.showToast(
+      msg: error,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16,
+    );
+  }
 }
