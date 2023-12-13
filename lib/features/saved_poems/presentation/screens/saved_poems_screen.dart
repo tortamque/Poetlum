@@ -34,6 +34,13 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
   }
 
   Future<List<CollectionEntity>?> initCollections() async => context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);
+  Future<void> refreshCollections() async {
+    final newCollections = await context.read<FirebaseDatabaseCubit>().getUserCollections(getIt<UserRepository>().getCurrentUser().userId!);
+    
+    setState(() {
+      collectionsFuture = Future.value(newCollections);
+    });
+  }
 
   @override
   Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
@@ -79,14 +86,13 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                                 context: context, 
                                 isScrollControlled: true,
                                 builder:(context) => CreateCollectionBottomSheetContent(
-                                  poems: (collections == null || collections!.isEmpty)
+                                  poems: (collections == null || collections.isEmpty)
                                       ? <PoemEntity>[]
-                                      : collections![0].poems,
+                                      : collections[0].poems,
                                 ),
                               );
 
-
-                              collections = await context.read<FirebaseDatabaseCubit>().getUserCollections(getIt<UserRepository>().getCurrentUser().userId!);
+                              await refreshCollections();
                             }, 
                           ),
                         ),
@@ -106,19 +112,19 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
                       ],
                     ),
                   ),
-                  if (collections == null || collections!.isEmpty) 
+                  if (collections == null || collections.isEmpty) 
                     TopAnimation(
                       animationField: true,
                       positionInitialValue: MediaQuery.of(context).size.width/8,
                       child: const Text("You haven't saved any poems yet. 😔") ,
                     ),
-                  if (!(collections == null || collections!.isEmpty))
+                  if (!(collections == null || collections.isEmpty))
                     ListView.builder(
                     shrinkWrap: true, 
                     physics: const NeverScrollableScrollPhysics(), 
-                    itemCount: collections!.length, 
+                    itemCount: collections.length, 
                     itemBuilder: (context, index) => CollectionCard(
-                      collection: collections![index],
+                      collection: collections[index],
                     ),
                   ),
                 ],
@@ -130,4 +136,3 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
     },
   );
 }
-
