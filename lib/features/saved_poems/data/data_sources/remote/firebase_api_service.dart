@@ -11,6 +11,7 @@ abstract class FirebaseDatabaseService{
   Future<void> savePoem({required String userId, required PoemEntity poemEntity});
   Future<void> deletePoem({required PoemEntity poemEntity, required String userId, required String? collectionName});
   Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
+  Future<bool> isPoemExistsByName({required String poemTitle, required String userId});
   Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
@@ -358,5 +359,20 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     }
 
     return false; 
+  }
+  
+  @override
+  Future<bool> isPoemExistsByName({required String poemTitle, required String userId}) async{
+    final userRef = FirebaseDatabase.instance.ref(userId);
+    final poemsRef = userRef.child('poems');
+    final poemQuery = poemsRef.orderByChild('title').equalTo(poemTitle);
+
+    final snapshot = await poemQuery.get();
+
+    if (snapshot.exists) {
+      return snapshot.value != null;
+    }
+
+    return false;
   }
 }

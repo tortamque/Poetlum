@@ -18,6 +18,8 @@ import 'package:poetlum/features/saved_poems/domain/usecases/is_collection_exist
 import 'package:poetlum/features/saved_poems/domain/usecases/is_collection_exists/is_collection_exists_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_poem_exists_params.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_poem_exists_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists_by_name/is_poem_exists_by_name_params.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists_by_name/is_poem_exists_by_name_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_params.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_params.dart';
@@ -25,7 +27,7 @@ import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_col
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
 
 class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
-  FirebaseDatabaseCubit(this._getUserPoemsUseCase, this._getUserCollectionsUseCase, this._savePoemUseCase, this._deletePoemUseCase, this._isPoemExistsUseCase, this._createNewCollectionUseCase, this._deleteCollectionUseCase, this._deletePoemFromCollectionUseCase, this._updatePoemsInCollectionUseCase, this._getPoemsInCollectionUseCase, this._isCollectionExistsUseCase) : super(const FirebaseDatabaseState());
+  FirebaseDatabaseCubit(this._getUserPoemsUseCase, this._getUserCollectionsUseCase, this._savePoemUseCase, this._deletePoemUseCase, this._isPoemExistsUseCase, this._createNewCollectionUseCase, this._deleteCollectionUseCase, this._deletePoemFromCollectionUseCase, this._updatePoemsInCollectionUseCase, this._getPoemsInCollectionUseCase, this._isCollectionExistsUseCase, this._isPoemExistsByNameUseCase) : super(const FirebaseDatabaseState());
 
   final GetUserPoemsUseCase _getUserPoemsUseCase;
   final GetUserCollectionsUseCase _getUserCollectionsUseCase;
@@ -38,6 +40,7 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
   final UpdatePoemsInCollectionUseCase _updatePoemsInCollectionUseCase;
   final GetPoemsInCollectionUseCase _getPoemsInCollectionUseCase;
   final IsCollectionExistsUseCase _isCollectionExistsUseCase;
+  final IsPoemExistsByNameUseCase _isPoemExistsByNameUseCase;
 
   Future<List<PoemEntity>?> getUserPoems(String userId) async{
     emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
@@ -122,6 +125,28 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
       );
 
       emit(state.copyWith(status: FirebaseDatabaseStatus.success));
+
+      return isExists;
+    } catch(e) {
+      emit(state.copyWith(status: FirebaseDatabaseStatus.error));
+
+      return false;
+    }
+  }
+
+  Future<bool> isPoemExistsByName({required String poemTitle, required String userId, String? collectionName}) async{
+    emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
+
+    try{
+      final isExists = await _isPoemExistsByNameUseCase(
+        params: IsPoemExistsByNameParams(poemTitle: poemTitle, userId: userId),
+      );
+
+      if(isExists){
+        emit(state.copyWith(status: FirebaseDatabaseStatus.error));
+      } else{
+        emit(state.copyWith(status: FirebaseDatabaseStatus.success));
+      }
 
       return isExists;
     } catch(e) {

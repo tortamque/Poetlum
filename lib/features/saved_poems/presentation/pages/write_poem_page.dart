@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,29 +63,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
-    listener: (context, state) {
-      if (state.status == FirebaseDatabaseStatus.success) {
-        FirebaseAnalytics.instance.logEvent(
-          name: 'write_poem',
-          parameters: {
-            'success': 'true',
-            'username': widget._userRepository.getCurrentUser().username!, 
-            'title': _nameController.text, 
-            'text': _contentController.text,
-          },
-        );
-        _showPositiveToast('Your amazing poem has been saved! :D');
-      } else if (state.status == FirebaseDatabaseStatus.error) {
-        FirebaseAnalytics.instance.logEvent(
-          name: 'write_poem',
-          parameters: {
-            'success': 'false',
-          },
-        );
-        _showNegativeToast('An error occurred :(');
-      }
-    },
+  Widget build(BuildContext context) => BlocBuilder<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     builder: (context, state) => Scaffold(
       appBar: CustomAppBar(
         title: 'Poetlum', 
@@ -117,21 +99,34 @@ class _WritePoemPageState extends State<WritePoemPage> {
                 animationField: isButtonAnimated,
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: FilledButton.tonal(
-                  onPressed: () {
-                    FirebaseAnalytics.instance.logEvent(
-                      name: 'write_poem',
-                      parameters: {
-                        'button_pressed': 'true',
-                      },
+                  onPressed: () async {
+                    unawaited(
+                      FirebaseAnalytics.instance.logEvent(
+                        name: 'write_poem',
+                        parameters: {
+                          'button_pressed': 'true',
+                        },
+                      ),
                     );
 
-                    if (_formKey.currentState!.validate()) {
-                      context.read<FirebaseDatabaseCubit>().savePoem(
-                        userId: widget._userRepository.getCurrentUser().userId!, 
-                        username: widget._userRepository.getCurrentUser().username!, 
-                        title: _nameController.text, 
-                        text: _contentController.text,
-                      );
+                    final isPoemExists = await context.read<FirebaseDatabaseCubit>().isPoemExistsByName(
+                      poemTitle: _nameController.text, 
+                      userId: widget._userRepository.getCurrentUser().userId!,
+                    );
+
+                    if(isPoemExists == false){
+                      if (_formKey.currentState!.validate()) {
+                        await context.read<FirebaseDatabaseCubit>().savePoem(
+                          userId: widget._userRepository.getCurrentUser().userId!, 
+                          username: widget._userRepository.getCurrentUser().username!, 
+                          title: _nameController.text, 
+                          text: _contentController.text,
+                        );
+                      }
+
+                      await _showPositiveToast('Your amazing poem has been saved! :D');
+                    } else{
+                      await _showNegativeToast('A poem with the stunning name is already in your saved poems. Please try another name 📝');
                     }
                   },
                   child: const Padding(

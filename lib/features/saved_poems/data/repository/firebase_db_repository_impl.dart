@@ -40,4 +40,7 @@ class FirebaseDatabaseRepositoryImpl implements FirebaseDatabaseRepository{
 
   @override
   Future<bool> isCollectionExists({required String userId, required String collectionName}) => _databaseService.isCollectionExists(userId: userId, collectionName: collectionName);
+  
+  @override
+  Future<bool> isPoemExistsByName({required String poemTitle, required String userId}) => _databaseService.isPoemExistsByName(poemTitle: poemTitle, userId: userId);
 }
