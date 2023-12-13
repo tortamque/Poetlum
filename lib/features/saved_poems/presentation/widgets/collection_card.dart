@@ -56,7 +56,9 @@ class _CollectionCardState extends State<CollectionCard> {
         parameters: {
           'deleted': 'true',
           'name': widget.collection.name,
-          'poems_count': widget.collection.poems?.length.toString(),
+          'poems_count': widget.collection.poems == null
+            ? ''
+            : widget.collection.poems!.length.toString(),
         },
       );
 
@@ -72,7 +74,9 @@ class _CollectionCardState extends State<CollectionCard> {
           name: 'collection_card',
           parameters: {
             'name': widget.collection.name,
-            'poems_count': widget.collection.poems?.length.toString(),
+            'poems_count': widget.collection.poems == null
+              ? ''
+              : widget.collection.poems!.length.toString(),
           },
         );
 
