@@ -48,27 +48,29 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Poetlum'),
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Edit a collection',
-        onPressed: () async {
-          final savedPoems = await context.read<FirebaseDatabaseCubit>().getUserPoems(
-            getIt<UserRepository>().getCurrentUser().userId!,
-          );
-
-          if (mounted){
-            await showModalBottomSheet(
-              context: localContext, 
-              isScrollControlled: true,
-              builder:(context) => UpdateCollectionBottomSheetContent(
-                collectionName: collectionEntity.name ?? '',
-                poemsInTheCollection: poemsInTheCollection,
-                allSavedPoems: savedPoems,
-              ),
+      floatingActionButton: collectionEntity.isAllSavedPoems
+        ? null 
+        : FloatingActionButton(
+          tooltip: 'Edit a collection',
+          onPressed: () async {
+            final savedPoems = await context.read<FirebaseDatabaseCubit>().getUserPoems(
+              getIt<UserRepository>().getCurrentUser().userId!,
             );
-          }
-        },
-        child: const Icon(Icons.edit),
-      ),
+
+            if (mounted){
+              await showModalBottomSheet(
+                context: localContext, 
+                isScrollControlled: true,
+                builder:(context) => UpdateCollectionBottomSheetContent(
+                  collectionName: collectionEntity.name ?? '',
+                  poemsInTheCollection: poemsInTheCollection,
+                  allSavedPoems: savedPoems,
+                ),
+              );
+            }
+          },
+          child: const Icon(Icons.edit),
+        ),
       body: BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
         listener: (context, state) async {
           if (state.status == FirebaseDatabaseStatus.needsRefresh) {
