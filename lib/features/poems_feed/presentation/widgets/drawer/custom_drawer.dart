@@ -36,7 +36,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   bool isResultCountAnimated = false;
   bool isCheckboxAnimated = false;
   bool isButtonAnimated = false;
-  final Duration animationDelay = const Duration(milliseconds: 200);
+  final Duration animationDelay = const Duration(milliseconds: 125);
 
   @override
   void initState() {
