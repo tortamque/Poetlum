@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -40,7 +42,7 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
     FirebaseAnalytics.instance.logEvent(
       name: 'update_collection',
       parameters: {
-        'opened': 'true'
+        'opened': 'true',
       },
     );
         
@@ -183,7 +185,7 @@ class _EditButtonWidget extends StatelessWidget {
                   name: 'update_collection',
                   parameters: {
                     'successful': 'true',
-                    'error': 'Empty poems'
+                    'error': 'Empty poems',
                   },
                 ),
               );

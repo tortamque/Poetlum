@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_final_locals
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +30,7 @@ class _SavedPoemsScreenState extends State<SavedPoemsScreen> {
   @override
   void initState() {
     super.initState();
-    collectionsFuture = initCollections();;
+    collectionsFuture = initCollections();
   }
 
   Future<List<CollectionEntity>?> initCollections() async => context.read<FirebaseDatabaseCubit>().getUserCollections(widget._userRepository.getCurrentUser().userId!);

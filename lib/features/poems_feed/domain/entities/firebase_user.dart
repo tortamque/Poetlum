@@ -11,6 +11,6 @@ class FirebaseUserEntity extends Equatable{
   List<Object?> get props => [
     username,
     email,
-    userId
+    userId,
   ];
 }

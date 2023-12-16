@@ -9,7 +9,7 @@ import 'package:poetlum/features/theme_change/presentation/bloc/change_theme_cub
 class ColorOptionButton extends StatefulWidget {
   const ColorOptionButton({
     required this.themeColor,
-    super.key
+    super.key,
   });
 
   final Color themeColor;

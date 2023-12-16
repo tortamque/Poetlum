@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_dynamic_calls, cascade_invocations
+// ignore_for_file: avoid_dynamic_calls, cascade_invocations, prefer_final_in_for_each
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:poetlum/features/poems_feed/data/models/poem.dart';
@@ -288,8 +288,8 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
         'author': poem.author,
         'linecount': poem.linecount,
         'text': poem.text,
-        'title': poem.title
-      }).toList();
+        'title': poem.title,
+      },).toList();
 
       await collectionsRef.child('$targetCollectionKey/poems').set(updatedPoemsData);
     }
