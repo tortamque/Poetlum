@@ -66,97 +66,100 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) => Drawer(
-    child: SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomSpacer(heightFactor: 0.02),
-              TopAnimation(
-                animationField: isHeaderAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
-              ),
-
-              TopAnimation(
-                animationField: isAuthorAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomTextField(hintText: 'Author', controller: _authorController),
-              ),
-              const CustomSpacer(heightFactor: 0.04),
-
-              TopAnimation(
-                animationField: isTitleAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomTextField(hintText: 'Title', controller: _titleController),
-              ),
-              const CustomSpacer(heightFactor: 0.04),
-
-              TopAnimation(
-                animationField: isLinesNumberAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomTextField(hintText: 'Number of lines', isNumberInput: true, controller: _numberOfLinesController),
-              ),
-              const CustomSpacer(heightFactor: 0.04),
-
-              TopAnimation(
-                animationField: isResultCountAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
-              ),
-              const CustomSpacer(heightFactor: 0.04),
-
-              TopAnimation(
-                animationField: isCheckboxAnimated,
-                positionInitialValue: MediaQuery.of(context).size.height/14,
-                child: CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
-              ),
-              const CustomSpacer(heightFactor: 0.04),
-
-              BlocListener<RemotePoemBloc, RemotePoemState>(
-                listener: (context, state) {
-                  if (state is RemotePoemDone) {
-                    Navigator.pop(context);
-
-                    _showPositiveToast('We have received wonderful poems 😉');
-                  }
-                  if(state is RemotePoemError){
-                    _showNegativeToast('Failed to retrieve wonderful poems. An error occurred 😓');
-                  }
-                },
-                child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
-                  builder: (context, state) => TopAnimation(
-                    animationField: isButtonAnimated,
-                    positionInitialValue: MediaQuery.of(context).size.height / 14,
-                    child: CustomSearchButton(
-                      onPressed: () {
-                        FirebaseAnalytics.instance.logEvent(
-                          name: 'search_poem',
-                          parameters: {
-                            'author': _authorController.text,
-                            'title': _titleController.text,
-                            'line_count': _numberOfLinesController.text,
-                            'poem_count': _resultCountController.text,
-                            'is_random': _isRandom.toString(),
-                          },
-                        );
-
-                        BlocProvider.of<RemotePoemBloc>(context).add(
-                          GetPoemsEvent(
-                            author: _authorController.text,
-                            title: _titleController.text,
-                            lineCount: _numberOfLinesController.text,
-                            poemCount: _resultCountController.text,
-                            isRandom: _isRandom ?? false,
-                          ),
-                        );
-                      },
+    child: GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomSpacer(heightFactor: 0.02),
+                TopAnimation(
+                  animationField: isHeaderAnimated,
+                  positionInitialValue: MediaQuery.of(context).size.height/14,
+                  child: CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
+                ),
+    
+                TopAnimation(
+                  animationField: isAuthorAnimated,
+                  positionInitialValue: MediaQuery.of(context).size.height/14,
+                  child: CustomTextField(hintText: 'Author', controller: _authorController),
+                ),
+                const CustomSpacer(heightFactor: 0.04),
+    
+                TopAnimation(
+                  animationField: isTitleAnimated,
+                  positionInitialValue: MediaQuery.of(context).size.height/14,
+                  child: CustomTextField(hintText: 'Title', controller: _titleController),
+                ),
+                const CustomSpacer(heightFactor: 0.04),
+    
+                TopAnimation(
+                  animationField: isLinesNumberAnimated,
+                  positionInitialValue: MediaQuery.of(context).size.height/14,
+                  child: CustomTextField(hintText: 'Number of lines', isNumberInput: true, controller: _numberOfLinesController),
+                ),
+                const CustomSpacer(heightFactor: 0.04),
+    
+                TopAnimation(
+                  animationField: isResultCountAnimated,
+                  positionInitialValue: MediaQuery.of(context).size.height/14,
+                  child: CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
+                ),
+                const CustomSpacer(heightFactor: 0.04),
+    
+                TopAnimation(
+                  animationField: isCheckboxAnimated,
+                  positionInitialValue: MediaQuery.of(context).size.height/14,
+                  child: CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
+                ),
+                const CustomSpacer(heightFactor: 0.04),
+    
+                BlocListener<RemotePoemBloc, RemotePoemState>(
+                  listener: (context, state) {
+                    if (state is RemotePoemDone) {
+                      Navigator.pop(context);
+    
+                      _showPositiveToast('We have received wonderful poems 😉');
+                    }
+                    if(state is RemotePoemError){
+                      _showNegativeToast('Failed to retrieve wonderful poems. An error occurred 😓');
+                    }
+                  },
+                  child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
+                    builder: (context, state) => TopAnimation(
+                      animationField: isButtonAnimated,
+                      positionInitialValue: MediaQuery.of(context).size.height / 14,
+                      child: CustomSearchButton(
+                        onPressed: () {
+                          FirebaseAnalytics.instance.logEvent(
+                            name: 'search_poem',
+                            parameters: {
+                              'author': _authorController.text,
+                              'title': _titleController.text,
+                              'line_count': _numberOfLinesController.text,
+                              'poem_count': _resultCountController.text,
+                              'is_random': _isRandom.toString(),
+                            },
+                          );
+    
+                          BlocProvider.of<RemotePoemBloc>(context).add(
+                            GetPoemsEvent(
+                              author: _authorController.text,
+                              title: _titleController.text,
+                              lineCount: _numberOfLinesController.text,
+                              poemCount: _resultCountController.text,
+                              isRandom: _isRandom ?? false,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
