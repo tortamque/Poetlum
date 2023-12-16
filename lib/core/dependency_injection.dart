@@ -18,7 +18,6 @@ import 'package:poetlum/features/poems_feed/domain/repository/poem_repository.da
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/domain/usecases/get_poems_usecase.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
-import 'package:poetlum/features/realtime_database/domain/entities/database_manager.dart';
 import 'package:poetlum/features/saved_poems/data/data_sources/remote/firebase_api_service.dart';
 import 'package:poetlum/features/saved_poems/data/repository/firebase_db_repository_impl.dart';
 import 'package:poetlum/features/saved_poems/domain/repository/firebase_db_repository.dart';
@@ -45,11 +44,8 @@ import 'package:poetlum/features/theme_change/presentation/bloc/change_theme_cub
 GetIt getIt = GetIt.instance;
 
 void initializeDependencies() {
-  if(!GetIt.instance.isRegistered<DatabaseManager>()){
+  if(!GetIt.instance.isRegistered<Dio>()){
     getIt
-      // Database 
-      ..registerSingleton<DatabaseManager>(DatabaseManager())
-
       // Dio
       ..registerSingleton<Dio>(Dio())
 
