@@ -13,6 +13,52 @@ import 'package:poetlum/features/authorization/presentation/widgets/auth_button.
 import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final formCubit = context.read<LoginFormValidationCubit>();
+
+    _emailController.addListener(() {
+      formCubit.emailChanged(_emailController.text);
+    });
+
+    _passwordController.addListener(() {
+      formCubit.passwordChanged(_passwordController.text);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: SafeArea(
+      child: BlocBuilder<LoginFormValidationCubit, LoginFormValidationState>(
+        builder: (context, state) => Column(
+            children: [
+              const _Header(),
+              
+              _Form(
+                _emailController, 
+                _passwordController,
+              ),
+              
+              const _Footer(),
+            ],
+        ),
+      ),
+    ),
+  );
+}
+
 class _Header extends StatefulWidget {
   const _Header();
 
@@ -185,52 +231,6 @@ class _FooterState extends State<_Footer> {
             ),
           ),
         ],
-      ),
-    ),
-  );
-}
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    final formCubit = context.read<LoginFormValidationCubit>();
-
-    _emailController.addListener(() {
-      formCubit.emailChanged(_emailController.text);
-    });
-
-    _passwordController.addListener(() {
-      formCubit.passwordChanged(_passwordController.text);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: BlocBuilder<LoginFormValidationCubit, LoginFormValidationState>(
-        builder: (context, state) => Column(
-            children: [
-              const _Header(),
-              
-              _Form(
-                _emailController, 
-                _passwordController,
-              ),
-              
-              const _Footer(),
-            ],
-        ),
       ),
     ),
   );

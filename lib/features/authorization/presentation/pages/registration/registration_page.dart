@@ -16,6 +16,76 @@ import 'package:poetlum/features/authorization/presentation/widgets/email_field.
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/username_field.dart';
 
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
+
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool isTextAnimated = false;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  void _startAnimations() {
+    final setters = <Function(bool)>[
+      (val) => isTextAnimated = val,
+    ];
+
+    for (var i = 0; i < setters.length; i++) {
+      Future.delayed(animationDelay * (i + 1)).then(
+        (_) => setState(() => setters[i](true)),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    final formCubit = context.read<RegisterFormValidationCubit>();
+
+    _usernameController.addListener(() {
+      formCubit.usernameChanged(_usernameController.text);
+    });
+
+    _emailController.addListener(() {
+      formCubit.emailChanged(_emailController.text);
+    });
+
+    _passwordController.addListener(() {
+      formCubit.passwordChanged(_passwordController.text);
+    });
+
+    _startAnimations();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: SafeArea(
+      child: BlocBuilder<RegisterFormValidationCubit, RegisterFormValidationState>(
+        builder: (context, state) => Column(
+          children: [
+            const _Header(),
+          
+            _Form(
+              _usernameController,
+              _emailController,
+              _passwordController,
+            ),
+          
+            const _Footer(),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 class _Header extends StatefulWidget {
   const _Header();
 
@@ -196,78 +266,6 @@ class _FooterState extends State<_Footer> {
             ),
           ),
         ],
-      ),
-    ),
-  );
-}
-
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key});
-
-  @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
-}
-
-class _RegistrationPageState extends State<RegistrationPage> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  
-  
-  bool isTextAnimated = false;
-  final Duration animationDelay = const Duration(milliseconds: 200);
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isTextAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    final formCubit = context.read<RegisterFormValidationCubit>();
-
-    _usernameController.addListener(() {
-      formCubit.usernameChanged(_usernameController.text);
-    });
-
-    _emailController.addListener(() {
-      formCubit.emailChanged(_emailController.text);
-    });
-
-    _passwordController.addListener(() {
-      formCubit.passwordChanged(_passwordController.text);
-    });
-
-    _startAnimations();
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: BlocBuilder<RegisterFormValidationCubit, RegisterFormValidationState>(
-        builder: (context, state) => Column(
-          children: [
-            const _Header(),
-          
-            _Form(
-              _usernameController,
-              _emailController,
-              _passwordController,
-            ),
-          
-            const _Footer(),
-          ],
-        ),
       ),
     ),
   );
