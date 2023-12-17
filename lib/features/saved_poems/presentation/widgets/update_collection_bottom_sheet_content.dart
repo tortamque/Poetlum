@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
@@ -31,9 +32,7 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
   late List<ValueItem<PoemEntity>> selectedValues = <ValueItem<PoemEntity>>[];
   late List<ValueItem<PoemEntity>> allValues = <ValueItem<PoemEntity>>[];
 
-  bool isTitleAnimated = false;
-  bool isSelectorAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
@@ -50,25 +49,12 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
 
     _initPoemsInTheCollectionValues();
     _initAllSavedPoemsValues();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isTitleAnimated = val,
-      (val) => isSelectorAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 3,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   void _initPoemsInTheCollectionValues(){
@@ -102,21 +88,21 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
       children: [
         const CustomSpacer(heightFactor: 0.05),
         RightAnimation(
-          animationField: isTitleAnimated,
+          animationField: animationController.animationStates[0],
           positionInitialValue: MediaQuery.of(context).size.width/8,
           child: const _TitleTextWidget(),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         RightAnimation(
-          animationField: isSelectorAnimated,
+          animationField: animationController.animationStates[1],
           positionInitialValue: MediaQuery.of(context).size.width/8,
           child: _PoemSelectionWidget(controller: _selectController, allValues: allValues, selectedValues: selectedValues),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         RightAnimation(
-          animationField: isButtonAnimated,
+          animationField: animationController.animationStates[2],
           positionInitialValue: MediaQuery.of(context).size.width/8,
           child: _EditButtonWidget(selectController: _selectController, collectionName: widget.collectionName),
         ),

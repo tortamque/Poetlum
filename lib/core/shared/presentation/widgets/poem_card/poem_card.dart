@@ -3,6 +3,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 
@@ -16,33 +17,18 @@ class PoemCard extends StatefulWidget {
 }
 
 class _PoemCardState extends State<PoemCard> {
-  bool isTitleAnimated = false;
-  bool isAuthorAnimated = false;
-  bool isTextAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isTitleAnimated = val,
-      (val) => isAuthorAnimated = val,
-      (val) => isTextAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 3,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -72,21 +58,21 @@ class _PoemCardState extends State<PoemCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RightAnimation(
-              animationField: isTitleAnimated,
+              animationField: animationController.animationStates[0],
               positionInitialValue: MediaQuery.of(context).size.width/8,
               child: _TitleText(title: widget.poemEntity.title),
             ),
             const SizedBox(height: 8),
 
             RightAnimation(
-              animationField: isAuthorAnimated,
+              animationField: animationController.animationStates[1],
               positionInitialValue: MediaQuery.of(context).size.width/8,
               child: _AuthorText(author: widget.poemEntity.author),
             ),
             const SizedBox(height: 16),
 
             RightAnimation(
-              animationField: isTextAnimated,
+              animationField: animationController.animationStates[2],
               positionInitialValue: MediaQuery.of(context).size.width/8,
               child: _PoemText(text: widget.poemEntity.text, maxLength: 250),
             ),

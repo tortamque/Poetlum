@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
@@ -27,9 +28,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  bool isNameTextFieldAnimated = false;
-  bool isPoemTextFieldAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
@@ -41,25 +40,12 @@ class _WritePoemPageState extends State<WritePoemPage> {
         'opened': 'true',
       },
     );
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isNameTextFieldAnimated = val,
-      (val) => isPoemTextFieldAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: Duration.zero,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 3,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -80,14 +66,14 @@ class _WritePoemPageState extends State<WritePoemPage> {
             children: [
               const _CustomSpacer(heightFactor: 0.03),
               RightAnimation(
-                animationField: isNameTextFieldAnimated,
+                animationField: animationController.animationStates[0],
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: _CustomTextField(hintText: 'Poem name', controller: _nameController, isLarge: false),
               ),
               const _CustomSpacer(heightFactor: 0.03),
 
               RightAnimation(
-                animationField: isPoemTextFieldAnimated,
+                animationField: animationController.animationStates[1],
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: _CustomTextField(hintText: 'Your amazing poem :D', controller: _contentController, isLarge: true),
               ),
@@ -96,7 +82,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
               if (state.status == FirebaseDatabaseStatus.submitting) 
                 const CircularProgressIndicator() 
               else RightAnimation(
-                animationField: isButtonAnimated,
+                animationField: animationController.animationStates[2],
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: FilledButton.tonal(
                   onPressed: () async {

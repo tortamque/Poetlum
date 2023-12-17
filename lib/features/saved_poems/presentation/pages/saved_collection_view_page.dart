@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
@@ -121,30 +122,23 @@ class _CollectionName extends StatefulWidget {
 }
 
 class __CollectionNameState extends State<_CollectionName> {
-  bool isNameAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isNameAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) => TopAnimation(
-    animationField: isNameAnimated,
+    animationField: animationController.animationStates[0],
     positionInitialValue: MediaQuery.of(context).size.height/14,
     child: Align(
       child: Padding(

@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
@@ -31,37 +32,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
   final TextEditingController _resultCountController = TextEditingController();
   bool? _isRandom = false;
 
-  bool isHeaderAnimated = false;
-  bool isAuthorAnimated = false;
-  bool isTitleAnimated = false;
-  bool isLinesNumberAnimated = false;
-  bool isResultCountAnimated = false;
-  bool isCheckboxAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 125);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isHeaderAnimated = val,
-      (val) => isAuthorAnimated = val,
-      (val) => isTitleAnimated = val,
-      (val) => isLinesNumberAnimated = val,
-      (val) => isResultCountAnimated = val,
-      (val) => isCheckboxAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 7,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -76,41 +58,41 @@ class _CustomDrawerState extends State<CustomDrawer> {
               children: [
                 const CustomSpacer(heightFactor: 0.02),
                 TopAnimation(
-                  animationField: isHeaderAnimated,
+                  animationField: animationController.animationStates[0],
                   positionInitialValue: MediaQuery.of(context).size.height/14,
                   child: CustomDrawerHeader(user: widget._userRepository.getCurrentUser()),
                 ),
     
                 TopAnimation(
-                  animationField: isAuthorAnimated,
+                  animationField: animationController.animationStates[1],
                   positionInitialValue: MediaQuery.of(context).size.height/14,
                   child: CustomTextField(hintText: 'Author', controller: _authorController),
                 ),
                 const CustomSpacer(heightFactor: 0.04),
     
                 TopAnimation(
-                  animationField: isTitleAnimated,
+                  animationField: animationController.animationStates[2],
                   positionInitialValue: MediaQuery.of(context).size.height/14,
                   child: CustomTextField(hintText: 'Title', controller: _titleController),
                 ),
                 const CustomSpacer(heightFactor: 0.04),
     
                 TopAnimation(
-                  animationField: isLinesNumberAnimated,
+                  animationField: animationController.animationStates[3],
                   positionInitialValue: MediaQuery.of(context).size.height/14,
                   child: CustomTextField(hintText: 'Number of lines', isNumberInput: true, controller: _numberOfLinesController),
                 ),
                 const CustomSpacer(heightFactor: 0.04),
     
                 TopAnimation(
-                  animationField: isResultCountAnimated,
+                  animationField: animationController.animationStates[4],
                   positionInitialValue: MediaQuery.of(context).size.height/14,
                   child: CustomTextField(hintText: 'Result count', isNumberInput: true, controller: _resultCountController),
                 ),
                 const CustomSpacer(heightFactor: 0.04),
     
                 TopAnimation(
-                  animationField: isCheckboxAnimated,
+                  animationField: animationController.animationStates[5],
                   positionInitialValue: MediaQuery.of(context).size.height/14,
                   child: CustomCheckboxTile(value: _isRandom, onChanged: _toggleCheckbox),
                 ),
@@ -129,7 +111,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   },
                   child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
                     builder: (context, state) => TopAnimation(
-                      animationField: isButtonAnimated,
+                      animationField: animationController.animationStates[6],
                       positionInitialValue: MediaQuery.of(context).size.height / 14,
                       child: CustomSearchButton(
                         onPressed: () {

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
@@ -21,29 +22,18 @@ class CollectionCard extends StatefulWidget {
 }
 
 class _CollectionCardState extends State<CollectionCard> {
-  bool isAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -96,7 +86,7 @@ class _CollectionCardState extends State<CollectionCard> {
             padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: TopAnimation(
-                animationField: isAnimated,
+                animationField: animationController.animationStates[0],
                 positionInitialValue: MediaQuery.of(context).size.height/14,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

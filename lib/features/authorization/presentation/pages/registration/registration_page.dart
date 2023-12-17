@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_cubit.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_state.dart';
@@ -23,25 +24,18 @@ class _Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<_Header> {
-  bool isHeaderAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isHeaderAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -52,7 +46,7 @@ class _HeaderState extends State<_Header> {
         const Spacer(),
 
         TopAnimation(
-          animationField: isHeaderAnimated,
+          animationField: animationController.animationStates[0],
           positionInitialValue: MediaQuery.of(context).size.height/14,
           child: const Text(
             'Registration',
@@ -81,36 +75,18 @@ class _Form extends StatefulWidget {
 }
 
 class _FormState extends State<_Form> {
-  bool isUsernameAnimated = false;
-  bool isEmailAnimated = false;
-  bool isPasswordAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
-
-
-  Future<void> _startAnimations() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-
-    final setters = <Function(bool)>[
-      (val) => isUsernameAnimated = val,
-      (val) => isEmailAnimated = val,
-      (val) => isPasswordAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      unawaited(
-        Future.delayed(animationDelay * (i + 1)).then(
-          (_) => setState(() => setters[i](true)),
-        ),
-      );
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: const Duration(milliseconds: 400),
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 4,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -120,28 +96,28 @@ class _FormState extends State<_Form> {
       child: Column(
         children: [
           TopAnimation(
-            animationField: isUsernameAnimated,
+            animationField: animationController.animationStates[0],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: UsernameTextField(controller: widget.usernameController),
           ),
           const Spacer(),
         
           TopAnimation(
-            animationField: isEmailAnimated,
+            animationField: animationController.animationStates[1],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: widget.emailController),
           ),
           const Spacer(),
 
           TopAnimation(
-            animationField: isPasswordAnimated,
+            animationField: animationController.animationStates[2],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: widget.passwordController),
           ),
           const Spacer(),
 
           TopAnimation(
-            animationField: isButtonAnimated,
+            animationField: animationController.animationStates[3],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: AuthButton<
               AuthCubit, 
@@ -174,36 +150,25 @@ class _Footer extends StatefulWidget {
 }
 
 class _FooterState extends State<_Footer> {
-  bool isFooterAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
-
-  Future<void> _startAnimations() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-    final setters = <Function(bool)>[
-      (val) => isFooterAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      unawaited(
-        Future.delayed(animationDelay * (i + 1)).then(
-          (_) => setState(() => setters[i](true)),
-        ),
-      );
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: const Duration(milliseconds: 1200),
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) => SizedBox(
     height: MediaQuery.of(context).size.height/10,
     child: TopAnimation(
-      animationField: isFooterAnimated,
+      animationField: animationController.animationStates[0],
       positionInitialValue: MediaQuery.of(context).size.height/14,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

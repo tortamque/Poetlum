@@ -2,6 +2,7 @@
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/rotating_button_mixin.dart';
 import 'package:poetlum/features/theme_change/presentation/widgets/animated_color_option_button.dart';
@@ -15,7 +16,7 @@ class SettingsButton extends StatefulWidget {
 }
 
 class _SettingsButtonState extends State<SettingsButton> with TickerProviderStateMixin, RotatingButtonMixin {
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
@@ -27,24 +28,18 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
         'opened': 'true',
       },
     );
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: Duration.zero,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) => RightAnimation(
-    animationField: isButtonAnimated ,
+    animationField: animationController.animationStates[0],
     positionInitialValue: MediaQuery.of(context).size.width/6,
     child: RotationTransition(
       turns: rotationAnimation,

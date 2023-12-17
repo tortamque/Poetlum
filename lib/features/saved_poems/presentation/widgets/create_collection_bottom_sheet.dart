@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
@@ -29,10 +30,7 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
   late TextEditingController _collectionNameController;
   late MultiSelectController<PoemEntity> _selectController;
 
-  bool isHeaderAnimated = false;
-  bool isTextFieldAnimated = false;
-  bool isSelectAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
@@ -46,7 +44,12 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
     );
     _collectionNameController = TextEditingController();
     _selectController = MultiSelectController();
-    _startAnimations();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 4,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
@@ -57,22 +60,6 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
     super.dispose();
   }
 
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isHeaderAnimated = val,
-      (val) => isTextFieldAnimated = val,
-      (val) => isSelectAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then((_) {
-        if (mounted) {
-          setState(() => setters[i](true));
-        }
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -83,28 +70,28 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
         const CustomSpacer(heightFactor: 0.05),
 
         TopAnimation(
-          animationField: isHeaderAnimated,
+          animationField: animationController.animationStates[0],
           positionInitialValue: MediaQuery.of(context).size.width/6,
           child: const _TitleTextWidget(),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         TopAnimation(
-          animationField: isTextFieldAnimated,
+          animationField: animationController.animationStates[1],
           positionInitialValue: MediaQuery.of(context).size.width/6,
           child: _CollectionNameInputWidget(controller: _collectionNameController),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         TopAnimation(
-          animationField: isSelectAnimated,
+          animationField: animationController.animationStates[2],
           positionInitialValue: MediaQuery.of(context).size.width/6,
           child: _PoemSelectionWidget(controller: _selectController, poems: widget.poems),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         TopAnimation(
-          animationField: isButtonAnimated,
+          animationField: animationController.animationStates[3],
           positionInitialValue: MediaQuery.of(context).size.width/6,
           child: _CreateButtonWidget(
             textController: _collectionNameController, 

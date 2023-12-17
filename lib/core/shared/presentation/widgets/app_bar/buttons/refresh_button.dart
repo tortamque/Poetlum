@@ -3,6 +3,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/rotating_button_mixin.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
@@ -17,30 +18,23 @@ class RefreshButton extends StatefulWidget {
 }
 
 class _RefreshButtonState extends State<RefreshButton> with TickerProviderStateMixin, RotatingButtonMixin {
-  bool isButtonAnimated = false;
-  final Duration animationDelay = const Duration(milliseconds: 400);
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) => RightAnimation(
-    animationField: isButtonAnimated ,
+    animationField: animationController.animationStates[0],
     positionInitialValue: MediaQuery.of(context).size.width/6,
     child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
       builder: (context, state) =>  RotationTransition(
