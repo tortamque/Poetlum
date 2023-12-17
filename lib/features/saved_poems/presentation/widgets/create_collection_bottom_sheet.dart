@@ -5,12 +5,12 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
 import 'package:poetlum/features/application/presentation/widgets/drawer/custom_textfield.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
@@ -177,7 +177,7 @@ class _CreateButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     listener: (context, state) {
       if (state.status == FirebaseDatabaseStatus.error) {
-        _showNegativeToast('An error occurred :(');
+        ToastManager.showNegativeToast('An error occurred :(');
       }
     },
     builder: (context, state) => state.status == FirebaseDatabaseStatus.submitting
@@ -204,7 +204,7 @@ class _CreateButtonWidget extends StatelessWidget {
                 ),
               );
 
-              await _showNegativeToast('Please select at least one poem to add to the collection');
+              await ToastManager.showNegativeToast('Please select at least one poem to add to the collection');
             } else if(textController.text.isEmpty){
               unawaited(
                 FirebaseAnalytics.instance.logEvent(
@@ -216,7 +216,7 @@ class _CreateButtonWidget extends StatelessWidget {
                 ),
               );
 
-              await _showNegativeToast('Please provide the name for the collection');
+              await ToastManager.showNegativeToast('Please provide the name for the collection');
             }
             else{
               final isCollectionExist = await context.read<FirebaseDatabaseCubit>().isCollectionExists(
@@ -244,7 +244,7 @@ class _CreateButtonWidget extends StatelessWidget {
                   ).toList(),
                 );
       
-                await _showPositiveToast('The collection has been successfully saved');
+                await ToastManager.showPositiveToast('The collection has been successfully saved');
               } else{
                 unawaited(
                   FirebaseAnalytics.instance.logEvent(
@@ -256,7 +256,7 @@ class _CreateButtonWidget extends StatelessWidget {
                   ),
                 );
 
-                await _showNegativeToast('The collection with this name already exists');
+                await ToastManager.showNegativeToast('The collection with this name already exists');
               }
               
             }
@@ -267,26 +267,4 @@ class _CreateButtonWidget extends StatelessWidget {
           ),
         ),
   );
-
-  Future<void> _showPositiveToast(String text) async{
-    await Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  Future<void> _showNegativeToast(String error) async{
-    await Fluttertoast.showToast(
-      msg: error,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
 }

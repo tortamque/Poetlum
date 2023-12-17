@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/authorization/auth_state.dart';
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_state.dart';
 
@@ -25,7 +25,7 @@ class AuthButton<
   Widget build(BuildContext context)=> BlocConsumer<InputCubit, InputState>(
       listener: (__, registerState) {
         if (registerState.status == AuthStatus.success) {
-          _showPositiveToast(successfulToastText);
+          ToastManager.showPositiveToast(successfulToastText);
           FirebaseAnalytics.instance.logEvent(
             name: 'auth',
             parameters: {
@@ -40,7 +40,7 @@ class AuthButton<
               'status': 'failed',
             },
           );
-          _showNegativeToast(registerState.errorMessage ?? 'Unknown error');
+          ToastManager.showNegativeToast(registerState.errorMessage ?? 'Unknown error');
         }
       },
       builder: (context, state) => state.status == AuthStatus.submitting 
@@ -60,26 +60,4 @@ class AuthButton<
           ),
         ),
   );
-
-  Future<void> _showPositiveToast(String text) async{
-    await Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  Future<void> _showNegativeToast(String error) async{
-    await Fluttertoast.showToast(
-      msg: error,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
 }

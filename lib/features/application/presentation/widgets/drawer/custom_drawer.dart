@@ -3,10 +3,10 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
 import 'package:poetlum/features/application/presentation/widgets/drawer/custom_checkbox_tile.dart';
 import 'package:poetlum/features/application/presentation/widgets/drawer/custom_header.dart';
 import 'package:poetlum/features/application/presentation/widgets/drawer/custom_search_button.dart';
@@ -121,10 +121,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     if (state is RemotePoemDone) {
                       Navigator.pop(context);
     
-                      _showPositiveToast('We have received wonderful poems 😉');
+                      ToastManager.showPositiveToast('We have received wonderful poems 😉');
                     }
                     if(state is RemotePoemError){
-                      _showNegativeToast('Failed to retrieve wonderful poems. An error occurred 😓');
+                      ToastManager.showNegativeToast('Failed to retrieve wonderful poems. An error occurred 😓');
                     }
                   },
                   child: BlocBuilder<RemotePoemBloc, RemotePoemState>(
@@ -167,26 +167,4 @@ class _CustomDrawerState extends State<CustomDrawer> {
   );
 
   void _toggleCheckbox(bool? value) => setState(() => _isRandom = value);
-
-  Future<void> _showPositiveToast(String text) async{
-    await Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  Future<void> _showNegativeToast(String error) async{
-    await Fluttertoast.showToast(
-      msg: error,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
 }

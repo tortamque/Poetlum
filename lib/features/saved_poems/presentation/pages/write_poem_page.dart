@@ -5,11 +5,11 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
@@ -133,7 +133,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
                         );
                       }
 
-                      await _showPositiveToast('Your amazing poem has been saved! :D');
+                      await ToastManager.showPositiveToast('Your amazing poem has been saved! :D');
                     } else{
                       unawaited(
                         FirebaseAnalytics.instance.logEvent(
@@ -144,7 +144,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
                         ),
                       );
 
-                      await _showNegativeToast('A poem with the stunning name is already in your saved poems. Please try another name 📝');
+                      await ToastManager.showNegativeToast('A poem with the stunning name is already in your saved poems. Please try another name 📝');
                     }
                   },
                   child: const Padding(
@@ -160,28 +160,6 @@ class _WritePoemPageState extends State<WritePoemPage> {
       ),
     ),
   );
-
-  Future<void> _showPositiveToast(String text) async{
-    await Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  Future<void> _showNegativeToast(String error) async{
-    await Fluttertoast.showToast(
-      msg: error,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
 }
 
 class _CustomTextField extends StatelessWidget {
