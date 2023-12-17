@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/dependency_injection.dart';
-import 'package:poetlum/core/shared/presentation/widgets/app_bar.dart';
+import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
