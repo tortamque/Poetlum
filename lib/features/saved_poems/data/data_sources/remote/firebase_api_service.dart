@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls, cascade_invocations, prefer_final_in_for_each
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:poetlum/features/poems_feed/data/models/poem.dart';
+import 'package:poetlum/core/shared/data/models/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/saved_poems/data/models/collection.dart';
 

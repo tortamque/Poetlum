@@ -1,4 +1,4 @@
-import 'package:poetlum/features/poems_feed/data/models/poem.dart';
+import 'package:poetlum/core/shared/data/models/poem.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
 
 class CollectionModel extends CollectionEntity{
