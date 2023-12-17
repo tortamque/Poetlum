@@ -7,7 +7,7 @@ import 'package:poetlum/core/shared/presentation/widgets/rotating_button_mixin.d
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 
 class RefreshButton extends StatefulWidget {
   const RefreshButton({super.key});

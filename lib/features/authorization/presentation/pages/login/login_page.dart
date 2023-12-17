@@ -12,7 +12,7 @@ import 'package:poetlum/features/authorization/presentation/bloc/validation/vali
 import 'package:poetlum/features/authorization/presentation/widgets/auth_button.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/email_field.dart';
 import 'package:poetlum/features/authorization/presentation/widgets/password_field.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 
 class _Header extends StatefulWidget {
   const _Header();
