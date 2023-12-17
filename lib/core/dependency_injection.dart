@@ -26,8 +26,8 @@ import 'package:poetlum/features/saved_poems/domain/usecases/delete_collection/d
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem_from_collection/delete_poem_from_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_poems_in_collection/get_poems_in_collection_usecase.dart';
-import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections_usecase.dart';
-import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections/get_user_collections_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems/get_user_poems_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_collection_exists/is_collection_exists_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_poem_exists_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists_by_name/is_poem_exists_by_name_usecase.dart';
