@@ -10,6 +10,8 @@ import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem_from_collection/delete_poem_from_collection_params.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem_from_collection/delete_poem_from_collection_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/edit_poem/edit_poem_params.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/edit_poem/edit_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_poems_in_collection/get_poems_in_collection_params.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_poems_in_collection/get_poems_in_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections/get_user_collections_usecase.dart';
@@ -27,7 +29,21 @@ import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_col
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
 class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
-  FirebaseDatabaseCubit(this._getUserPoemsUseCase, this._getUserCollectionsUseCase, this._savePoemUseCase, this._deletePoemUseCase, this._isPoemExistsUseCase, this._createNewCollectionUseCase, this._deleteCollectionUseCase, this._deletePoemFromCollectionUseCase, this._updatePoemsInCollectionUseCase, this._getPoemsInCollectionUseCase, this._isCollectionExistsUseCase, this._isPoemExistsByNameUseCase) : super(const FirebaseDatabaseState());
+  FirebaseDatabaseCubit(
+    this._getUserPoemsUseCase, 
+    this._getUserCollectionsUseCase, 
+    this._savePoemUseCase, 
+    this._deletePoemUseCase, 
+    this._isPoemExistsUseCase, 
+    this._createNewCollectionUseCase, 
+    this._deleteCollectionUseCase, 
+    this._deletePoemFromCollectionUseCase, 
+    this._updatePoemsInCollectionUseCase, 
+    this._getPoemsInCollectionUseCase, 
+    this._isCollectionExistsUseCase, 
+    this._isPoemExistsByNameUseCase, 
+    this._editPoemUseCase,
+  ) : super(const FirebaseDatabaseState());
 
   final GetUserPoemsUseCase _getUserPoemsUseCase;
   final GetUserCollectionsUseCase _getUserCollectionsUseCase;
@@ -41,6 +57,7 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
   final GetPoemsInCollectionUseCase _getPoemsInCollectionUseCase;
   final IsCollectionExistsUseCase _isCollectionExistsUseCase;
   final IsPoemExistsByNameUseCase _isPoemExistsByNameUseCase;
+  final EditPoemUseCase _editPoemUseCase;
 
   Future<List<PoemEntity>?> getUserPoems(String userId) async{
     emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
@@ -262,6 +279,35 @@ class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
       emit(state.copyWith(status: FirebaseDatabaseStatus.error));
 
       return false;
+    }
+  }
+
+  Future<void> editPoem({required String userId, required String oldTitle, required String oldAuthor, required String oldText, required int oldLineCount, required String newTitle, required String newAuthor, required String newText, required int newLineCount, String? collectionName}) async {
+    emit(state.copyWith(status: FirebaseDatabaseStatus.submitting));
+    print(collectionName);
+    try{
+      await _editPoemUseCase(
+        params: EditPoemParams(
+          userId: userId,
+          newPoemEntity: PoemEntity(
+            author: newAuthor,
+            linecount: newLineCount,
+            text: newText,
+            title: newTitle,
+          ),
+          oldPoemEntity: PoemEntity(
+            author: oldAuthor,
+            linecount: oldLineCount,
+            text: oldText,
+            title: oldTitle,
+          ),
+          collectionName: collectionName,
+        ),
+      );
+
+      emit(state.copyWith(status: FirebaseDatabaseStatus.success));
+    } catch(e) {
+      emit(state.copyWith(status: FirebaseDatabaseStatus.error));
     }
   }
 }

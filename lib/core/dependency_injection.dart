@@ -25,6 +25,7 @@ import 'package:poetlum/features/saved_poems/domain/usecases/create_new_collecti
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_collection/delete_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem/delete_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/delete_poem_from_collection/delete_poem_from_collection_usecase.dart';
+import 'package:poetlum/features/saved_poems/domain/usecases/edit_poem/edit_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_poems_in_collection/get_poems_in_collection_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_collections/get_user_collections_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/get_user_poems/get_user_poems_usecase.dart';
@@ -82,6 +83,7 @@ void initializeDependencies() {
       ..registerSingleton<IsCollectionExistsUseCase>(IsCollectionExistsUseCase(getIt()))
       ..registerSingleton<SaveColorUseCase>(SaveColorUseCase(getIt()))
       ..registerSingleton<GetColorUseCase>(GetColorUseCase(getIt()))
+      ..registerSingleton<EditPoemUseCase>(EditPoemUseCase(getIt()))
 
       // Validators
       ..registerLazySingleton<UsernameValidator>(() => UsernameValidator())
@@ -100,6 +102,7 @@ void initializeDependencies() {
           getIt(), 
           getIt(), 
           getIt(), 
+          getIt(),
           getIt(),
           getIt(),
           getIt(),
