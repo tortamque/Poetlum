@@ -24,7 +24,7 @@ import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_params.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_usecase.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
 class FirebaseDatabaseCubit extends Cubit<FirebaseDatabaseState> {
   FirebaseDatabaseCubit(this._getUserPoemsUseCase, this._getUserCollectionsUseCase, this._savePoemUseCase, this._deletePoemUseCase, this._isPoemExistsUseCase, this._createNewCollectionUseCase, this._deleteCollectionUseCase, this._deletePoemFromCollectionUseCase, this._updatePoemsInCollectionUseCase, this._getPoemsInCollectionUseCase, this._isCollectionExistsUseCase, this._isPoemExistsByNameUseCase) : super(const FirebaseDatabaseState());

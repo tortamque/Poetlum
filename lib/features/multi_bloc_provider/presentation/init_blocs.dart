@@ -5,7 +5,7 @@ import 'package:poetlum/features/authorization/presentation/bloc/authorization/a
 import 'package:poetlum/features/authorization/presentation/bloc/validation/validation_cubit.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
 import 'package:poetlum/features/theme_change/presentation/bloc/change_theme_cubit.dart';
 
 class InitBlocs extends StatelessWidget {

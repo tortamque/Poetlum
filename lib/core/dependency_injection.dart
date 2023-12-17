@@ -33,7 +33,7 @@ import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists/is_p
 import 'package:poetlum/features/saved_poems/domain/usecases/is_poem_exists_by_name/is_poem_exists_by_name_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/save_poem/save_poem_usecase.dart';
 import 'package:poetlum/features/saved_poems/domain/usecases/update_poems_in_collection/update_poems_in_collection_usecase.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
 import 'package:poetlum/features/theme_change/data/data_sources/local/shared_preferences_service.dart';
 import 'package:poetlum/features/theme_change/data/repository/shared_preferences_repository_impl.dart';
 import 'package:poetlum/features/theme_change/domain/repository/shared_preferences_repository.dart';

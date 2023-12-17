@@ -9,7 +9,7 @@ import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
 
 class CollectionCard extends StatefulWidget {
   const CollectionCard({super.key, required this.collection});

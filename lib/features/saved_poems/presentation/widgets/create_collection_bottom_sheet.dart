@@ -13,8 +13,8 @@ import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/application/presentation/widgets/drawer/custom_textfield.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
 class CreateCollectionBottomSheetContent extends StatefulWidget {
   const CreateCollectionBottomSheetContent({super.key, required this.poems});

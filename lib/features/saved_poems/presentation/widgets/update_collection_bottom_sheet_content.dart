@@ -12,8 +12,8 @@ import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
 class UpdateCollectionBottomSheetContent extends StatefulWidget {
   const UpdateCollectionBottomSheetContent({super.key, this.allSavedPoems, this.poemsInTheCollection, required this.collectionName});
