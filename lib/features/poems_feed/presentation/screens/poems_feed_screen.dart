@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_card.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
-import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_card.dart';
 
 class PoemsFeedScreen extends StatelessWidget {
   const PoemsFeedScreen({super.key});
