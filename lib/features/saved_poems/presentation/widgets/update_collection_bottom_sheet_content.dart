@@ -54,7 +54,11 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 3,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void _initPoemsInTheCollectionValues(){

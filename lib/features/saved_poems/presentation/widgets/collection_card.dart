@@ -33,7 +33,11 @@ class _CollectionCardState extends State<CollectionCard> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

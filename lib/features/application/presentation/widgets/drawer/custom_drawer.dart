@@ -43,7 +43,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 7,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

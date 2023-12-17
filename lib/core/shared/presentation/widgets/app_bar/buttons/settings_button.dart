@@ -34,7 +34,11 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

@@ -29,7 +29,11 @@ class _RefreshButtonState extends State<RefreshButton> with TickerProviderStateM
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

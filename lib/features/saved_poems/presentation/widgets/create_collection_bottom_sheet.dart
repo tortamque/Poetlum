@@ -49,7 +49,11 @@ class _CreateCollectionBottomSheetContentState extends State<CreateCollectionBot
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 4,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

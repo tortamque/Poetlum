@@ -28,7 +28,11 @@ class _PoemCardState extends State<PoemCard> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 3,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

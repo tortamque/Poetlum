@@ -31,7 +31,11 @@ class _SavedPoemViewPageState extends State<SavedPoemViewPage> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 5,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

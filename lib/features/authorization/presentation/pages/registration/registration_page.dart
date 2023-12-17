@@ -35,7 +35,11 @@ class _HeaderState extends State<_Header> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -86,7 +90,11 @@ class _FormState extends State<_Form> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 4,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -161,7 +169,11 @@ class _FooterState extends State<_Footer> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

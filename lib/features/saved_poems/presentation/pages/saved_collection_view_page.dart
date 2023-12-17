@@ -133,7 +133,11 @@ class __CollectionNameState extends State<_CollectionName> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

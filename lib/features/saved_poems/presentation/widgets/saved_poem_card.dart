@@ -36,7 +36,11 @@ class _SavedPoemCardState extends State<SavedPoemCard> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
   
   @override

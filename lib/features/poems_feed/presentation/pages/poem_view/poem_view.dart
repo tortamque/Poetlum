@@ -32,7 +32,11 @@ class _PoemViewPageState extends State<PoemViewPage> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 6,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override

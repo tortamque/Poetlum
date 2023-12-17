@@ -45,7 +45,11 @@ class _WritePoemPageState extends State<WritePoemPage> {
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 3,
     );
-    animationController.startAnimations(() => setState(() {}));
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
