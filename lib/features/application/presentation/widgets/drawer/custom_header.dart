@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poetlum/features/poems_feed/data/models/firebase_user.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
+import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
   const CustomDrawerHeader({super.key, required this.user});

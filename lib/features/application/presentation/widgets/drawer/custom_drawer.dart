@@ -13,7 +13,7 @@ import 'package:poetlum/features/application/presentation/widgets/drawer/custom_
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
+import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer(this._userRepository, {super.key});
