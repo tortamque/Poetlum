@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/pages/screens_wrapper.dart';
-import 'package:poetlum/features/application/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
 import 'package:poetlum/features/authorization/domain/repository/auth_repository.dart';
 import 'package:poetlum/features/authorization/presentation/pages/registration/registration_page.dart';
 

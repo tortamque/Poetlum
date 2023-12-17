@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
-import 'package:poetlum/features/application/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/screens/poems_feed_screen.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_drawer.dart';

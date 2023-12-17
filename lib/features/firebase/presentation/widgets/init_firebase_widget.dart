@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:poetlum/features/application/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
 
 class InitFirebaseWidget extends StatefulWidget {
   const InitFirebaseWidget({
