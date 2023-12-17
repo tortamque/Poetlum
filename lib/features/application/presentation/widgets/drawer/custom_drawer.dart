@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
+import 'package:poetlum/features/application/presentation/widgets/drawer/custom_checkbox_tile.dart';
+import 'package:poetlum/features/application/presentation/widgets/drawer/custom_header.dart';
+import 'package:poetlum/features/application/presentation/widgets/drawer/custom_search_button.dart';
+import 'package:poetlum/features/application/presentation/widgets/drawer/custom_textfield.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
-import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_checkbox_tile.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_header.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_search_button.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/drawer/custom_textfield.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer(this._userRepository, {super.key});
