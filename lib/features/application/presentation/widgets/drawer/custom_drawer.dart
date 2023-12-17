@@ -122,20 +122,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           FirebaseAnalytics.instance.logEvent(
                             name: 'search_poem',
                             parameters: {
-                              'author': _authorController.text,
-                              'title': _titleController.text,
-                              'line_count': _numberOfLinesController.text,
-                              'poem_count': _resultCountController.text,
+                              'author': _authorController.text.trim(),
+                              'title': _titleController.text.trim(),
+                              'line_count': _numberOfLinesController.text.trim(),
+                              'poem_count': _resultCountController.text.trim(),
                               'is_random': _isRandom.toString(),
                             },
                           );
     
                           BlocProvider.of<RemotePoemBloc>(context).add(
                             GetPoemsEvent(
-                              author: _authorController.text,
-                              title: _titleController.text,
-                              lineCount: _numberOfLinesController.text,
-                              poemCount: _resultCountController.text,
+                              author: _authorController.text.trim(),
+                              title: _titleController.text.trim(),
+                              lineCount: _numberOfLinesController.text.trim(),
+                              poemCount: _resultCountController.text.trim(),
                               isRandom: _isRandom ?? false,
                             ),
                           );
