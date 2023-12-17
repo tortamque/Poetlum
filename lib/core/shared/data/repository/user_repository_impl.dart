@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/data/models/firebase_user.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository{
   UserRepositoryImpl(this._firebaseAuth);

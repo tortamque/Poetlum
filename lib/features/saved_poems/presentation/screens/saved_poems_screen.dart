@@ -6,7 +6,7 @@ import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';

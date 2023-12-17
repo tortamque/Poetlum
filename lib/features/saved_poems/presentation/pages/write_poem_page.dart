@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
 import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
