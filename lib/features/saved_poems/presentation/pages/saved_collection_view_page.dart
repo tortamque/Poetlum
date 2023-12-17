@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/dependency_injection.dart';
 import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
 import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
@@ -87,13 +88,7 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
                 _CollectionName(name: collectionEntity.name),
                 Expanded(
                   child: poemsInTheCollection.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'Nothing to show here 😔\nTap on the "Edit" button to add amazing poems to the collection',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      )
+                    ? const EmptyCollectionText()
                     : ListView.builder(
                         itemCount: poemsInTheCollection.length,
                         itemBuilder: (__, index) => SavedPoemCard(
@@ -109,6 +104,49 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
       ),
     );
   }
+}
+
+class EmptyCollectionText extends StatefulWidget {
+  const EmptyCollectionText({super.key});
+
+  @override
+  State<EmptyCollectionText> createState() => _EmptyCollectionTextState();
+}
+
+class _EmptyCollectionTextState extends State<EmptyCollectionText> {
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => RightAnimation(
+    animationField: animationController.animationStates[0],
+    positionInitialValue: MediaQuery.of(context).size.height/14,
+    child: const Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          'Nothing to show here 😔\nTap on the "Edit" button to add amazing poems to the collection',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    ),
+  );
 }
 
 class _CollectionName extends StatefulWidget {
