@@ -40,17 +40,19 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) => Scaffold(
     body: SafeArea(
       child: BlocBuilder<LoginFormValidationCubit, LoginFormValidationState>(
-        builder: (context, state) => Column(
-            children: [
-              const _Header(),
-              
-              _Form(
-                _emailController, 
-                _passwordController,
-              ),
-              
-              const _Footer(),
-            ],
+        builder: (context, state) => SingleChildScrollView(
+          child: Column(
+              children: [
+                const _Header(),
+                
+                _Form(
+                  _emailController, 
+                  _passwordController,
+                ),
+                
+                const _Footer(),
+              ],
+          ),
         ),
       ),
     ),
@@ -138,8 +140,7 @@ class _FormState extends State<_Form> {
   
   @override
   Widget build(BuildContext context) => BlocBuilder<LoginFormValidationCubit, LoginFormValidationState>(
-    builder: (context, state) => SizedBox(
-      height: MediaQuery.of(context).size.height/3.5,
+    builder: (context, state) => SingleChildScrollView(
       child: Column(
         children: [
           RightAnimation(
@@ -147,15 +148,15 @@ class _FormState extends State<_Form> {
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: EmailTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: widget.emailController),
           ),
-          const Spacer(),
-
+          const SizedBox(height: 20),
+    
           RightAnimation(
             animationField: animationController.animationStates[1],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: PasswordTextField<LoginFormValidationCubit, LoginFormValidationState>(controller: widget.passwordController),
           ),
-          const Spacer(),
-
+          const SizedBox(height: 20),
+    
           RightAnimation(
             animationField: animationController.animationStates[2],
             positionInitialValue: MediaQuery.of(context).size.height/14,
