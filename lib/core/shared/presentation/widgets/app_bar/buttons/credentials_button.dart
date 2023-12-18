@@ -110,7 +110,7 @@ class __SelectBottomSheetContentState extends State<_SelectBottomSheetContent> {
           RightAnimation(
             animationField: animationController.animationStates[0],
             positionInitialValue: MediaQuery.of(context).size.width/6,
-            child: const _Title(text: 'Choose a credential you want to edit 🐸')
+            child: const _Title(text: 'Choose a credential you want to edit 🐸'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
@@ -423,33 +423,33 @@ class __PasswordBottomSheetContentState extends State<_PasswordBottomSheetConten
           RightAnimation(
             animationField: animationController.animationStates[0],
             positionInitialValue: MediaQuery.of(context).size.width/6,
-            child: const _Title(text: 'Change your password')
+            child: const _Title(text: 'Change your password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
           RightAnimation(
             animationField: animationController.animationStates[1],
             positionInitialValue: MediaQuery.of(context).size.width/6,
-            child: const _SubTitle(text: 'Confirm password')
+            child: const _SubTitle(text: 'Confirm password'),
           ),
           const CustomSpacer(heightFactor: 0.01),
           RightAnimation(
             animationField: animationController.animationStates[2],
             positionInitialValue: MediaQuery.of(context).size.width/6,
-            child: CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Old Password')
+            child: CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Old Password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
           RightAnimation(
             animationField: animationController.animationStates[3],
             positionInitialValue: MediaQuery.of(context).size.width/6,
-            child: const _SubTitle(text: 'New Password')
+            child: const _SubTitle(text: 'New Password'),
           ),
           const CustomSpacer(heightFactor: 0.01),
           RightAnimation(
             animationField: animationController.animationStates[4],
             positionInitialValue: MediaQuery.of(context).size.width/6,
-            child: CustomPasswordTextField(controller: _newPasswordController, widthFactor: 1.35, hintText: 'New Password')
+            child: CustomPasswordTextField(controller: _newPasswordController, widthFactor: 1.35, hintText: 'New Password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
