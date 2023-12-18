@@ -92,26 +92,91 @@ class __SelectBottomSheetContentState extends State<_SelectBottomSheetContent> {
 
           const CustomSpacer(heightFactor: 0.04),
           FilledButton.tonal(
-            onPressed: (){
-              
-            }, 
+            onPressed: () => showModalBottomSheet(
+              isScrollControlled: true,
+              context: context, 
+              builder: (context) => const _UsernameBottomSheetContent(),
+            ),
             child: const Text('Username'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
           FilledButton.tonal(
-            onPressed: (){
-              showModalBottomSheet(
-                isScrollControlled: true,
-                context: context, 
-                builder: (context) => const _EmailBottomSheetContent(),
-              );
-            }, 
+            onPressed: () => showModalBottomSheet(
+              isScrollControlled: true,
+              context: context, 
+              builder: (context) => const _EmailBottomSheetContent(),
+            ), 
             child: const Text('Email'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
           FilledButton.tonal(onPressed: (){}, child: const Text('Password')),
+
+          const CustomSpacer(heightFactor: 0.04),
+        ],
+      ),
+    ),
+  );
+}
+
+class _UsernameBottomSheetContent extends StatefulWidget {
+  const _UsernameBottomSheetContent();
+
+  @override
+  State<_UsernameBottomSheetContent> createState() => __UsernameBottomSheetContentState();
+}
+
+class __UsernameBottomSheetContentState extends State<_UsernameBottomSheetContent> {
+  final TextEditingController _newUsernameController = TextEditingController();
+
+  @override
+  void dispose(){
+    super.dispose();
+    _newUsernameController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: MediaQuery.of(context).size.height/1.25,
+    width: MediaQuery.of(context).size.width,
+    child: SingleChildScrollView(
+      child: Column(
+        children: [
+          const CustomSpacer(heightFactor: 0.04),
+          const _Title(text: 'Change your username'),
+
+          const CustomSpacer(heightFactor: 0.04),
+          const _SubTitle(text: 'New Username'),
+          const CustomSpacer(heightFactor: 0.01),
+          CustomTextField(hintText: 'New Username', controller: _newUsernameController),
+
+          const CustomSpacer(heightFactor: 0.04),
+          BlocConsumer<CredentialsCubit, CredentialsState>(
+            listener: (context, state) {
+              if(state.status == CredentialsStatus.success){
+                ToastManager.showPositiveToast('Your email has been successfully changed');
+              }
+              if(state.status == CredentialsStatus.error){
+                ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
+              }
+            },
+            builder: (context, state) {
+              if(state.status == CredentialsStatus.submitting){
+                return const Center(child: CircularProgressIndicator());
+              } else{
+                return FilledButton(
+                  onPressed: () => context.read<CredentialsCubit>().changeUsername(
+                    newUsername: _newUsernameController.text.trim(), 
+                  ), 
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text('Change'),
+                  ),
+                );
+              }
+            },
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
         ],

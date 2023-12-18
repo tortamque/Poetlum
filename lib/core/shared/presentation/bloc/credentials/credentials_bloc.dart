@@ -12,6 +12,8 @@ class CredentialsCubit extends Cubit<CredentialsState> {
 
     if(newEmail.isEmpty || oldPassword.isEmpty){
       emit(state.copyWith(status: CredentialsStatus.error, error: 'One of the fields is empty. Please fill in all fields'));
+
+      return;
     }
 
     try{
@@ -25,9 +27,35 @@ class CredentialsCubit extends Cubit<CredentialsState> {
           ),
         );
         await user.updateEmail(newEmail);
-      }
 
-      emit(state.copyWith(status: CredentialsStatus.success));
+        emit(state.copyWith(status: CredentialsStatus.success));
+      } else{
+        emit(state.copyWith(status: CredentialsStatus.error, error: 'No user found'));
+      }
+    } catch(e){
+      emit(state.copyWith(status: CredentialsStatus.error, error: e.toString()));
+    }
+  }
+
+  Future<void> changeUsername({required String newUsername}) async{
+    emit(state.copyWith(status: CredentialsStatus.submitting));
+
+    if(newUsername.isEmpty){
+      emit(state.copyWith(status: CredentialsStatus.error, error: 'The username field is empty. Please fill it'));
+
+      return;
+    }
+
+    try{
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        await user.updateDisplayName(newUsername);
+
+        emit(state.copyWith(status: CredentialsStatus.success));
+      } else{
+        emit(state.copyWith(status: CredentialsStatus.error, error: 'No user found'));
+      }
     } catch(e){
       emit(state.copyWith(status: CredentialsStatus.error, error: e.toString()));
     }
