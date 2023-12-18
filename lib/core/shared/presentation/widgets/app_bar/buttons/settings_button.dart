@@ -30,7 +30,7 @@ class _SettingsButtonState extends State<SettingsButton> with TickerProviderStat
     );
     super.initState();
     animationController = AnimationControllerWithDelays(
-      initialDelay: Duration.zero,
+      initialDelay: const Duration(milliseconds: 200),
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );

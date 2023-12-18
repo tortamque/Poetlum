@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poetlum/core/shared/presentation/widgets/app_bar/buttons/credentials_button.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/buttons/refresh_button.dart';
 import 'package:poetlum/core/shared/presentation/widgets/app_bar/buttons/settings_button.dart';
 
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     actions: const [
       RefreshButton(),
       SettingsButton(),
+      CredentialButton(),
     ],
     leading: leading,
     title: Text(

@@ -25,7 +25,7 @@ class _RefreshButtonState extends State<RefreshButton> with TickerProviderStateM
   void initState() {
     super.initState();
     animationController = AnimationControllerWithDelays(
-      initialDelay: animationDelay,
+      initialDelay: const Duration(milliseconds: 400),
       delayBetweenAnimations: animationDelay,
       numberOfAnimations: 1,
     );
