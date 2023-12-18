@@ -5,6 +5,7 @@ import 'package:poetlum/core/shared/presentation/bloc/credentials/credentials_bl
 import 'package:poetlum/core/shared/presentation/bloc/credentials/credentials_state.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/core/shared/presentation/widgets/password_textfield.dart';
 import 'package:poetlum/core/shared/presentation/widgets/rotating_button_mixin.dart';
@@ -204,29 +205,29 @@ class __UsernameBottomSheetContentState extends State<_UsernameBottomSheetConten
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[0],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _Title(text: 'Change your username'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[1],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _SubTitle(text: 'New Username'),
           ),
           const CustomSpacer(heightFactor: 0.01),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[2],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: CustomTextField(hintText: 'New Username', controller: _newUsernameController),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[3],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: BlocConsumer<CredentialsCubit, CredentialsState>(
               listener: (context, state) {
                 if(state.status == CredentialsStatus.success){
@@ -305,42 +306,42 @@ class __EmailBottomSheetContentState extends State<_EmailBottomSheetContent> {
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[0],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _Title(text: 'Change your email'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[1],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _SubTitle(text: 'Confirm password'),
           ),
           const CustomSpacer(heightFactor: 0.01),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[2],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[3],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _SubTitle(text: 'New Email'),
           ),
           const CustomSpacer(heightFactor: 0.01),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[4],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: CustomTextField(hintText: 'New Email', controller: _newEmailController),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[5],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: BlocConsumer<CredentialsCubit, CredentialsState>(
               listener: (context, state) {
                 if(state.status == CredentialsStatus.success){
@@ -420,42 +421,42 @@ class __PasswordBottomSheetContentState extends State<_PasswordBottomSheetConten
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[0],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _Title(text: 'Change your password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[1],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _SubTitle(text: 'Confirm password'),
           ),
           const CustomSpacer(heightFactor: 0.01),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[2],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Old Password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[3],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: const _SubTitle(text: 'New Password'),
           ),
           const CustomSpacer(heightFactor: 0.01),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[4],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: CustomPasswordTextField(controller: _newPasswordController, widthFactor: 1.35, hintText: 'New Password'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          RightAnimation(
+          TopAnimation(
             animationField: animationController.animationStates[5],
-            positionInitialValue: MediaQuery.of(context).size.width/6,
+            positionInitialValue: MediaQuery.of(context).size.height/14,
             child: BlocConsumer<CredentialsCubit, CredentialsState>(
               listener: (context, state) {
                 if(state.status == CredentialsStatus.success){
