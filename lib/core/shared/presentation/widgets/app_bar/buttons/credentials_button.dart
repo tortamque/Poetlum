@@ -81,6 +81,24 @@ class _SelectBottomSheetContent extends StatefulWidget {
 }
 
 class __SelectBottomSheetContentState extends State<_SelectBottomSheetContent> {
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 150);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 4,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) => SizedBox(
     height: MediaQuery.of(context).size.height/2,
@@ -89,36 +107,52 @@ class __SelectBottomSheetContentState extends State<_SelectBottomSheetContent> {
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          const _Title(text: 'Choose a credential you want to edit 🐸'),
+          RightAnimation(
+            animationField: animationController.animationStates[0],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _Title(text: 'Choose a credential you want to edit 🐸')
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          FilledButton.tonal(
-            onPressed: () => showModalBottomSheet(
-              isScrollControlled: true,
-              context: context, 
-              builder: (context) => const _UsernameBottomSheetContent(),
+          RightAnimation(
+            animationField: animationController.animationStates[1],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: FilledButton.tonal(
+              onPressed: () => showModalBottomSheet(
+                isScrollControlled: true,
+                context: context, 
+                builder: (context) => const _UsernameBottomSheetContent(),
+              ),
+              child: const Text('Username'),
             ),
-            child: const Text('Username'),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          FilledButton.tonal(
-            onPressed: () => showModalBottomSheet(
-              isScrollControlled: true,
-              context: context, 
-              builder: (context) => const _EmailBottomSheetContent(),
-            ), 
-            child: const Text('Email'),
+          RightAnimation(
+            animationField: animationController.animationStates[2],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: FilledButton.tonal(
+              onPressed: () => showModalBottomSheet(
+                isScrollControlled: true,
+                context: context, 
+                builder: (context) => const _EmailBottomSheetContent(),
+              ), 
+              child: const Text('Email'),
+            ),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
-          FilledButton.tonal(
-            onPressed: () => showModalBottomSheet(
-              isScrollControlled: true,
-              context: context, 
-              builder: (context) =>  const _PasswordBottomSheetContent(),
-            ), 
-            child: const Text('Password'),
+          RightAnimation(
+            animationField: animationController.animationStates[3],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: FilledButton.tonal(
+              onPressed: () => showModalBottomSheet(
+                isScrollControlled: true,
+                context: context, 
+                builder: (context) =>  const _PasswordBottomSheetContent(),
+              ), 
+              child: const Text('Password'),
+            ),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
@@ -138,6 +172,24 @@ class _UsernameBottomSheetContent extends StatefulWidget {
 class __UsernameBottomSheetContentState extends State<_UsernameBottomSheetContent> {
   final TextEditingController _newUsernameController = TextEditingController();
 
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 150);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 4,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
   @override
   void dispose(){
     super.dispose();
@@ -152,38 +204,54 @@ class __UsernameBottomSheetContentState extends State<_UsernameBottomSheetConten
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          const _Title(text: 'Change your username'),
+          RightAnimation(
+            animationField: animationController.animationStates[0],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _Title(text: 'Change your username'),
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          const _SubTitle(text: 'New Username'),
+          RightAnimation(
+            animationField: animationController.animationStates[1],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _SubTitle(text: 'New Username'),
+          ),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'New Username', controller: _newUsernameController),
+          RightAnimation(
+            animationField: animationController.animationStates[2],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: CustomTextField(hintText: 'New Username', controller: _newUsernameController),
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          BlocConsumer<CredentialsCubit, CredentialsState>(
-            listener: (context, state) {
-              if(state.status == CredentialsStatus.success){
-                ToastManager.showPositiveToast('Your email has been successfully changed');
-              }
-              if(state.status == CredentialsStatus.error){
-                ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
-              }
-            },
-            builder: (context, state) {
-              if(state.status == CredentialsStatus.submitting){
-                return const Center(child: CircularProgressIndicator());
-              } else{
-                return FilledButton(
-                  onPressed: () => context.read<CredentialsCubit>().changeUsername(
-                    newUsername: _newUsernameController.text.trim(), 
-                  ), 
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text('Change'),
-                  ),
-                );
-              }
-            },
+          RightAnimation(
+            animationField: animationController.animationStates[3],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: BlocConsumer<CredentialsCubit, CredentialsState>(
+              listener: (context, state) {
+                if(state.status == CredentialsStatus.success){
+                  ToastManager.showPositiveToast('Your email has been successfully changed');
+                }
+                if(state.status == CredentialsStatus.error){
+                  ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
+                }
+              },
+              builder: (context, state) {
+                if(state.status == CredentialsStatus.submitting){
+                  return const Center(child: CircularProgressIndicator());
+                } else{
+                  return FilledButton(
+                    onPressed: () => context.read<CredentialsCubit>().changeUsername(
+                      newUsername: _newUsernameController.text.trim(), 
+                    ), 
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Text('Change'),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
@@ -204,6 +272,24 @@ class __EmailBottomSheetContentState extends State<_EmailBottomSheetContent> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newEmailController = TextEditingController();
 
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 150);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 6,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
   @override
   void dispose(){
     super.dispose();
@@ -219,44 +305,68 @@ class __EmailBottomSheetContentState extends State<_EmailBottomSheetContent> {
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          const _Title(text: 'Change your email'),
+          RightAnimation(
+            animationField: animationController.animationStates[0],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _Title(text: 'Change your email'),
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          const _SubTitle(text: 'Confirm password'),
+          RightAnimation(
+            animationField: animationController.animationStates[1],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _SubTitle(text: 'Confirm password'),
+          ),
           const CustomSpacer(heightFactor: 0.01),
-          CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Password'),
+          RightAnimation(
+            animationField: animationController.animationStates[2],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Password'),
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          const _SubTitle(text: 'New Email'),
+          RightAnimation(
+            animationField: animationController.animationStates[3],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _SubTitle(text: 'New Email'),
+          ),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'New Email', controller: _newEmailController),
+          RightAnimation(
+            animationField: animationController.animationStates[4],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: CustomTextField(hintText: 'New Email', controller: _newEmailController),
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          BlocConsumer<CredentialsCubit, CredentialsState>(
-            listener: (context, state) {
-              if(state.status == CredentialsStatus.success){
-                ToastManager.showPositiveToast('Your email has been successfully changed');
-              }
-              if(state.status == CredentialsStatus.error){
-                ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
-              }
-            },
-            builder: (context, state) {
-              if(state.status == CredentialsStatus.submitting){
-                return const Center(child: CircularProgressIndicator());
-              } else{
-                return FilledButton(
-                  onPressed: () => context.read<CredentialsCubit>().changeEmail(
-                    newEmail: _newEmailController.text.trim(), 
-                    oldPassword: _oldPasswordController.text,
-                  ), 
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text('Change'),
-                  ),
-                );
-              }
-            },
+          RightAnimation(
+            animationField: animationController.animationStates[5],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: BlocConsumer<CredentialsCubit, CredentialsState>(
+              listener: (context, state) {
+                if(state.status == CredentialsStatus.success){
+                  ToastManager.showPositiveToast('Your email has been successfully changed');
+                }
+                if(state.status == CredentialsStatus.error){
+                  ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
+                }
+              },
+              builder: (context, state) {
+                if(state.status == CredentialsStatus.submitting){
+                  return const Center(child: CircularProgressIndicator());
+                } else{
+                  return FilledButton(
+                    onPressed: () => context.read<CredentialsCubit>().changeEmail(
+                      newEmail: _newEmailController.text.trim(), 
+                      oldPassword: _oldPasswordController.text,
+                    ), 
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Text('Change'),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
@@ -277,6 +387,24 @@ class __PasswordBottomSheetContentState extends State<_PasswordBottomSheetConten
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
 
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 150);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 6,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
   @override
   void dispose(){
     super.dispose();
@@ -292,44 +420,68 @@ class __PasswordBottomSheetContentState extends State<_PasswordBottomSheetConten
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
-          const _Title(text: 'Change your password'),
+          RightAnimation(
+            animationField: animationController.animationStates[0],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _Title(text: 'Change your password')
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          const _SubTitle(text: 'Confirm password'),
+          RightAnimation(
+            animationField: animationController.animationStates[1],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _SubTitle(text: 'Confirm password')
+          ),
           const CustomSpacer(heightFactor: 0.01),
-          CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Old Password'),
+          RightAnimation(
+            animationField: animationController.animationStates[2],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: CustomPasswordTextField(controller: _oldPasswordController, widthFactor: 1.35, hintText: 'Old Password')
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          const _SubTitle(text: 'New Password'),
+          RightAnimation(
+            animationField: animationController.animationStates[3],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: const _SubTitle(text: 'New Password')
+          ),
           const CustomSpacer(heightFactor: 0.01),
-          CustomPasswordTextField(controller: _newPasswordController, widthFactor: 1.35, hintText: 'New Password'),
+          RightAnimation(
+            animationField: animationController.animationStates[4],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: CustomPasswordTextField(controller: _newPasswordController, widthFactor: 1.35, hintText: 'New Password')
+          ),
 
           const CustomSpacer(heightFactor: 0.04),
-          BlocConsumer<CredentialsCubit, CredentialsState>(
-            listener: (context, state) {
-              if(state.status == CredentialsStatus.success){
-                ToastManager.showPositiveToast('Your password has been successfully changed');
-              }
-              if(state.status == CredentialsStatus.error){
-                ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
-              }
-            },
-            builder: (context, state) {
-              if(state.status == CredentialsStatus.submitting){
-                return const Center(child: CircularProgressIndicator());
-              } else{
-                return FilledButton(
-                  onPressed: () => context.read<CredentialsCubit>().changePassword(
-                    newPassword: _newPasswordController.text, 
-                    oldPassword: _oldPasswordController.text,
-                  ), 
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text('Change'),
-                  ),
-                );
-              }
-            },
+          RightAnimation(
+            animationField: animationController.animationStates[5],
+            positionInitialValue: MediaQuery.of(context).size.width/6,
+            child: BlocConsumer<CredentialsCubit, CredentialsState>(
+              listener: (context, state) {
+                if(state.status == CredentialsStatus.success){
+                  ToastManager.showPositiveToast('Your password has been successfully changed');
+                }
+                if(state.status == CredentialsStatus.error){
+                  ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
+                }
+              },
+              builder: (context, state) {
+                if(state.status == CredentialsStatus.submitting){
+                  return const Center(child: CircularProgressIndicator());
+                } else{
+                  return FilledButton(
+                    onPressed: () => context.read<CredentialsCubit>().changePassword(
+                      newPassword: _newPasswordController.text, 
+                      oldPassword: _oldPasswordController.text,
+                    ), 
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Text('Change'),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
 
           const CustomSpacer(heightFactor: 0.04),
