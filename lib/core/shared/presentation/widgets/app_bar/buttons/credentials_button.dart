@@ -132,8 +132,10 @@ class __EmailBottomSheetContentState extends State<_EmailBottomSheetContent> {
   final TextEditingController _newEmailController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
+  void dispose(){
+    super.dispose();
+    _oldPasswordController.dispose();
+    _newEmailController.dispose();
   }
 
   @override
