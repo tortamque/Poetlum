@@ -1,12 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:poetlum/core/dependency_injection.dart';
-import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poetlum/core/shared/presentation/bloc/credentials/credentials_bloc.dart';
+import 'package:poetlum/core/shared/presentation/bloc/credentials/credentials_state.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/core/shared/presentation/widgets/rotating_button_mixin.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
 import 'package:poetlum/features/application/presentation/widgets/drawer/custom_textfield.dart';
 
 class CredentialButton extends StatefulWidget {
@@ -56,7 +57,7 @@ class _CredentialButtonState extends State<CredentialButton> with TickerProvider
           await showModalBottomSheet(
             isScrollControlled: true,
             context: context, 
-            builder: (context) => const _BottomSheetContent(),
+            builder: (context) => const _SelectBottomSheetContent(),
           );
         },
         icon: const Icon(Icons.lock),
@@ -71,7 +72,123 @@ class _CredentialButtonState extends State<CredentialButton> with TickerProvider
   }
 }
 
-class _BottomSheetContent extends StatefulWidget {
+class _SelectBottomSheetContent extends StatefulWidget {
+  const _SelectBottomSheetContent();
+
+  @override
+  State<_SelectBottomSheetContent> createState() => __SelectBottomSheetContentState();
+}
+
+class __SelectBottomSheetContentState extends State<_SelectBottomSheetContent> {
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: MediaQuery.of(context).size.height/2,
+    width: MediaQuery.of(context).size.width,
+    child: SingleChildScrollView(
+      child: Column(
+        children: [
+          const CustomSpacer(heightFactor: 0.04),
+          const _Title(text: 'Choose a credential you want to edit 🐸'),
+
+          const CustomSpacer(heightFactor: 0.04),
+          FilledButton.tonal(
+            onPressed: (){
+              
+            }, 
+            child: const Text('Username'),
+          ),
+
+          const CustomSpacer(heightFactor: 0.04),
+          FilledButton.tonal(
+            onPressed: (){
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context, 
+                builder: (context) => const _EmailBottomSheetContent(),
+              );
+            }, 
+            child: const Text('Email'),
+          ),
+
+          const CustomSpacer(heightFactor: 0.04),
+          FilledButton.tonal(onPressed: (){}, child: const Text('Password')),
+
+          const CustomSpacer(heightFactor: 0.04),
+        ],
+      ),
+    ),
+  );
+}
+
+class _EmailBottomSheetContent extends StatefulWidget {
+  const _EmailBottomSheetContent();
+
+  @override
+  State<_EmailBottomSheetContent> createState() => __EmailBottomSheetContentState();
+}
+
+class __EmailBottomSheetContentState extends State<_EmailBottomSheetContent> {
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newEmailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: MediaQuery.of(context).size.height/1.25,
+    width: MediaQuery.of(context).size.width,
+    child: SingleChildScrollView(
+      child: Column(
+        children: [
+          const CustomSpacer(heightFactor: 0.04),
+          const _SubTitle(text: 'Confirm password'),
+          const CustomSpacer(heightFactor: 0.01),
+          CustomTextField(hintText: 'Password', controller: _oldPasswordController),
+
+          const CustomSpacer(heightFactor: 0.04),
+          const _SubTitle(text: 'New Email'),
+          const CustomSpacer(heightFactor: 0.01),
+          CustomTextField(hintText: 'New Email', controller: _newEmailController),
+
+          const CustomSpacer(heightFactor: 0.04),
+          BlocConsumer<CredentialsCubit, CredentialsState>(
+            listener: (context, state) {
+              if(state.status == CredentialsStatus.success){
+                ToastManager.showPositiveToast('Your email has been successfully changed');
+              }
+              if(state.status == CredentialsStatus.error){
+                ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
+              }
+            },
+            builder: (context, state) {
+              if(state.status == CredentialsStatus.submitting){
+                return const Center(child: CircularProgressIndicator());
+              } else{
+                return FilledButton(
+                  onPressed: () => context.read<CredentialsCubit>().changeEmail(
+                    newEmail: _newEmailController.text.trim(), 
+                    oldPassword: _oldPasswordController.text,
+                  ), 
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text('Change'),
+                  ),
+                );
+              }
+            },
+          ),
+
+          const CustomSpacer(heightFactor: 0.04),
+        ],
+      ),
+    ),
+  );
+}
+
+/*class _BottomSheetContent extends StatefulWidget {
   const _BottomSheetContent();
 
   @override
@@ -126,29 +243,29 @@ class _BottomSheetContentState extends State<_BottomSheetContent> {
           const CustomSpacer(heightFactor: 0.04),
           const _SubTitle(text: 'Old Email'),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'Email', controller: _oldEmailController),
+          EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: _oldEmailController),
 
           const CustomSpacer(heightFactor: 0.04),
           const _SubTitle(text: 'Old Password'),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'Password', controller: _oldPasswordController),
+          PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: _oldPasswordController),
 
           const Divider(),
 
           const CustomSpacer(heightFactor: 0.04),
           const _SubTitle(text: 'Username'),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'Username', controller: _usernameController),
+          UsernameTextField(controller: _usernameController),
 
           const CustomSpacer(heightFactor: 0.04),
           const _SubTitle(text: 'Email'),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'Email', controller: _emailController),
+          EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: _emailController),
 
           const CustomSpacer(heightFactor: 0.04),
           const _SubTitle(text: 'Password'),
           const CustomSpacer(heightFactor: 0.01),
-          CustomTextField(hintText: 'Password', controller: _passwordController),
+          PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: _passwordController),
 
           const CustomSpacer(heightFactor: 0.04),
           FilledButton(
@@ -159,12 +276,13 @@ class _BottomSheetContentState extends State<_BottomSheetContent> {
                 /*if(_usernameController.text.isNotEmpty){
                   await user.updateDisplayName(_usernameController.text.trim());
                 }*/
+                print(user.emailVerified);
                 if(_emailController.text.isNotEmpty){
                   await user.reauthenticateWithCredential(
                     EmailAuthProvider.credential(email: _oldEmailController.text.trim(), password: _oldPasswordController.text.trim())
                   );
                   await user.updateEmail(_emailController.text.trim());
-                  await user.sendEmailVerification();
+                  //await user.sendEmailVerification();
                 }
                 /*if(_passwordController.text.isNotEmpty){
                   await user.reauthenticateWithCredential(
@@ -185,7 +303,7 @@ class _BottomSheetContentState extends State<_BottomSheetContent> {
       ),
     ),
   );
-}
+}*/
 
 class _Title extends StatelessWidget {
   const _Title({required this.text});
@@ -193,11 +311,14 @@ class _Title extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) => Text(
-    text,
-    style: const TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 25),
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
     ),
   );
 }
