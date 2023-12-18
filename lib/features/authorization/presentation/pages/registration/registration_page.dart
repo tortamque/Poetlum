@@ -47,18 +47,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) => Scaffold(
     body: SafeArea(
       child: BlocBuilder<RegisterFormValidationCubit, RegisterFormValidationState>(
-        builder: (context, state) => Column(
-          children: [
-            const _Header(),
-          
-            _Form(
-              _usernameController,
-              _emailController,
-              _passwordController,
-            ),
-          
-            const _Footer(),
-          ],
+        builder: (context, state) => SingleChildScrollView(
+          child: Column(
+            children: [
+              const _Header(),
+            
+              _Form(
+                _usernameController,
+                _emailController,
+                _passwordController,
+              ),
+            
+              const _Footer(),
+            ],
+          ),
         ),
       ),
     ),
@@ -148,8 +150,7 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<RegisterFormValidationCubit, RegisterFormValidationState>(
-    builder: (context, state) => SizedBox(
-      height: MediaQuery.of(context).size.height/2.75,
+    builder: (context, state) => SingleChildScrollView(
       child: Column(
         children: [
           TopAnimation(
@@ -157,22 +158,22 @@ class _FormState extends State<_Form> {
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: UsernameTextField(controller: widget.usernameController),
           ),
-          const Spacer(),
+          const SizedBox(height: 20),
         
           TopAnimation(
             animationField: animationController.animationStates[1],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: EmailTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: widget.emailController),
           ),
-          const Spacer(),
-
+          const SizedBox(height: 20),
+    
           TopAnimation(
             animationField: animationController.animationStates[2],
             positionInitialValue: MediaQuery.of(context).size.height/14,
             child: PasswordTextField<RegisterFormValidationCubit, RegisterFormValidationState>(controller: widget.passwordController),
           ),
-          const Spacer(),
-
+          const SizedBox(height: 20),
+    
           TopAnimation(
             animationField: animationController.animationStates[3],
             positionInitialValue: MediaQuery.of(context).size.height/14,
