@@ -93,25 +93,22 @@ class _BottomSheetContent extends StatefulWidget {
 }
 
 class _BottomSheetContentState extends State<_BottomSheetContent> {
-  bool isHeaderAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 125);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isHeaderAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: Duration.zero,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 4,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -119,7 +116,7 @@ class _BottomSheetContentState extends State<_BottomSheetContent> {
     child: Column(
       children: [
         RightAnimation(
-          animationField: isHeaderAnimated,
+          animationField: animationController.animationStates[0],
           positionInitialValue: MediaQuery.of(context).size.width/6,
           child: const _Title(text: 'Choose your theme'),
         ),
