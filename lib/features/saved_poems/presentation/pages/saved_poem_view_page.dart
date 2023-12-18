@@ -11,7 +11,6 @@ import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_content.
 import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_line_count.dart';
 import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_title.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/saved_poems/presentation/widgets/edit_poem_bottom_sheet.dart';
 
 class SavedPoemViewPage extends StatefulWidget {
   const SavedPoemViewPage({super.key});
@@ -41,19 +40,10 @@ class _SavedPoemViewPageState extends State<SavedPoemViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final poemEntity = (ModalRoute.of(context)?.settings.arguments! as Map)['poem'] as PoemEntity;
-    final collectionName = (ModalRoute.of(context)?.settings.arguments! as Map)['collectionName'] as String?;
+    final poemEntity = ModalRoute.of(context)?.settings.arguments as PoemEntity;
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Poetlum'),
-      floatingActionButton: _CustomFloatingActionButton(
-        author: poemEntity.author ?? '',
-        collectionName: collectionName,
-        context: context,
-        lineCount: poemEntity.linecount ?? 0,
-        text: poemEntity.text ?? '',
-        title: poemEntity.title ?? '',
-      ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
@@ -104,39 +94,4 @@ class _SavedPoemViewPageState extends State<SavedPoemViewPage> {
       ),
     );
   }
-}
-
-class _CustomFloatingActionButton extends StatelessWidget {
-  const _CustomFloatingActionButton({
-    required this.context, 
-    required this.title, 
-    required this.author, 
-    required this.text, 
-    required this.lineCount, 
-    required this.collectionName,
-  });
-
-  final BuildContext context;
-  final String title;
-  final String author;
-  final String text;
-  final int lineCount;
-  final String? collectionName;
-
-  @override
-  Widget build(BuildContext context) => FloatingActionButton(
-    onPressed: () => showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => EditPoemBottomSheetContent(
-        collectionName: collectionName,
-        author: author,
-        lineCount: lineCount,
-        text: text,
-        title: title,
-      ),
-    ),
-    tooltip: 'Edit this poem',
-    child: const Icon(Icons.edit),
-  );
 }

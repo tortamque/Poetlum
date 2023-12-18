@@ -85,16 +85,7 @@ class _SavedPoemCardState extends State<SavedPoemCard> {
           },
         );
 
-        Navigator.pushNamed(
-          context, 
-          savedPoemViewConstant, 
-          arguments: {
-            'poem': widget.poemEntity, 
-            'collectionName': widget.collectionEntity.isAllSavedPoems
-              ? null
-              : widget.collectionEntity.name,
-          },
-        );
+        Navigator.pushNamed(context, savedPoemViewConstant, arguments: widget.poemEntity);
       },
       child: Card(
         shape: const RoundedRectangleBorder(

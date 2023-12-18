@@ -14,5 +14,4 @@ abstract class FirebaseDatabaseRepository {
   Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems});
   Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName});
   Future<bool> isCollectionExists({required String userId, required String collectionName});
-  Future<void> editPoem({required String userId, required String oldTitle, required String oldAuthor, required String oldText, required int oldLineCount, required String newTitle, required String newAuthor, required String newText, required int newLineCount, String? collectionName});
 }

@@ -18,7 +18,6 @@ abstract class FirebaseDatabaseService{
   Future<void> updatePoemsInCollection({required String userId, required String collectionName, required List<PoemEntity> updatedPoems});
   Future<List<PoemEntity>> getPoemsInCollection({required String userId, String? collectionName});
   Future<bool> isCollectionExists({required String userId, required String collectionName});
-  Future<void> editPoem({required String userId, required String oldTitle, required String oldAuthor, required String oldText, required int oldLineCount, required String newTitle, required String newAuthor, required String newText, required int newLineCount, String? collectionName});
 }
 
 class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
@@ -375,71 +374,5 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     }
 
     return false;
-  }
-
-  @override
-  Future<void> editPoem({required String userId, required String oldTitle, required String oldAuthor, required String oldText, required int oldLineCount, required String newTitle, required String newAuthor, required String newText, required int newLineCount, String? collectionName}) async {
-    final userRef = FirebaseDatabase.instance.ref(userId);
-
-    if (collectionName == null) {
-      // Editing a poem in the "poems" key
-      final poemsRef = userRef.child('poems');
-      final snapshot = await poemsRef.get();
-
-      if (snapshot.exists) {
-        final poems = snapshot.value as Map<dynamic, dynamic>;
-        for (final key in poems.keys) {
-          final poemData = Map<String, dynamic>.from(poems[key] as Map);
-          if (poemData['title'] == oldTitle && poemData['author'] == oldAuthor &&poemData['text'] == oldText && poemData['linecount'] == oldLineCount) {
-            // Update the poem
-            await poemsRef.child(key).set({
-              'title': newTitle,
-              'author': newAuthor,
-              'text': newText,
-              'linecount': newLineCount,
-            });
-            break;
-          }
-        }
-      }
-    } else {
-      // Editing a poem in a specific collection
-      final collectionsRef = userRef.child('collections');
-      final collectionsSnapshot = await collectionsRef.get();
-
-      if (collectionsSnapshot.exists) {
-        print('1');
-        final collections = Map<String, dynamic>.from(collectionsSnapshot.value as Map);
-        for (final collectionKey in collections.keys) {
-          final collection = collections[collectionKey];
-          if (collection['name'] == collectionName && collection['poems'] != null) {
-            print('2');
-            final collectionPoemsRef = collectionsRef.child('$collectionKey/poems');
-            final collectionPoemsSnapshot = await collectionPoemsRef.get();
-
-            if (collectionPoemsSnapshot.exists) {
-              print('3');
-              final collectionPoems = collectionPoemsSnapshot.value as Map<dynamic, dynamic>;
-              //final collectionPoems = Map<String, dynamic>.from(collectionPoemsSnapshot.value as Map);
-              for (final poemKey in collectionPoems.keys) {
-                final poemData = Map<String, dynamic>.from(collectionPoems[poemKey] as Map);
-                print('4');
-                if (poemData['title'] == oldTitle && poemData['author'] == oldAuthor &&
-                    poemData['text'] == oldText && poemData['linecount'] == oldLineCount) {
-                  // Update the poem in the collection
-                  await collectionPoemsRef.child(poemKey).set({
-                    'title': newTitle,
-                    'author': newAuthor,
-                    'text': newText,
-                    'linecount': newLineCount,
-                  });
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
