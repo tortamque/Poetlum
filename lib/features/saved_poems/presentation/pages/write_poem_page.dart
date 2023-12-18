@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_positional_boolean_parameters
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
 

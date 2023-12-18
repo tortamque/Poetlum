@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_positional_boolean_parameters
-
 import 'package:flutter/material.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
 import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';

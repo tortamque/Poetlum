@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously, avoid_positional_boolean_parameters
-
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';

@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_positional_boolean_parameters
-
 import 'package:email_validator/email_validator.dart';
 
 abstract class Validator<T> {
