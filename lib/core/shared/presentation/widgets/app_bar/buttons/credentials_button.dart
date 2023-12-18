@@ -146,6 +146,9 @@ class __EmailBottomSheetContentState extends State<_EmailBottomSheetContent> {
       child: Column(
         children: [
           const CustomSpacer(heightFactor: 0.04),
+          const _Title(text: 'Change your email'),
+
+          const CustomSpacer(heightFactor: 0.04),
           const _SubTitle(text: 'Confirm password'),
           const CustomSpacer(heightFactor: 0.01),
           CustomTextField(hintText: 'Password', controller: _oldPasswordController),
