@@ -77,7 +77,7 @@ class CredentialsCubit extends Cubit<CredentialsState> {
         await user.reauthenticateWithCredential(
           EmailAuthProvider.credential(
             email: getIt<UserRepository>().getCurrentUser().email!, 
-            password: oldPassword
+            password: oldPassword,
           ),
         );
         await user.updatePassword(newPassword);
