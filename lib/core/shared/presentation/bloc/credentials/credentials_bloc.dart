@@ -60,4 +60,34 @@ class CredentialsCubit extends Cubit<CredentialsState> {
       emit(state.copyWith(status: CredentialsStatus.error, error: e.toString()));
     }
   }
+
+  Future<void> changePassword({required String oldPassword, required String newPassword}) async{
+    emit(state.copyWith(status: CredentialsStatus.submitting));
+
+    if(oldPassword.isEmpty || newPassword.isEmpty){
+      emit(state.copyWith(status: CredentialsStatus.error, error: 'One of the fields is empty. Please fill in all fields'));
+
+      return;
+    }
+
+    try{
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        await user.reauthenticateWithCredential(
+          EmailAuthProvider.credential(
+            email: getIt<UserRepository>().getCurrentUser().email!, 
+            password: oldPassword
+          ),
+        );
+        await user.updatePassword(newPassword);
+
+        emit(state.copyWith(status: CredentialsStatus.success));
+      } else{
+        emit(state.copyWith(status: CredentialsStatus.error, error: 'No user found'));
+      }
+    } catch(e){
+      emit(state.copyWith(status: CredentialsStatus.error, error: e.toString()));
+    }
+  }
 }
