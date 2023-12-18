@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
@@ -26,21 +24,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool isTextAnimated = false;
-  final Duration animationDelay = const Duration(milliseconds: 200);
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isTextAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_) => setState(() => setters[i](true)),
-      );
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -58,8 +41,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     _passwordController.addListener(() {
       formCubit.passwordChanged(_passwordController.text);
     });
-
-    _startAnimations();
   }
 
   @override
