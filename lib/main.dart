@@ -1,52 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:poetlum/features/application/poetlum_app.dart';
+import 'package:poetlum/features/dependency_injection/presentation/widgets/init_dependencies.dart';
+import 'package:poetlum/features/firebase/presentation/widgets/init_crashlytics_widget.dart';
+import 'package:poetlum/features/firebase/presentation/widgets/init_firebase_widget.dart';
+import 'package:poetlum/features/internet_connection_monitoring/presentation/widgets/init_network_controller.dart';
+import 'package:poetlum/features/multi_bloc_provider/presentation/init_blocs.dart';
+import 'package:poetlum/features/theme_change/presentation/widgets/init_theme_widget.dart';
+import 'package:poetlum/firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  ).then(
+    (_) => runApp(
+      InitNetworkController(
+        child: InitFirebaseWidget(
+          options: DefaultFirebaseOptions.currentPlatform,
+          child: const InitDependencies(
+            child: InitCrashlyticsWidget(
+              child: InitBlocs(
+                child: InitTheme(
+                  child: PoetlumApp(),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Placeholder(),
-    );
-  }
+    )
+  );
 }
