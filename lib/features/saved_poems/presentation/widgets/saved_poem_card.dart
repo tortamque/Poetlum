@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
 
 class SavedPoemCard extends StatefulWidget {
   const SavedPoemCard({super.key, required this.poemEntity, required this.collectionEntity});
@@ -22,29 +23,22 @@ class SavedPoemCard extends StatefulWidget {
 }
 
 class _SavedPoemCardState extends State<SavedPoemCard> {
-  bool isAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: Duration.zero,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
   
   @override
@@ -100,7 +94,7 @@ class _SavedPoemCardState extends State<SavedPoemCard> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: RightAnimation(
-            animationField: isAnimated,
+            animationField: animationController.animationStates[0],
             positionInitialValue: MediaQuery.of(context).size.width/8,
             child: Column(
               mainAxisSize: MainAxisSize.min,

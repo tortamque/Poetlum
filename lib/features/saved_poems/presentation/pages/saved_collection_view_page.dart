@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/dependency_injection.dart';
-import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
-import 'package:poetlum/features/application/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 import 'package:poetlum/features/saved_poems/presentation/widgets/saved_poem_card.dart';
 import 'package:poetlum/features/saved_poems/presentation/widgets/update_collection_bottom_sheet_content.dart';
 
@@ -36,19 +39,17 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
   Future<void> initPoems() async {
     poemsInTheCollection = await context.read<FirebaseDatabaseCubit>().getPoemsInCollection(
       userId: getIt<UserRepository>().getCurrentUser().userId!, 
-      collectionName: collectionEntity.isAllSavedPoems
-        ? null
-        : collectionEntity.name,
+      collectionName: collectionEntity.isAllSavedPoems ? null : collectionEntity.name,
     );
   }
   
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final localContext = context;
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Poetlum'),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: collectionEntity.isAllSavedPoems ? null : FloatingActionButton(
         tooltip: 'Edit a collection',
         onPressed: () async {
           final savedPoems = await context.read<FirebaseDatabaseCubit>().getUserPoems(
@@ -79,27 +80,114 @@ class _SavedCollectionViewPageState extends State<SavedCollectionViewPage> {
           if (state.status == FirebaseDatabaseStatus.submitting) {
             return const Loader(text: 'Snatching your poems from our top-secret database 🕵️‍♂️');
           } else {
-            return poemsInTheCollection.isEmpty
-              ? const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Center(
-                  child: Text(
-                    'Nothing to show here 😔\nTap on the "Edit" button to add amazing poems to the collection',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _CollectionName(name: collectionEntity.name),
+                Expanded(
+                  child: poemsInTheCollection.isEmpty
+                    ? const EmptyCollectionText()
+                    : ListView.builder(
+                        itemCount: poemsInTheCollection.length,
+                        itemBuilder: (__, index) => SavedPoemCard(
+                          poemEntity: poemsInTheCollection[index],
+                          collectionEntity: collectionEntity,
+                        ),
+                      ),
                 ),
-              )
-              : ListView.builder(
-                itemCount: poemsInTheCollection.length,
-                itemBuilder: (__, index) => SavedPoemCard(
-                  poemEntity: poemsInTheCollection[index],
-                  collectionEntity: collectionEntity,
-                ),
-              );
+              ],
+            );
           }
         },
       ),
     );
   }
+}
+
+class EmptyCollectionText extends StatefulWidget {
+  const EmptyCollectionText({super.key});
+
+  @override
+  State<EmptyCollectionText> createState() => _EmptyCollectionTextState();
+}
+
+class _EmptyCollectionTextState extends State<EmptyCollectionText> {
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => RightAnimation(
+    animationField: animationController.animationStates[0],
+    positionInitialValue: MediaQuery.of(context).size.height/14,
+    child: const Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Text(
+          'Nothing to show here 😔\nTap on the "Edit" button to add amazing poems to the collection',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    ),
+  );
+}
+
+class _CollectionName extends StatefulWidget {
+  const _CollectionName({required this.name});
+
+  final String? name;
+
+
+  @override
+  State<_CollectionName> createState() => __CollectionNameState();
+}
+
+class __CollectionNameState extends State<_CollectionName> {
+  late AnimationControllerWithDelays animationController;
+  final Duration animationDelay = const Duration(milliseconds: 200);
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => TopAnimation(
+    animationField: animationController.animationStates[0],
+    positionInitialValue: MediaQuery.of(context).size.height/14,
+    child: Align(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Text(
+          widget.name ?? 'Collection',
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+    ),
+  );
 }

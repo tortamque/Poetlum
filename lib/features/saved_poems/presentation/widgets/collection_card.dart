@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
 import 'package:poetlum/core/dependency_injection.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/top_animation.dart';
 import 'package:poetlum/features/saved_poems/domain/entities/collection.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
 
 class CollectionCard extends StatefulWidget {
   const CollectionCard({super.key, required this.collection});
@@ -19,29 +20,22 @@ class CollectionCard extends StatefulWidget {
 }
 
 class _CollectionCardState extends State<CollectionCard> {
-  bool isAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 1,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -56,7 +50,9 @@ class _CollectionCardState extends State<CollectionCard> {
         parameters: {
           'deleted': 'true',
           'name': widget.collection.name,
-          'poems_count': widget.collection.poems?.length,
+          'poems_count': widget.collection.poems == null
+            ? ''
+            : widget.collection.poems!.length.toString(),
         },
       );
 
@@ -72,7 +68,9 @@ class _CollectionCardState extends State<CollectionCard> {
           name: 'collection_card',
           parameters: {
             'name': widget.collection.name,
-            'poems_count': widget.collection.poems?.length,
+            'poems_count': widget.collection.poems == null
+              ? ''
+              : widget.collection.poems!.length.toString(),
           },
         );
 
@@ -90,7 +88,7 @@ class _CollectionCardState extends State<CollectionCard> {
             padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: TopAnimation(
-                animationField: isAnimated,
+                animationField: animationController.animationStates[0],
                 positionInitialValue: MediaQuery.of(context).size.height/14,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

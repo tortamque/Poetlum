@@ -19,7 +19,6 @@ linter:
     - unnecessary_late
     - null_check_on_nullable_type_parameter
     - use_super_parameters
-    - avoid_dynamic_calls
     - always_use_package_imports
     - avoid_returning_null_for_future
     - avoid_slow_async_io
@@ -38,7 +37,6 @@ linter:
     - avoid_field_initializers_in_const_classes
     - avoid_final_parameters
     - avoid_multiple_declarations_per_line
-    - avoid_positional_boolean_parameters
     - avoid_private_typedef_functions
     - avoid_redundant_argument_values
     - avoid_returning_null
@@ -47,7 +45,6 @@ linter:
     - avoid_types_on_closure_parameters
     - avoid_unused_constructor_parameters
     - avoid_void_async
-    - cascade_invocations
     - deprecated_consistency
     - directives_ordering
     - do_not_use_environment
@@ -61,13 +58,10 @@ linter:
     - no_runtimeType_toString
     - noop_primitive_operations
     - omit_local_variable_types
-    - one_member_abstracts
     - parameter_assignments
     - prefer_asserts_in_initializer_lists
     - prefer_constructors_over_static_methods
     - prefer_expression_function_bodies
-    - prefer_final_in_for_each
-    - prefer_final_locals
     - prefer_if_elements_to_conditional_expressions
     - prefer_interpolation_to_compose_strings
     - prefer_null_aware_method_calls

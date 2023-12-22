@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/custom_share_button.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_author.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_content.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_line_count.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_title.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
 import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/custom_save_button.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/custom_share_button.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_author.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_content.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_line_count.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poem_view/poem_title.dart';
 
 class PoemViewPage extends StatefulWidget {
   const PoemViewPage({super.key});
@@ -18,39 +19,22 @@ class PoemViewPage extends StatefulWidget {
 }
 
 class _PoemViewPageState extends State<PoemViewPage> {
-  bool isSaveButtonAnimated = false;
-  bool isTitleAnimated = false;
-  bool isAuthorAnimated = false;
-  bool isShareButtonAnimated = false;
-  bool isContentAnimated = false;
-  bool isPoemLineAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
   void initState() {
     super.initState();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isSaveButtonAnimated = val,
-      (val) => isTitleAnimated = val,
-      (val) => isAuthorAnimated = val,
-      (val) => isShareButtonAnimated = val,
-      (val) => isContentAnimated = val,
-      (val) => isPoemLineAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 6,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -68,42 +52,42 @@ class _PoemViewPageState extends State<PoemViewPage> {
               children: [
                 const CustomSpacer(heightFactor: 0.04),
                 RightAnimation(
-                  animationField: isSaveButtonAnimated,
+                  animationField: animationController.animationStates[0],
                   positionInitialValue: MediaQuery.of(context).size.width/8,
                   child: CustomSaveButton(poemEntity: poemEntity),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
 
                 RightAnimation(
-                  animationField: isTitleAnimated,
+                  animationField: animationController.animationStates[1],
                   positionInitialValue: MediaQuery.of(context).size.width/8,
                   child: PoemTitle(title: poemEntity.title ?? ''),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
 
                 RightAnimation(
-                  animationField: isAuthorAnimated,
+                  animationField: animationController.animationStates[2],
                   positionInitialValue: MediaQuery.of(context).size.width/8,
                   child: PoemAuthor(author: poemEntity.author ?? ''),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
 
                 RightAnimation(
-                  animationField: isShareButtonAnimated,
+                  animationField: animationController.animationStates[3],
                   positionInitialValue: MediaQuery.of(context).size.width/8,
                   child: CustomShareButton(poemEntity: poemEntity),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
 
                 RightAnimation(
-                  animationField: isContentAnimated,
+                  animationField: animationController.animationStates[4],
                   positionInitialValue: MediaQuery.of(context).size.width/8,
                   child: PoemContent(text: poemEntity.text ?? ''),
                 ),
                 const CustomSpacer(heightFactor: 0.02),
 
                 RightAnimation(
-                  animationField: isPoemLineAnimated,
+                  animationField: animationController.animationStates[5],
                   positionInitialValue: MediaQuery.of(context).size.width/8,
                   child: PoemLineCount(lineCount: poemEntity.linecount ?? 0),
                 ),

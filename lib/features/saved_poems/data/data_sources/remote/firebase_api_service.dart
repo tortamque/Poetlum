@@ -1,7 +1,5 @@
-// ignore_for_file: avoid_dynamic_calls, cascade_invocations
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:poetlum/features/poems_feed/data/models/poem.dart';
+import 'package:poetlum/core/shared/data/models/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
 import 'package:poetlum/features/saved_poems/data/models/collection.dart';
 
@@ -11,6 +9,7 @@ abstract class FirebaseDatabaseService{
   Future<void> savePoem({required String userId, required PoemEntity poemEntity});
   Future<void> deletePoem({required PoemEntity poemEntity, required String userId, required String? collectionName});
   Future<bool> isPoemExists({required PoemEntity poemEntity, required String userId});
+  Future<bool> isPoemExistsByName({required String poemTitle, required String userId});
   Future<void> createNewCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deleteCollection({required String userId, required String collectionName, required List<PoemEntity> poems});
   Future<void> deletePoemFromCollection({required String userId, String? collectionName, required PoemEntity poemToDelete});
@@ -287,8 +286,8 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
         'author': poem.author,
         'linecount': poem.linecount,
         'text': poem.text,
-        'title': poem.title
-      }).toList();
+        'title': poem.title,
+      },).toList();
 
       await collectionsRef.child('$targetCollectionKey/poems').set(updatedPoemsData);
     }
@@ -358,5 +357,20 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
     }
 
     return false; 
+  }
+  
+  @override
+  Future<bool> isPoemExistsByName({required String poemTitle, required String userId}) async{
+    final userRef = FirebaseDatabase.instance.ref(userId);
+    final poemsRef = userRef.child('poems');
+    final poemQuery = poemsRef.orderByChild('title').equalTo(poemTitle);
+
+    final snapshot = await poemQuery.get();
+
+    if (snapshot.exists) {
+      return snapshot.value != null;
+    }
+
+    return false;
   }
 }

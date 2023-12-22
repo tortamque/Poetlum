@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:poetlum/core/constants/poems_constants.dart';
 import 'package:poetlum/core/resources/data_state.dart';
+import 'package:poetlum/core/shared/data/models/poem.dart';
 import 'package:poetlum/features/poems_feed/data/data_sources/remote/poem_api_service.dart';
-import 'package:poetlum/features/poems_feed/data/models/poem.dart';
 import 'package:poetlum/features/poems_feed/domain/repository/poem_repository.dart';
 
 class PoemRepositoryImpl implements PoemRepository{

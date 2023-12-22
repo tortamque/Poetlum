@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:poetlum/features/application/poetlum_app.dart';
 import 'package:poetlum/features/dependency_injection/presentation/widgets/init_dependencies.dart';
 import 'package:poetlum/features/firebase/presentation/widgets/init_crashlytics_widget.dart';
@@ -11,20 +12,24 @@ import 'package:poetlum/firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(
-    InitNetworkController(
-      child: InitFirebaseWidget(
-        options: DefaultFirebaseOptions.currentPlatform,
-        child: const InitDependencies(
-          child: InitCrashlyticsWidget(
-            child: InitBlocs(
-              child: InitTheme(
-                child: PoetlumApp(),
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  ).then(
+    (_) => runApp(
+      InitNetworkController(
+        child: InitFirebaseWidget(
+          options: DefaultFirebaseOptions.currentPlatform,
+          child: const InitDependencies(
+            child: InitCrashlyticsWidget(
+              child: InitBlocs(
+                child: InitTheme(
+                  child: PoetlumApp(),
+                ),
               ),
             ),
           ),
         ),
       ),
-    ),
+    )
   );
 }

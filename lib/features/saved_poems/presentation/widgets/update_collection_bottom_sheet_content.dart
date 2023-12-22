@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:poetlum/core/dependency_injection.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/custom_spacer.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
 import 'package:poetlum/features/poems_feed/domain/entities/poem.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/custom_spacer.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
 class UpdateCollectionBottomSheetContent extends StatefulWidget {
   const UpdateCollectionBottomSheetContent({super.key, this.allSavedPoems, this.poemsInTheCollection, required this.collectionName});
@@ -29,9 +30,7 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
   late List<ValueItem<PoemEntity>> selectedValues = <ValueItem<PoemEntity>>[];
   late List<ValueItem<PoemEntity>> allValues = <ValueItem<PoemEntity>>[];
 
-  bool isTitleAnimated = false;
-  bool isSelectorAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
@@ -40,7 +39,7 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
     FirebaseAnalytics.instance.logEvent(
       name: 'update_collection',
       parameters: {
-        'opened': 'true'
+        'opened': 'true',
       },
     );
         
@@ -48,25 +47,16 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
 
     _initPoemsInTheCollectionValues();
     _initAllSavedPoemsValues();
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isTitleAnimated = val,
-      (val) => isSelectorAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: animationDelay,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 3,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void _initPoemsInTheCollectionValues(){
@@ -100,21 +90,21 @@ class _UpdateCollectionBottomSheetContentState extends State<UpdateCollectionBot
       children: [
         const CustomSpacer(heightFactor: 0.05),
         RightAnimation(
-          animationField: isTitleAnimated,
+          animationField: animationController.animationStates[0],
           positionInitialValue: MediaQuery.of(context).size.width/8,
           child: const _TitleTextWidget(),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         RightAnimation(
-          animationField: isSelectorAnimated,
+          animationField: animationController.animationStates[1],
           positionInitialValue: MediaQuery.of(context).size.width/8,
           child: _PoemSelectionWidget(controller: _selectController, allValues: allValues, selectedValues: selectedValues),
         ),
         const CustomSpacer(heightFactor: 0.05),
 
         RightAnimation(
-          animationField: isButtonAnimated,
+          animationField: animationController.animationStates[2],
           positionInitialValue: MediaQuery.of(context).size.width/8,
           child: _EditButtonWidget(selectController: _selectController, collectionName: widget.collectionName),
         ),
@@ -170,7 +160,7 @@ class _EditButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     listener: (context, state) {
       if (state.status == FirebaseDatabaseStatus.error) {
-        _showNegativeToast('An error occurred :(');
+        ToastManager.showNegativeToast('An error occurred :(');
       }
     },
     builder: (context, state) => state.status == FirebaseDatabaseStatus.submitting
@@ -183,12 +173,12 @@ class _EditButtonWidget extends StatelessWidget {
                   name: 'update_collection',
                   parameters: {
                     'successful': 'true',
-                    'error': 'Empty poems'
+                    'error': 'Empty poems',
                   },
                 ),
               );
 
-              await _showNegativeToast('Please select at least one poem to add to the collection');
+              await ToastManager.showNegativeToast('Please select at least one poem to add to the collection');
             } else{
               unawaited(
                 FirebaseAnalytics.instance.logEvent(
@@ -208,7 +198,7 @@ class _EditButtonWidget extends StatelessWidget {
                 ).toList(),
               );
     
-              await _showPositiveToast('The collection has been successfully saved');
+              await ToastManager.showPositiveToast('The collection has been successfully saved');
             }
           }, 
           child: const Padding(
@@ -217,26 +207,4 @@ class _EditButtonWidget extends StatelessWidget {
           ),
         ),
   );
-
-  Future<void> _showPositiveToast(String text) async{
-    await Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  Future<void> _showNegativeToast(String error) async{
-    await Fluttertoast.showToast(
-      msg: error,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
 }

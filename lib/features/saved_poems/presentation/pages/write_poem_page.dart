@@ -1,13 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:poetlum/core/constants/navigator_constants.dart';
-import 'package:poetlum/features/application/presentation/widgets/app_bar/app_bar.dart';
-import 'package:poetlum/features/poems_feed/domain/repository/user_repository.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/animations/right_animation.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_cubit.dart';
-import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database_state.dart';
+import 'package:poetlum/core/shared/domain/repository/user_repository.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/animation_controller.dart';
+import 'package:poetlum/core/shared/presentation/widgets/animations/right_animation.dart';
+import 'package:poetlum/core/shared/presentation/widgets/app_bar/app_bar.dart';
+import 'package:poetlum/core/shared/presentation/widgets/toast_manager.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_cubit.dart';
+import 'package:poetlum/features/saved_poems/presentation/bloc/firebase_database/firebase_database_state.dart';
 
 class WritePoemPage extends StatefulWidget {
   const WritePoemPage(this._userRepository, {super.key});
@@ -23,9 +28,7 @@ class _WritePoemPageState extends State<WritePoemPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  bool isNameTextFieldAnimated = false;
-  bool isPoemTextFieldAnimated = false;
-  bool isButtonAnimated = false;
+  late AnimationControllerWithDelays animationController;
   final Duration animationDelay = const Duration(milliseconds: 200);
 
   @override
@@ -37,51 +40,20 @@ class _WritePoemPageState extends State<WritePoemPage> {
         'opened': 'true',
       },
     );
-    _startAnimations();
-  }
-
-  void _startAnimations() {
-    final setters = <Function(bool)>[
-      (val) => isNameTextFieldAnimated = val,
-      (val) => isPoemTextFieldAnimated = val,
-      (val) => isButtonAnimated = val,
-    ];
-
-    for (var i = 0; i < setters.length; i++) {
-      Future.delayed(animationDelay * (i + 1)).then(
-        (_){
-          if (mounted) {
-            setState(() => setters[i](true));
-          }
-        }
-      );
-    }
+    animationController = AnimationControllerWithDelays(
+      initialDelay: Duration.zero,
+      delayBetweenAnimations: animationDelay,
+      numberOfAnimations: 3,
+    );
+    animationController.startAnimations(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
-  Widget build(BuildContext context) => BlocConsumer<FirebaseDatabaseCubit, FirebaseDatabaseState>(
-    listener: (context, state) {
-      if (state.status == FirebaseDatabaseStatus.success) {
-        FirebaseAnalytics.instance.logEvent(
-          name: 'write_poem',
-          parameters: {
-            'success': 'true',
-            'username': widget._userRepository.getCurrentUser().username!, 
-            'title': _nameController.text, 
-            'text': _contentController.text,
-          },
-        );
-        _showPositiveToast('Your amazing poem has been saved! :D');
-      } else if (state.status == FirebaseDatabaseStatus.error) {
-        FirebaseAnalytics.instance.logEvent(
-          name: 'write_poem',
-          parameters: {
-            'success': 'false',
-          },
-        );
-        _showNegativeToast('An error occurred :(');
-      }
-    },
+  Widget build(BuildContext context) => BlocBuilder<FirebaseDatabaseCubit, FirebaseDatabaseState>(
     builder: (context, state) => Scaffold(
       appBar: CustomAppBar(
         title: 'Poetlum', 
@@ -98,14 +70,14 @@ class _WritePoemPageState extends State<WritePoemPage> {
             children: [
               const _CustomSpacer(heightFactor: 0.03),
               RightAnimation(
-                animationField: isNameTextFieldAnimated,
+                animationField: animationController.animationStates[0],
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: _CustomTextField(hintText: 'Poem name', controller: _nameController, isLarge: false),
               ),
               const _CustomSpacer(heightFactor: 0.03),
 
               RightAnimation(
-                animationField: isPoemTextFieldAnimated,
+                animationField: animationController.animationStates[1],
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: _CustomTextField(hintText: 'Your amazing poem :D', controller: _contentController, isLarge: true),
               ),
@@ -114,24 +86,55 @@ class _WritePoemPageState extends State<WritePoemPage> {
               if (state.status == FirebaseDatabaseStatus.submitting) 
                 const CircularProgressIndicator() 
               else RightAnimation(
-                animationField: isButtonAnimated,
+                animationField: animationController.animationStates[2],
                 positionInitialValue: MediaQuery.of(context).size.width/3,
                 child: FilledButton.tonal(
-                  onPressed: () {
-                    FirebaseAnalytics.instance.logEvent(
-                      name: 'write_poem',
-                      parameters: {
-                        'button_pressed': 'true',
-                      },
+                  onPressed: () async {
+                    unawaited(
+                      FirebaseAnalytics.instance.logEvent(
+                        name: 'write_poem',
+                        parameters: {
+                          'button_pressed': 'true',
+                        },
+                      ),
                     );
 
-                    if (_formKey.currentState!.validate()) {
-                      context.read<FirebaseDatabaseCubit>().savePoem(
-                        userId: widget._userRepository.getCurrentUser().userId!, 
-                        username: widget._userRepository.getCurrentUser().username!, 
-                        title: _nameController.text, 
-                        text: _contentController.text,
+                    final isPoemExists = await context.read<FirebaseDatabaseCubit>().isPoemExistsByName(
+                      poemTitle: _nameController.text, 
+                      userId: widget._userRepository.getCurrentUser().userId!,
+                    );
+
+                    if(isPoemExists == false){
+                      unawaited(
+                        FirebaseAnalytics.instance.logEvent(
+                          name: 'write_poem',
+                          parameters: {
+                            'success': 'true',
+                          },
+                        ),
                       );
+
+                      if (_formKey.currentState!.validate()) {
+                        await context.read<FirebaseDatabaseCubit>().savePoem(
+                          userId: widget._userRepository.getCurrentUser().userId!, 
+                          username: widget._userRepository.getCurrentUser().username!, 
+                          title: _nameController.text, 
+                          text: _contentController.text,
+                        );
+                      }
+
+                      await ToastManager.showPositiveToast('Your amazing poem has been saved! :D');
+                    } else{
+                      unawaited(
+                        FirebaseAnalytics.instance.logEvent(
+                          name: 'write_poem',
+                          parameters: {
+                            'success': 'false',
+                          },
+                        ),
+                      );
+
+                      await ToastManager.showNegativeToast('A poem with the stunning name is already in your saved poems. Please try another name 📝');
                     }
                   },
                   child: const Padding(
@@ -147,28 +150,6 @@ class _WritePoemPageState extends State<WritePoemPage> {
       ),
     ),
   );
-
-  Future<void> _showPositiveToast(String text) async{
-    await Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
-
-  Future<void> _showNegativeToast(String error) async{
-    await Fluttertoast.showToast(
-      msg: error,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16,
-    );
-  }
 }
 
 class _CustomTextField extends StatelessWidget {

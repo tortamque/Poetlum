@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poetlum/features/application/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/presentation/widgets/loader.dart';
+import 'package:poetlum/core/shared/presentation/widgets/poem_card/poem_card.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_bloc.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_event.dart';
 import 'package:poetlum/features/poems_feed/presentation/bloc/poem/remote/remote_poem_state.dart';
-import 'package:poetlum/features/poems_feed/presentation/widgets/poems_feed/poem_card.dart';
 
 class PoemsFeedScreen extends StatelessWidget {
   const PoemsFeedScreen({super.key});
@@ -13,7 +13,7 @@ class PoemsFeedScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<RemotePoemBloc, RemotePoemState>(
     builder: (context, state) {
       if(state is RemotePoemLoading){
-        return const Loader(text: 'Grabbing some amazing amazing poems to read 📚');
+        return const Loader(text: 'Grabbing some amazing poems to read 📚');
       } 
 
       if(state is RemotePoemError){
