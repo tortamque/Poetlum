@@ -231,7 +231,7 @@ class __UsernameBottomSheetContentState extends State<_UsernameBottomSheetConten
             child: BlocConsumer<CredentialsCubit, CredentialsState>(
               listener: (context, state) {
                 if(state.status == CredentialsStatus.success){
-                  ToastManager.showPositiveToast('Your email has been successfully changed');
+                  ToastManager.showPositiveToast('Your username has been successfully changed');
                 }
                 if(state.status == CredentialsStatus.error){
                   ToastManager.showNegativeToast(state.error ?? 'An error occured 😥');
