@@ -228,31 +228,28 @@ class FirebaseDatabaseServiceImpl implements FirebaseDatabaseService {
 
       final collections = collectionsSnapshot.value as Map<dynamic, dynamic>;
 
-      for (final key in collections.keys) {
+      for (final collectionKey in collections.keys) {
         if (poemDeleted) break;
 
-        final value = collections[key];
-        if (value['name'] == collectionName && value['poems'] != null) {
-          final collectionPoemsRef = collectionsRef.child('$key/poems');
-          final collectionPoemsSnapshot = await collectionPoemsRef.get();
+        final collectionValue = collections[collectionKey];
+        if (collectionValue['name'] == collectionName && collectionValue['poems'] != null) {
+          var collectionPoems = List<dynamic>.from(collectionValue['poems']);
+          int? indexToRemove;
 
-          if (collectionPoemsSnapshot.exists) {
-            final collectionPoems = collectionPoemsSnapshot.value as List<Object?>;
-            final updatedPoems = collectionPoems.where((poemData) {
-              if (poemData == null || poemDeleted) return false;
+          for (var i = 0; i < collectionPoems.length; i++) {
+            final poemData = Map<String, dynamic>.from(collectionPoems[i] as Map);
+            final poemModel = PoemModel.fromFirebase(poemData);
 
-              final poemModel = PoemModel.fromFirebase(Map<String, dynamic>.from(poemData as Map));
-
-              if (_isPoemEqual(poemModel, poemToDelete)) {
-                poemDeleted = true;
-                return false;
-              }
-              return true;
-            }).toList();
-
-            if (poemDeleted) {
-              await collectionPoemsRef.set(updatedPoems);
+            if (_isPoemEqual(poemModel, poemToDelete)) {
+              indexToRemove = i;
+              break;
             }
+          }
+
+          if (indexToRemove != null) {
+            collectionPoems.removeAt(indexToRemove);
+            await collectionsRef.child('$collectionKey/poems').set(collectionPoems);
+            poemDeleted = true;
           }
         }
       }
